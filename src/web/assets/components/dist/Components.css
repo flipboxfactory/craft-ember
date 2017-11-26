@@ -1,0 +1,53 @@
+/* Flexbox stuff */
+/* Other */
+/* RTL stuff */
+.message {
+  font-size: 14px;
+  line-height: 20px;
+  color: #313439;
+  padding: 1rem;
+  margin-bottom: 24px;
+  position: relative; }
+  .message a {
+    color: inherit; }
+  .message h2, .message h3, .message h4, .message h5, .message h6 {
+    margin-bottom: 0; }
+  .message .close {
+    position: absolute;
+    right: 1rem;
+    top: 1.1rem; }
+  .message:not(.outline) {
+    background: #e0e1e1; }
+    .message:not(.outline).error {
+      background: #c10101;
+      color: #fff; }
+    .message:not(.outline).success {
+      background: #01c10a;
+      color: #fff; }
+    .message:not(.outline).warning {
+      background: #f7ba45; }
+    .message:not(.outline).focus {
+      background: #0d78f2;
+      color: #fff; }
+    .message:not(.outline).black {
+      background: #0d0d0e;
+      color: #fff; }
+    .message:not(.outline).inverted {
+      background: #fff; }
+  .message.outline {
+    border: 1px solid #e0e1e1; }
+    .message.outline.error {
+      border-color: #c10101; }
+    .message.outline.success {
+      border-color: #01c10a; }
+    .message.outline.warning {
+      border-color: #f7ba45; }
+    .message.outline.focus {
+      border-color: #0d78f2;
+      color: #0d78f2; }
+    .message.outline.black {
+      border-color: #0d0d0e; }
+    .message.outline.inverted {
+      border-color: #fff; }
+
+/*# sourceMappingURL=Components.css.map */

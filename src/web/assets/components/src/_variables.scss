@@ -1,0 +1,33 @@
+// Font Size
+$font-size: 16px !default;
+$font-size-smaller: $font-size - 4px !default;
+$font-size-small: $font-size - 2px !default;
+$font-size-big: $font-size + 2px !default;
+$font-size-large: $font-size + 4px !default;
+
+// Baseline
+$base-line: 24px !default;
+$base-line-smaller: 20px !default;
+$base-line-small: 20px !default;
+
+// States
+$color-error: #c10101 !default;
+$color-success: #01c10a !default;
+$color-warning: #f7ba45 !default;
+$color-focus: #0d78f2 !default;
+
+// Text
+$color-text: #313439 !default;
+
+// Grayscale
+$color-black: #0d0d0e !default;
+$color-darkgray: #313439 !default;
+$color-midgray: #676b72 !default;
+$color-gray: #bdbdbd !default;
+$color-lightgray: #d4d4d4 !default;
+$color-silver: #e0e1e1 !default;
+$color-aluminum: #f8f8f8 !default;
+
+// Extra
+$color-inverted: #fff !default;
+$color-highlight: #edf2ff !default; // color-focus 15% opacity

@@ -1,0 +1,79 @@
+@charset "UTF-8";
+@import "variables";
+@import "../../../../../vendor/craftcms/cms/src/web/assets/shared";
+
+.message {
+  font-size: $font-size-small;
+  line-height: $base-line-small;
+  color: $color-text;
+  padding: 1rem;
+  margin-bottom: $base-line;
+  position: relative;
+
+  & a {
+    color: inherit;
+  }
+  & h2,
+  & h3,
+  & h4,
+  & h5,
+  & h6 {
+    margin-bottom: 0;
+  }
+  & .close {
+    position: absolute;
+    right: 1rem;
+    top: 1.1rem;
+  }
+
+  &:not(.outline) {
+    background: $color-silver;
+
+    &.error {
+      background: $color-error;
+      color: #fff;
+    }
+    &.success {
+      background: $color-success;
+      color: #fff;
+    }
+    &.warning {
+      background: $color-warning;
+    }
+    &.focus {
+      background: $color-focus;
+      color: #fff;
+    }
+    &.black {
+      background: $color-black;
+      color: #fff;
+    }
+    &.inverted {
+      background: $color-inverted;
+    }
+  }
+
+  &.outline {
+    border: 1px solid $color-silver;
+
+    &.error {
+      border-color: $color-error;
+    }
+    &.success {
+      border-color: $color-success;
+    }
+    &.warning {
+      border-color: $color-warning;
+    }
+    &.focus {
+      border-color: $color-focus;
+      color: $color-focus;
+    }
+    &.black {
+      border-color: $color-black;
+    }
+    &.inverted {
+      border-color: $color-inverted;
+    }
+  }
+}
