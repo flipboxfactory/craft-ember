@@ -15,7 +15,7 @@
     "email": "hello@flipboxfactory.com"
   }],
   "require": {
-    "craftcms/cms": "~3.0.0",
+    "craftcms/cms": "dev-release/3.0.0-RC1",
     "yiisoft/yii2": "~2.0.13"
   },
   "require-dev": {
