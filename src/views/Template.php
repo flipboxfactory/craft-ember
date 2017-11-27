@@ -39,13 +39,22 @@ class Template extends BaseObject implements ViewInterface
         $currentMode = $view->getTemplateMode();
         $view->setTemplateMode($this->mode);
 
-        $html = $view->renderTemplate(
-            $this->template,
-            $params
-        );
+        $html = $this->renderTemplate($params);
 
         $view->setTemplateMode($currentMode);
 
         return $html;
+    }
+
+    /**
+     * @param array $params
+     * @return string
+     */
+    protected function renderTemplate(array $params = []): string
+    {
+        return Craft::$app->getView()->renderTemplate(
+            $this->template,
+            $params
+        );
     }
 }
