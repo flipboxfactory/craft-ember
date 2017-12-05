@@ -1,7 +1,9 @@
 Changelog
 =========
+## 1.0.0-rc.1.1 - 2017-12-05
+### Changed
+- Min requirement of Craft RC1
 
-## Unreleased
 ### Added
 - PageTemplate view to render a page template (including asset bundles, etc).
 

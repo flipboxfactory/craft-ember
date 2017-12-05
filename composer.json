@@ -1,21 +1,19 @@
 {
   "name": "flipboxfactory/craft-ember",
   "description": "A Craft CMS plugin scaffolding",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.1.1",
   "keywords": [
     "flipbox",
     "ember",
     "craft cms"
   ],
-  "minimum-stability": "beta",
-  "prefer-stable": true,
   "license": "MIT",
   "authors": [{
     "name": "Flipbox Factory",
     "email": "hello@flipboxfactory.com"
   }],
   "require": {
-    "craftcms/cms": "dev-release/3.0.0-RC1",
+    "craftcms/cms": "~3.0.0-RC1",
     "yiisoft/yii2": "~2.0.13"
   },
   "require-dev": {
