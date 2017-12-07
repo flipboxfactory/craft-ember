@@ -1,0 +1,50 @@
+.fancy-element {
+  display: inline-block; }
+  .fancy-element > .element {
+    position: relative;
+    z-index: 100; }
+    .fancy-element > .element .status {
+      z-index: 101; }
+    .fancy-element > .element .elementthumb {
+      -webkit-border-radius: 50% !important;
+      -moz-border-radius: 50% !important;
+      border-radius: 50% !important;
+      background: #FFF;
+      left: 0 !important;
+      overflow: hidden; }
+    .fancy-element > .element .label {
+      padding-left: 12px; }
+    .fancy-element > .element.small {
+      padding-left: 30px !important;
+      height: 18px; }
+      .fancy-element > .element.small .status {
+        height: 6px;
+        width: 6px;
+        top: 2px !important;
+        left: 24px !important; }
+      .fancy-element > .element.small .elementthumb img {
+        width: 30px;
+        height: 30px; }
+    .fancy-element > .element.large .status {
+      top: 8px !important;
+      left: 80px !important;
+      width: 10px;
+      height: 10px; }
+    .fancy-element > .element.large .elementthumb img {
+      width: 100px;
+      height: 100px; }
+  .fancy-element.icon > .element, .fancy-element.expandable > .element {
+    overflow: hidden; }
+  .fancy-element.element-hud > .element .label, .fancy-element.icon > .element .label {
+    display: none; }
+  .fancy-element.expandable > .element .label {
+    margin-left: -999px;
+    z-index: 99;
+    background: rgba(255, 255, 255, 0.9);
+    transition: margin-left .25s ease-in-out;
+    -moz-transition: margin-left .25s ease-in-out;
+    -webkit-transition: margin-left .25s ease-in-out; }
+  .fancy-element.expandable > .element:hover .label, .fancy-element.expandable > .element:active .label {
+    margin-left: 0; }
+
+/*# sourceMappingURL=Elements.css.map */

@@ -1,5 +1,12 @@
 Changelog
 =========
+## Unreleased
+### Added
+- Card asset bundle
+- HUD asset bundle
+- Circle Icon asset bundle
+- Elements asset bundle
+
 ## 1.0.0-rc.1.1 - 2017-12-05
 ### Changed
 - Min requirement of Craft RC1

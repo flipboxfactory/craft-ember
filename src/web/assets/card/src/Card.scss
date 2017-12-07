@@ -1,0 +1,377 @@
+@charset "UTF-8";
+@import "../../../../../vendor/craftcms/cms/src/web/assets/cp/dist/css/cp";
+
+.fancy-element {
+  display: inline-block;
+
+  > .element {
+
+    position: relative;
+    z-index: 100;
+
+    .status {
+      z-index: 101;
+    }
+
+    .elementthumb {
+      -webkit-border-radius: 50% !important;
+      -moz-border-radius: 50% !important;;
+      border-radius: 50% !important;;
+      background: #FFF;
+      left: 0 !important;
+      overflow: hidden;
+
+    }
+    //
+    .label {
+      padding-left: 12px;
+
+    }
+
+    &.small {
+      padding-left: 30px !important;
+      height: 18px;
+
+      .status {
+        height: 6px;
+        width: 6px;
+        top: 2px !important;
+        left: 24px !important;
+
+      }
+
+      .elementthumb {
+
+        img {
+          width: 30px;
+          height: 30px;
+
+        }
+
+      }
+
+    }
+
+    &.large {
+
+      .status {
+        top: 8px !important;
+        left: 80px !important;
+        width: 10px;
+        height: 10px;
+      }
+
+      .elementthumb {
+
+        img {
+          width: 100px;
+          height: 100px;
+
+        }
+
+      }
+
+    }
+
+  }
+
+  &.icon,
+  &.expandable {
+    > .element {
+      overflow: hidden;
+
+    }
+
+  }
+  &.element-hud,
+  &.icon {
+    > .element {
+
+      .label {
+        display: none;
+
+      }
+
+    }
+
+  }
+
+  &.expandable {
+    > .element {
+
+      .label {
+        margin-left: -999px;
+        z-index: 99;
+        background: rgba(255, 255, 255, 0.9);
+        transition: margin-left .25s ease-in-out;
+        -moz-transition: margin-left .25s ease-in-out;
+        -webkit-transition: margin-left .25s ease-in-out;
+
+      }
+
+      &:hover,
+      &:active {
+        .label {
+          margin-left: 0;
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+.card-items {
+  margin-top: 12px;
+
+  .card-item {
+    .card {
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      background: #FFF;
+      padding: 20px 20px 10px;
+      margin-bottom: 48px;
+      position: relative;
+
+      .circle-icon {
+        position: absolute;
+        top: -16px;
+        left: 50%;
+        margin-left: -24px;
+
+      }
+
+      > .title {
+        margin-top: 18px;
+        text-align: center;
+        font-size: 18px;
+        line-height: 22px;
+
+      }
+
+      hr {
+        opacity: .3;
+        margin-top: 0;
+        margin-bottom: 14px;
+
+      }
+
+      > .meta {
+
+        // Chart
+        > .c3 {
+          height: 30px;
+          float: right;
+          margin: 0 0 8px;
+          z-index: 99;
+
+        }
+
+        // User
+        > .element {
+          font-size: 80%;
+          padding-left: 30px !important;
+          overflow: hidden;
+          position: absolute;
+          z-index: 100;
+
+          .status {
+            width: 5px;
+            height: 5px;
+            position: absolute;
+            top: 4px;
+            left: 18px;
+            z-index: 101;
+          }
+
+          .elementthumb {
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            background: #FFF;
+            left: 0 !important;
+            top: calc(50% - 12px) !important;
+            width: 24px;
+            height: 24px;
+            z-index: 100;
+            overflow: hidden;
+
+            > img {
+              width: 24px;
+              height: 24px;
+
+            }
+
+          }
+
+          .label {
+            background: rgba(255, 255, 255, 0.9);
+            transition: margin-left .25s ease-in-out;
+            -moz-transition: margin-left .25s ease-in-out;
+            -webkit-transition: margin-left .25s ease-in-out;
+            margin-left: -999px;
+            z-index: 99;
+
+          }
+
+          &:hover,
+          &:active {
+            .label {
+              margin-left: 0;
+
+            }
+
+          }
+
+        }
+
+        &:after {
+          @include clearafter;
+
+        }
+
+      }
+
+      .menubtn {
+        position: absolute;
+        right: 0;
+        top: 4px;
+        opacity: 0;
+        cursor: pointer;
+        transition: opacity .25s ease-in-out;
+        -moz-transition: opacity .25s ease-in-out;
+        -webkit-transition: opacity .25s ease-in-out;
+
+        &:after {
+          content: '';
+
+        }
+
+        &.active {
+          opacity: 1;
+
+        }
+
+      }
+
+      &:hover,
+      &:active {
+
+        & {
+          border-color: rgba(13, 120, 242, .6);
+
+          -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.1);
+          -moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.1);
+
+        }
+
+        > .circle-icon > .icon {
+          border-color: rgba(13, 120, 242, .8);
+
+        }
+
+        .menubtn {
+          opacity: 1;
+
+        }
+
+      }
+
+    }
+
+  }
+
+  // Columns
+  @media only screen and (min-width: 420px) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    .card-item {
+      display: flex;
+
+      .card {
+        width: 100%;
+        margin-left: 12px;
+        margin-right: 12px;
+
+      }
+
+    }
+
+  }
+
+  // Four columns
+  @media only screen and (min-width: $minFullUiWidth) {
+
+    .card-item {
+      width: 25%;
+
+      &:nth-child(4n+1) {
+        .card {
+          margin-left: 0;
+        }
+
+      }
+
+      &:nth-child(4n+4) {
+        .card {
+          margin-right: 0;
+        }
+
+      }
+
+    }
+
+  }
+
+  // Three columns
+  @media only screen and (min-width: 824px) and (max-width: $minFullUiWidth) {
+    .card-item {
+      width: 33%;
+
+      &:nth-child(3n+1) {
+        .card {
+          margin-left: 0;
+        }
+
+      }
+
+      &:nth-child(3n+3) {
+        .card {
+          margin-right: 0;
+        }
+
+      }
+
+    }
+
+  }
+
+  // Three columns
+  @media only screen and (min-width: 420px) and (max-width: 824px) {
+    .card-item {
+      width: 50%;
+
+      &:nth-child(2n+1) {
+        .card {
+          margin-left: 0;
+        }
+
+      }
+
+      &:nth-child(2n+2) {
+        .card {
+          margin-right: 0;
+        }
+
+      }
+
+    }
+
+  }
+
+}
