@@ -1,5 +1,10 @@
 @charset "UTF-8";
-@import "../../../../../vendor/craftcms/cms/src/web/assets/cp/dist/css/cp";
+@import "../../../../../vendor/craftcms/cms/lib/craftcms-sass/mixins";
+
+$sidebarWidth: 225px;
+$detailsWidth: 350px;
+$minFullUiWidth: 1224px;
+$minHorizontalUiWidth: $minFullUiWidth - $sidebarWidth;
 
 .fancy-element {
   display: inline-block;
