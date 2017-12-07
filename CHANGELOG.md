@@ -1,6 +1,6 @@
 Changelog
 =========
-## Unreleased
+## 1.0.0-rc.2 - 2017-12-06
 ### Added
 - Card asset bundle
 - HUD asset bundle
