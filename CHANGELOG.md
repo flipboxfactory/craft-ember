@@ -4,6 +4,9 @@ Changelog
 ### Added
 - FlashMessages filter
 
+### Changed
+- Added additional parameters to RedirectFilter for more granular control
+
 ## 1.0.0-rc.2 - 2017-12-06
 ### Added
 - Card asset bundle
