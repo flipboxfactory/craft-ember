@@ -2,8 +2,8 @@
 
 /**
  * @copyright  Copyright (c) Flipbox Digital Limited
- * @license    https://github.com/flipbox/ember/blob/master/LICENSE
- * @link       https://github.com/flipbox/ember
+ * @license    https://github.com/flipboxfactory/craft-ember/blob/master/LICENSE
+ * @link       https://github.com/flipboxfactory/craft-ember
  */
 
 namespace flipbox\ember\actions\traits;

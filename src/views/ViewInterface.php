@@ -2,8 +2,8 @@
 
 /**
  * @copyright  Copyright (c) Flipbox Digital Limited
- * @license    https://flipboxfactory.com/software/guardian/license
- * @link       https://www.flipboxfactory.com/software/guardian/
+ * @license    https://github.com/flipboxfactory/craft-ember/blob/master/LICENSE
+ * @link       https://github.com/flipboxfactory/craft-ember/
  */
 
 namespace flipbox\ember\views;
