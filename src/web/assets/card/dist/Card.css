@@ -25,42 +25,6 @@
       float: right;
       margin: 0 0 8px;
       z-index: 99; }
-    .card-items .card-item .card > .meta > .element {
-      font-size: 80%;
-      padding-left: 30px !important;
-      overflow: hidden;
-      position: absolute;
-      z-index: 100; }
-      .card-items .card-item .card > .meta > .element .status {
-        width: 5px;
-        height: 5px;
-        position: absolute;
-        top: 4px;
-        left: 18px;
-        z-index: 101; }
-      .card-items .card-item .card > .meta > .element .elementthumb {
-        -webkit-border-radius: 50%;
-        -moz-border-radius: 50%;
-        border-radius: 50%;
-        background: #FFF;
-        left: 0 !important;
-        top: calc(50% - 12px) !important;
-        width: 24px;
-        height: 24px;
-        z-index: 100;
-        overflow: hidden; }
-        .card-items .card-item .card > .meta > .element .elementthumb > img {
-          width: 24px;
-          height: 24px; }
-      .card-items .card-item .card > .meta > .element .label {
-        background: rgba(255, 255, 255, 0.9);
-        transition: margin-left .25s ease-in-out;
-        -moz-transition: margin-left .25s ease-in-out;
-        -webkit-transition: margin-left .25s ease-in-out;
-        margin-left: -999px;
-        z-index: 99; }
-      .card-items .card-item .card > .meta > .element:hover .label, .card-items .card-item .card > .meta > .element:active .label {
-        margin-left: 0; }
     .card-items .card-item .card > .meta:after {
       content: '.';
       display: block;

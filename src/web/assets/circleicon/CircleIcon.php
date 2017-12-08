@@ -28,11 +28,11 @@ class CircleIcon extends AssetBundle
     public function init()
     {
         $this->css = [
-            'Card.css'
+            'CircleIcon.css'
         ];
 
         $this->js = [
-            'Card'.$this->dotJs()
+            'CircleIcon'.$this->dotJs()
         ];
 
         parent::init();

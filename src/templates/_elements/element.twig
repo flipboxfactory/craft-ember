@@ -1,21 +1,30 @@
-{% macro expandableElement(element) %}
-    <div class="fancy-element expandable">
-        {% include "_elements/element" with {
-        size: 'small',
-        element: element
-        } only %}
-    </div>
+{% macro expandableElement(context) %}
+    {% from _self import fancyElement %}
+    {{ fancyElement('element-expandable', null, context) }}
 {% endmacro %}
 
-{% macro hudElement(element) %}
+{% macro iconElement(context) %}
+    {% from _self import fancyElement %}
+    {{ fancyElement('element-icon', null, context) }}
+{% endmacro %}
+
+{% macro hudElement(context) %}
     {% set hudID = "element-hud-"~random() %}
-    <div class="fancy-element element-hud" id="{{ hudID }}">
-        {% include "_elements/element" with {
-            size: 'small',
-            element: element
-        } only %}
-    </div>
+    {% from _self import fancyElement %}
+    {{ fancyElement('element-hud', hudID, context) }}
     {% js %}
-        new Craft.ElementInfoHUD($("#{{ hudID }} > .element"));
+        new Craft.ElementInfoHUD($("#{{ hudID }}"));
     {% endjs %}
+{% endmacro %}
+
+{% macro fancyElement(class, id, context) %}
+    {% do view.registerAssetBundle('flipbox\\ember\\web\\assets\\elements\\Elements') %}
+    {% set elementHtml %}
+        {%  include "_elements/element" with context only %}
+    {% endset %}
+    {% set replaceString = 'class="'~(class ? class~' ' : '')~' element ' %}
+    {% if id %}
+        {% set replaceString = 'id="'~id~'" '~replaceString %}
+    {% endif %}
+    {{ elementHtml|replace({'class="element ': replaceString})|raw }}
 {% endmacro %}
