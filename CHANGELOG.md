@@ -1,6 +1,6 @@
 Changelog
 =========
-## Unreleased
+## 1.0.0-rc.3 - 2017-12-09
 ### Added
 - FlashMessages filter
 
