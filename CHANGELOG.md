@@ -1,6 +1,6 @@
 Changelog
 =========
-## Unreleased
+## 1.0.0-rc.4 - 2017-12-10
 ### Added
 - ModelError filter
 - Filter traits
