@@ -8,7 +8,7 @@
 
 namespace flipbox\ember\filters;
 
-use Craft;
+use yii\base\Action;
 use yii\base\ActionFilter;
 use yii\web\Controller;
 use yii\web\Response;
@@ -21,6 +21,9 @@ use yii\web\Response;
  */
 class CallableFilter extends ActionFilter
 {
+    use traits\ActionTrait,
+        traits\FormatTrait;
+
     /**
      * @var array this property defines the transformers for each action.
      * Each action that should only support one transformer.
@@ -44,11 +47,6 @@ class CallableFilter extends ActionFilter
     public $actions = [];
 
     /**
-     * @var Callable
-     */
-    public $callable;
-
-    /**
      * Allow redirection of a null result
      * @var bool
      */
@@ -61,21 +59,32 @@ class CallableFilter extends ActionFilter
      */
     public function afterAction($action, $result)
     {
-        if (Craft::$app->getResponse()->format === Response::FORMAT_RAW) {
-            if ($result !== null || ($this->allowNull === true)) {
-                return $this->call($result);
-            }
+        if ($this->formatMatch($action->id) &&
+            $this->resultMatch($result)
+        ) {
+            return $this->call($action, $result);
         }
+
         return parent::afterAction($action, $result);
     }
 
     /**
+     * @param $result
+     * @return bool
+     */
+    protected function resultMatch($result): bool
+    {
+        return $result !== null || ($this->allowNull === true);
+    }
+
+    /**
+     * @param Action $action
      * @param $data
      * @return mixed
      */
-    protected function call($data)
+    protected function call(Action $action, $data)
     {
-        if (!$callable = $this->findCallable()) {
+        if (!$callable = $this->findAction($action->id)) {
             return $data;
         }
 
@@ -84,26 +93,5 @@ class CallableFilter extends ActionFilter
         }
 
         return $data;
-    }
-
-    /**
-     * @return callable|null
-     */
-    protected function findCallable()
-    {
-        // The requested action
-        $action = Craft::$app->requestedAction->id;
-
-        // Default callable
-        $callable = $this->callable;
-
-        // Look for definitions
-        if (isset($this->actions[$action])) {
-            $callable = $this->actions[$action];
-        } elseif (isset($this->actions['*'])) {
-            $callable = $this->actions['*'];
-        }
-
-        return $callable;
     }
 }

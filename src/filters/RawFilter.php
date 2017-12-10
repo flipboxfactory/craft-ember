@@ -12,10 +12,10 @@ use Craft;
 use craft\helpers\Template;
 use flipbox\ember\helpers\ViewHelper;
 use flipbox\ember\views\ViewInterface;
+use yii\base\Action;
 use yii\base\ActionFilter;
 use yii\base\Exception;
 use yii\web\Controller;
-use yii\web\Response;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -25,6 +25,9 @@ use yii\web\Response;
  */
 class RawFilter extends ActionFilter
 {
+    use traits\FormatTrait,
+        traits\ActionTrait;
+
     /**
      * @var array this property defines the transformers for each action.
      * Each action that should only support one transformer.
@@ -46,59 +49,36 @@ class RawFilter extends ActionFilter
     public $actions = [];
 
     /**
-     * @var array|ViewInterface
-     */
-    public $view;
-
-    /**
-     * @param \yii\base\Action $action
+     * @param Action $action
      * @param mixed $result
      * @return mixed|\Twig_Markup
+     * @throws Exception
      */
     public function afterAction($action, $result)
     {
-        if (Craft::$app->getResponse()->format === Response::FORMAT_RAW) {
-            return $this->renderTemplate($result);
+        if ($this->formatMatch($action->id)
+        ) {
+            return $this->renderTemplate($action, $result);
         }
 
         return parent::afterAction($action, $result);
     }
 
     /**
-     * @param $data
+     * @param Action $action
+     * @param $result
      * @return \Twig_Markup
+     * @throws Exception
      */
-    protected function renderTemplate($data)
+    protected function renderTemplate(Action $action, $result)
     {
-        if (!$view = $this->findView()) {
-            return $data;
+        if (!$view = $this->findAction($action->id)) {
+            return $result;
         }
 
         return Template::raw(
-            $this->resolveView($view)->render($data)
+            $this->resolveView($view)->render($result)
         );
-    }
-
-    /**
-     * @return ViewInterface|array|null
-     * @throws Exception
-     */
-    protected function findView()
-    {
-        // The requested action
-        $action = Craft::$app->requestedAction->id;
-
-        // Default view
-        $view = $this->view;
-
-        // Look for definitions
-        if (isset($this->actions[$action])) {
-            $view = $this->actions[$action];
-        } elseif (isset($this->actions['*'])) {
-            $view = $this->actions['*'];
-        }
-
-        return $view;
     }
 
     /**

@@ -9,11 +9,10 @@
 namespace flipbox\ember\filters;
 
 use Craft;
-use craft\helpers\ArrayHelper;
 use yii\base\Action;
 use yii\base\ActionFilter;
-use yii\web\Response;
 use yii\web\Controller;
+use yii\web\Response;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -23,6 +22,10 @@ use yii\web\Controller;
  */
 class FlashMessageFilter extends ActionFilter
 {
+
+    use traits\ActionTrait,
+        traits\FormatTrait;
+
     /**
      * Allow redirection of a null result
      * @var bool
@@ -64,12 +67,21 @@ class FlashMessageFilter extends ActionFilter
      */
     public function afterAction($action, $result)
     {
-        if (Craft::$app->getResponse()->format === Response::FORMAT_RAW) {
-            if ($result !== null || ($this->allowNull === true)) {
-                $this->setMessage($action);
-            }
+        if ($this->formatMatch($action->id) &&
+            $this->resultMatch($result)
+        ) {
+            $this->setMessage($action);
         }
         return parent::afterAction($action, $result);
+    }
+
+    /**
+     * @param $result
+     * @return bool
+     */
+    protected function resultMatch($result): bool
+    {
+        return $result !== null || ($this->allowNull === true);
     }
 
     /**
@@ -111,12 +123,7 @@ class FlashMessageFilter extends ActionFilter
     protected function findMessageFromAction(string $action)
     {
         // Default format
-        $messages = ArrayHelper::getValue($this->actions, '*');
-
-        // Look for definitions
-        if (isset($this->actions[$action])) {
-            $messages = $this->actions[$action];
-        }
+        $messages = $this->findAction($action);
 
         if (is_array($messages)) {
             return $this->resolveMessageStatusCode($messages);
