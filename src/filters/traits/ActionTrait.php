@@ -8,7 +8,6 @@
 
 namespace flipbox\ember\filters\traits;
 
-use Craft;
 use craft\helpers\ArrayHelper;
 
 /**
@@ -52,11 +51,11 @@ trait ActionTrait
      */
     protected function actionMatch(string $action): bool
     {
-        if (!$statusCode = $this->findAction($action)) {
+        if ($this->findAction($action)) {
             return true;
         }
 
-        return Craft::$app->getResponse()->getStatusCode() === $statusCode;
+        return false;
     }
 
     /**
