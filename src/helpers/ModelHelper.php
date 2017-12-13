@@ -8,7 +8,7 @@
 
 namespace flipbox\ember\helpers;
 
-use flipbox\ember\models\Model;
+use yii\base\Model;
 use yii\base\InvalidConfigException;
 
 /**
