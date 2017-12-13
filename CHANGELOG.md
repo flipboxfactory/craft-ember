@@ -1,5 +1,9 @@
 Changelog
 =========
+## Unreleased
+### Added
+- Model validator for validation sub-models
+
 ## 1.0.0-rc.4.1 - 2017-12-12
 ### Fixed
 - Action returning a false positive on checks
