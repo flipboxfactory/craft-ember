@@ -1,0 +1,37 @@
+@charset "UTF-8";
+
+.input {
+  .clipboard {
+    font-size: 80%;
+    display: block;
+    background: rgba(255, 255, 255, 0.9);
+    position: absolute;
+    top: 6px;
+
+  }
+
+  > textarea {
+    + .clipboard {
+      top: 4px;
+
+    }
+
+  }
+
+  &.ltr {
+    .clipboard {
+      right: 6px;
+
+    }
+
+  }
+
+  &.rtl {
+    .clipboard {
+      left: 6px;
+
+    }
+
+  }
+
+}

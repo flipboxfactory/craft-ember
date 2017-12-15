@@ -1,0 +1,14 @@
+.input .clipboard {
+  font-size: 80%;
+  display: block;
+  background: rgba(255, 255, 255, 0.9);
+  position: absolute;
+  top: 6px; }
+.input > textarea + .clipboard {
+  top: 4px; }
+.input.ltr .clipboard {
+  right: 6px; }
+.input.rtl .clipboard {
+  left: 6px; }
+
+/*# sourceMappingURL=Clipboard.css.map */

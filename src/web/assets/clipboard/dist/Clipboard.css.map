@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAGE,iBAAW;EACT,SAAS,EAAE,GAAG;EACd,OAAO,EAAE,KAAK;EACd,UAAU,EAAE,wBAAwB;EACpC,QAAQ,EAAE,QAAQ;EAClB,GAAG,EAAE,GAAG;AAKR,8BAAa;EACX,GAAG,EAAE,GAAG;AAOV,qBAAW;EACT,KAAK,EAAE,GAAG;AAOZ,qBAAW;EACT,IAAI,EAAE,GAAG",
+"sources": ["../src/Clipboard.scss"],
+"names": [],
+"file": "Clipboard.css"
+}
