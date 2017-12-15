@@ -28,4 +28,29 @@
     top: 6px;
     margin-left: 18px; }
 
+.circle-icon-heading .meta {
+  margin-top: 12px; }
+  .circle-icon-heading .meta .title {
+    font-size: 18px;
+    line-height: 22px;
+    margin-bottom: 0; }
+  .circle-icon-heading .meta .sub-title {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 12px;
+    line-height: 16px;
+    margin-top: 4px; }
+.circle-icon-heading .actions {
+  float: none !important;
+  margin-top: 12px; }
+@media only screen and (min-width: 420px) {
+  .circle-icon-heading {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center; }
+    .circle-icon-heading .meta {
+      padding-left: 24px; }
+    .circle-icon-heading .actions {
+      margin-left: auto; } }
+
 /*# sourceMappingURL=CircleIcon.css.map */

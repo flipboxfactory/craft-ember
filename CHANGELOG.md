@@ -1,5 +1,9 @@
 Changelog
 =========
+## Unreleased
+### Changed
+- Card / CircleIcon asset (css) updates
+
 ## 1.0.0-rc.5 - 2017-12-13
 ### Added
 - Model validator for validation sub-models
