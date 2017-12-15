@@ -1,7 +1,7 @@
 {# Inputs #}
 
 {% macro clipboardText(config) -%}
-    {% do view.registerAssetBundle("flipbox\\assets\\clipboard\\Clipboard") %}
+    {% do view.registerAssetBundle("flipbox\\ember\\web\\assets\\clipboard\\Clipboard") %}
     {%- set config = config|merge({'id': config.id ?? random()}) %}
     {% include "_includes/forms/text" with config only %}
     <a class="clipboard" data-clipboard-target="#{{ config.id }}">{{ config.clipboardText ?? 'Copy'|t('app') }}</a>
@@ -11,7 +11,7 @@
 {%- endmacro %}
 
 {% macro clipboardTextarea(config) -%}
-    {% do view.registerAssetBundle("flipbox\\assets\\clipboard\\Clipboard") %}
+    {% do view.registerAssetBundle("flipbox\\ember\\web\\assets\\clipboard\\Clipboard") %}
     {%- set config = config|merge({'id': config.id ?? random()}) %}
     {% include "_includes/forms/textarea" with config only %}
     <a class="clipboard" data-clipboard-target="#{{ config.id }}">{{ config.clipboardText ?? 'Copy'|t('app') }}</a>
