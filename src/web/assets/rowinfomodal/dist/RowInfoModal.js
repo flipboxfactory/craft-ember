@@ -11,7 +11,7 @@
 
                 this.setSettings(settings, Craft.RowInfo.defaults);
 
-                // Instance states (selected source) are stored by a custom storage key defined in the settings
+            // Instance states (selected source) are stored by a custom storage key defined in the settings
                 if (this.settings.modalStorageKey) {
                     this.modalStorageKey = 'RowInfo.' + this.settings.modalStorageKey;
                 }
@@ -37,7 +37,7 @@
                 return $.extend({
                     closeOtherModals: true,
                     storageKey: this.modalStorageKey,
-                }, this.settings.modalSettings);
+                    }, this.settings.modalSettings);
             }
         },
         {

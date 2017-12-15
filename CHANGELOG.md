@@ -1,6 +1,6 @@
 Changelog
 =========
-## Unreleased
+## 1.0.0-rc.6 - 2017-12-15
 ### Added
 - Clipboard Asset Bundle
 - Reveal Asset Bundle
