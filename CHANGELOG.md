@@ -1,6 +1,11 @@
 Changelog
 =========
 ## Unreleased
+### Added
+- Clipboard Asset Bundle
+- Reveal Asset Bundle
+- RowInfo Asset Bundle
+
 ### Changed
 - Card / CircleIcon asset (css) updates
 
