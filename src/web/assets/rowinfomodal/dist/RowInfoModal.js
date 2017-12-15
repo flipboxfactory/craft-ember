@@ -106,7 +106,6 @@
                             Craft.appendFootHtml(response.footHtml);
 
                             Craft.initUiElements(this.$body);
-
                             this.loaded = true;
                         }
                     }, this)
