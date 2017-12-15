@@ -28,7 +28,6 @@
             this.afterSuccess(event);
         },
         afterSuccess: function (event) {
-            console.log("AFTER SUCCESS");
             this.trigger('afterSuccess', {event: event});
         },
         onError: function (event) {
@@ -36,7 +35,6 @@
             this.afterError(event);
         },
         afterError: function (event) {
-            console.log("AFTER ERROR");
             this.trigger('afterError', {event: event});
         }
     }, {
@@ -44,14 +42,12 @@
             copyText: 'Copy',
             copiedText: 'Copied',
             onSuccess: function (self, event) {
-                console.log("onSuccess");
                 event.trigger.textContent = self.settings.copiedText;
                 window.setTimeout($.proxy(function () {
                     event.trigger.textContent = self.settings.copyText;
                 }, this), 2000);
             },
             onError: function (self, event) {
-                console.log("onSuccess");
                 event.trigger.textContent = 'Press "Ctrl + C" to copy';
                 window.setTimeout($.proxy(function () {
                     event.trigger.textContent = this.settings.copyText;
