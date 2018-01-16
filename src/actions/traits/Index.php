@@ -78,16 +78,16 @@ trait Index
     protected function createDataProvider(array $config = []): DataProviderInterface
     {
         /** @var DataProviderInterface $dataProvider */
-       $dataProvider = ObjectHelper::create(
-           $this->dataProviderConfig([
+        $dataProvider = ObjectHelper::create(
+            $this->dataProviderConfig([
                'query' => $this->createQuery(
                    $this->normalizeQueryConfig($config)
                )
-           ]),
-           DataProviderInterface::class
+            ]),
+            DataProviderInterface::class
         );
 
-       return $dataProvider;
+        return $dataProvider;
     }
 
     /**
