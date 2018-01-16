@@ -17,4 +17,13 @@ use flipbox\ember\actions\model\ModelView;
 abstract class ElementView extends ModelView
 {
     use traits\Lookup;
+
+    /**
+     * @param string|int $identifier
+     * @return mixed|null
+     */
+    protected function find($identifier)
+    {
+        return $this->findById($identifier);
+    }
 }

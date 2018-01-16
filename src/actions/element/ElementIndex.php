@@ -20,6 +20,8 @@ abstract class ElementIndex extends ModelIndex
     /**
      * @param array $config
      * @return array
+     *
+     * Ref: https://github.com/craftcms/cms/issues/2310
      */
     protected function normalizeQueryConfig(array $config = []): array
     {

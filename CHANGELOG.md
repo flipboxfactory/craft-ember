@@ -1,5 +1,9 @@
 Changelog
 =========
+## Unreleased
+### Changed
+- Index actions are more flexible when creating the data provider
+
 ## 1.0.0-rc.6 - 2017-12-15
 ### Added
 - Clipboard Asset Bundle

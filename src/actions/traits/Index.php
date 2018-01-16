@@ -8,6 +8,7 @@
 
 namespace flipbox\ember\actions\traits;
 
+use flipbox\ember\helpers\ObjectHelper;
 use yii\data\ActiveDataProvider;
 use yii\data\DataProviderInterface;
 use yii\db\QueryInterface;
@@ -21,24 +22,31 @@ trait Index
     use PrepareData, CheckAccess;
 
     /**
+     * @var array
+     */
+    public $dataProvider = [];
+
+    /**
      * @param array $config
      * @return QueryInterface
      */
-    abstract protected function assembleQuery(array $config = []): QueryInterface;
+    abstract protected function createQuery(array $config = []): QueryInterface;
 
     /**
      * @return DataProviderInterface
+     * @throws \yii\base\InvalidConfigException
      */
     public function run(): DataProviderInterface
     {
         return $this->runInternal(
-            $this->assembleDataProvider()
+            $this->createDataProvider()
         );
     }
 
     /**
      * @param DataProviderInterface $dataProvider
      * @return DataProviderInterface
+     * @throws \yii\web\HttpException
      */
     protected function runInternal(DataProviderInterface $dataProvider): DataProviderInterface
     {
@@ -65,14 +73,36 @@ trait Index
     /**
      * @param array $config
      * @return DataProviderInterface
+     * @throws \yii\base\InvalidConfigException
      */
-    protected function assembleDataProvider(array $config = []): DataProviderInterface
+    protected function createDataProvider(array $config = []): DataProviderInterface
     {
-        return new ActiveDataProvider([
-            'query' => $this->assembleQuery(
-                $this->normalizeQueryConfig($config)
-            )
-        ]);
+        /** @var DataProviderInterface $dataProvider */
+       $dataProvider = ObjectHelper::create(
+           $this->dataProviderConfig([
+               'query' => $this->createQuery(
+                   $this->normalizeQueryConfig($config)
+               )
+           ]),
+           DataProviderInterface::class
+        );
+
+       return $dataProvider;
+    }
+
+    /**
+     * @param array $config
+     * @return array
+     */
+    protected function dataProviderConfig(array $config = []): array
+    {
+        return array_merge(
+            [
+                'class' => ActiveDataProvider::class
+            ],
+            $config,
+            $this->dataProvider
+        );
     }
 
     /**

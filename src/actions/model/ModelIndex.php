@@ -10,7 +10,6 @@ namespace flipbox\ember\actions\model;
 
 use flipbox\ember\actions\traits\Index;
 use yii\base\Action;
-use yii\data\DataProviderInterface;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -19,14 +18,4 @@ use yii\data\DataProviderInterface;
 abstract class ModelIndex extends Action
 {
     use Index;
-
-    /**
-     * @return DataProviderInterface
-     */
-    public function run(): DataProviderInterface
-    {
-        return $this->runInternal(
-            $this->assembleDataProvider()
-        );
-    }
 }
