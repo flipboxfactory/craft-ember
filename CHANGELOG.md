@@ -1,6 +1,6 @@
 Changelog
 =========
-## Unreleased
+## 1.0.0-rc.7 - 2018-01-17
 ### Changed
 - Index actions are more flexible when creating the data provider
 
