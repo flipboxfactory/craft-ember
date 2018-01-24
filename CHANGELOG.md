@@ -3,6 +3,10 @@ Changelog
 ## Unreleased
 ### Added
 - ElementAccessor traits for element centric services
+- Manage element action trait
+
+### Changed
+- Create/Update element actions are specific to elements
 
 ## 1.0.0-rc.7 - 2018-01-17
 ### Changed
