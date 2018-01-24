@@ -8,7 +8,6 @@
 
 namespace flipbox\ember\services\traits;
 
-use Craft;
 use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\elements\db\ElementQuery;

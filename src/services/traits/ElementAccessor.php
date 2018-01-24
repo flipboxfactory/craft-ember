@@ -8,7 +8,6 @@
 
 namespace flipbox\ember\services\traits;
 
-use Craft;
 use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\elements\db\ElementQuery;
@@ -215,7 +214,7 @@ trait ElementAccessor
      */
     public function freshGetById($id, int $siteId = null, string $toScenario = null)
     {
-        if (!$element = $this->freshFindById($id, $siteId)) {
+        if (!$element = $this->freshFindById($id, $siteId, $toScenario)) {
             $this->notFoundByIdException($id);
         }
 
