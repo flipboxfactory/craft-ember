@@ -8,8 +8,7 @@
 
 namespace flipbox\ember\actions\traits;
 
-use Craft;
-use yii\web\HttpException;
+use yii\web\UnauthorizedHttpException;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -35,7 +34,7 @@ trait CheckAccess
     /**
      * @param array ...$params
      * @return mixed
-     * @throws HttpException
+     * @throws UnauthorizedHttpException
      */
     public function checkAccess(...$params)
     {
@@ -67,11 +66,11 @@ trait CheckAccess
     }
 
     /**
-     * @throws HttpException
+     * @throws UnauthorizedHttpException
      */
     protected function handleUnauthorizedResponse()
     {
-        throw new HttpException(
+        throw new UnauthorizedHttpException(
             $this->statusCodeUnauthorized(),
             $this->messageUnauthorized()
         );
