@@ -9,6 +9,7 @@
 namespace flipbox\ember\helpers;
 
 use Craft;
+use craft\models\Site;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -16,6 +17,27 @@ use Craft;
  */
 class SiteHelper
 {
+    /**
+     * @param int|string|Site $site
+     * @return Site
+     */
+    public static function get($site = null): Site
+    {
+        if ($site instanceof Site) {
+            return $site;
+        }
+
+        if (is_numeric($site)) {
+            return Craft::$app->getSites()->getSiteById($site);
+        }
+
+        if (is_string($site)) {
+            return Craft::$app->getSites()->getSiteByHandle($site);
+        }
+
+        return Craft::$app->getSites()->currentSite;
+    }
+
     /**
      * @param int|null $siteId
      * @return int

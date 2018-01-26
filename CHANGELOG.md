@@ -4,6 +4,7 @@ Changelog
 ### Added
 - ElementAccessor traits for element centric services
 - Manage element action trait
+- SiteHelper::get to assist in resolving site models
 
 ### Changed
 - Create/Update element actions are specific to elements
