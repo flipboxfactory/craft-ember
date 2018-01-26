@@ -50,6 +50,13 @@ class ModelErrorFilter extends ActionFilter
     public $actions = [];
 
     /**
+     * Identify whether to return a null value when an error is found
+     *
+     * @var bool
+     */
+    public $returnNullOnError = true;
+
+    /**
      * @param \yii\base\Action $action
      * @param mixed $result
      * @return mixed|Response
@@ -77,9 +84,13 @@ class ModelErrorFilter extends ActionFilter
             Craft::$app->getUrlManager()->setRouteParams([
                 $routeParamKey => $result
             ]);
+
+            if ($this->returnNullOnError) {
+                return null;
+            }
         }
 
-        return null;
+        return $result;
     }
 
     /**

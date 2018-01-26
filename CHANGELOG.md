@@ -5,6 +5,7 @@ Changelog
 - ElementAccessor traits for element centric services
 - Manage element action trait
 - SiteHelper::get to assist in resolving site models
+- ModelErrorFilter has a 'returnNullOnError' property to allow returning null when an error is found
 
 ### Changed
 - Create/Update element actions are specific to elements
