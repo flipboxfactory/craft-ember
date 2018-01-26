@@ -8,13 +8,13 @@
 
 namespace flipbox\ember\actions\element;
 
-use flipbox\ember\actions\model\ModelDelete;
+use yii\base\Action;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-abstract class ElementDelete extends ModelDelete
+abstract class ElementDelete extends Action
 {
     use traits\Delete, traits\Lookup;
 }

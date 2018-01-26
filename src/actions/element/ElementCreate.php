@@ -20,7 +20,7 @@ abstract class ElementCreate extends Action
     use traits\Save;
 
     /**
-     * @param array $config
+     * @inheritdoc
      * @return ElementInterface
      */
     abstract protected function newElement(array $config = []): ElementInterface;

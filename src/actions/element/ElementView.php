@@ -19,8 +19,7 @@ abstract class ElementView extends ModelView
     use traits\Lookup;
 
     /**
-     * @param string|int $identifier
-     * @return mixed|null
+     * @inheritdoc
      */
     protected function find($identifier)
     {

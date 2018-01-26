@@ -18,8 +18,7 @@ use flipbox\ember\actions\model\ModelIndex;
 abstract class ElementIndex extends ModelIndex
 {
     /**
-     * @param array $config
-     * @return array
+     * @inheritdoc
      *
      * Ref: https://github.com/craftcms/cms/issues/2310
      */

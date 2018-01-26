@@ -8,13 +8,13 @@
 
 namespace flipbox\ember\actions\element;
 
-use flipbox\ember\actions\model\ModelUpdate;
+use yii\base\Action;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-abstract class ElementUpdate extends ModelUpdate
+abstract class ElementUpdate extends Action
 {
     use traits\Save, traits\Lookup;
 }

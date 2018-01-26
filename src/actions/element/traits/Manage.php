@@ -23,12 +23,13 @@ trait Manage
     }
 
     /**
+     * @inheritdoc
      * @param ElementInterface $element
-     * @return bool
      */
     abstract protected function performAction(ElementInterface $element): bool;
 
     /**
+     * @inheritdoc
      * @param ElementInterface $element
      * @return Model
      */

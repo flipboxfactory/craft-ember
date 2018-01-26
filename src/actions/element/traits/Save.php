@@ -23,9 +23,8 @@ trait Save
     use Populate, Manage;
 
     /**
+     * @inheritdoc
      * @param ElementInterface $element
-     * @return mixed
-     * @throws \yii\web\HttpException
      */
     public function runInternal(ElementInterface $element)
     {
@@ -44,11 +43,8 @@ trait Save
     }
 
     /**
+     * @inheritdoc
      * @param ElementInterface $element
-     * @return bool
-     * @throws \Throwable
-     * @throws \craft\errors\ElementNotFoundException
-     * @throws \yii\base\Exception
      */
     protected function performAction(ElementInterface $element): bool
     {
