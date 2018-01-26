@@ -41,8 +41,9 @@ trait Manage
     abstract protected function performAction($data): bool;
 
     /**
-     * @param mixed $data
+     * @param $data
      * @return mixed
+     * @throws \yii\web\HttpException
      */
     protected function runInternal($data)
     {

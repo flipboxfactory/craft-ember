@@ -8,8 +8,6 @@
 
 namespace flipbox\ember\actions\traits;
 
-use Craft;
-use yii\base\BaseObject;
 use yii\web\HttpException;
 use yii\web\Response;
 
@@ -33,7 +31,7 @@ trait Lookup
      * @param mixed $object
      * @return mixed|Response
      */
-    abstract public function runInternal($object);
+    abstract protected function runInternal($object);
 
     /**
      * @param string|int $identifier
@@ -42,8 +40,9 @@ trait Lookup
     abstract protected function find($identifier);
 
     /**
-     * @param string|int $identifier
-     * @return mixed|Response
+     * @param $identifier
+     * @return mixed|null|Response
+     * @throws HttpException
      */
     public function run($identifier)
     {

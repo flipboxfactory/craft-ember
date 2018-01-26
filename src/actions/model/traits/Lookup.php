@@ -21,8 +21,9 @@ trait Lookup
     use BaseLookup;
 
     /**
+     * @inheritdoc
      * @param Model $model
      * @return Model|Response
      */
-    abstract public function runInternal(Model $model);
+    abstract protected function runInternal(Model $model);
 }

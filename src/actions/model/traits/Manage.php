@@ -28,6 +28,7 @@ trait Manage
     abstract protected function performAction(Model $model): bool;
 
     /**
+     * @inheritdoc
      * @param Model $model
      * @return Model
      */
