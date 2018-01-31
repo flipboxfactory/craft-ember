@@ -58,7 +58,7 @@ class QueryHelper
      * @param $join
      * @return bool
      */
-    public static function parseBaseParam(&$value, &$join)
+    public static function parseBaseParam(&$value, &$join): bool
     {
         // Force array
         if (!is_array($value)) {
@@ -71,6 +71,7 @@ class QueryHelper
         // Check for object array (via 'id' key)
         if ($id = static::findIdFromObjectArray($value)) {
             $value = [$id];
+            return true;
         }
 
         return false;
@@ -84,7 +85,7 @@ class QueryHelper
      * @param $operator
      * @return bool
      */
-    public static function findParamValue(&$value, &$operator)
+    public static function findParamValue(&$value, &$operator): bool
     {
 
         if (is_array($value) || is_object($value)) {
@@ -141,7 +142,7 @@ class QueryHelper
      * @param $operator
      * @return bool
      */
-    public static function prepParamValue(&$value, &$operator)
+    public static function prepParamValue(&$value, &$operator): bool
     {
 
         if (is_array($value)) {
@@ -198,7 +199,7 @@ class QueryHelper
      */
     private static function findIdFromObjectArray($value, $operator = null)
     {
-        if ($id = ArrayHelper::getValue($value, 'id', '')) {
+        if ($id = ArrayHelper::getValue($value, 'id')) {
             return static::prependOperator($id, $operator);
         }
 
