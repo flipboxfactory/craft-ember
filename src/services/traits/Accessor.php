@@ -198,8 +198,8 @@ trait Accessor
     {
         $objects = array();
 
-        foreach ($query->all() as $record) {
-            $objects[] = $this->findByRecord($record, $toScenario);
+        foreach ($query->all() as $index => $record) {
+            $objects[$index] = $this->findByRecord($record, $toScenario);
         }
 
         return $objects;
@@ -235,8 +235,8 @@ trait Accessor
 
         // Find record in db
         if ($records = $this->findAllRecordsByCondition($condition)) {
-            foreach ($records as $record) {
-                $objects[] = $this->findByRecord($record, $toScenario);
+            foreach ($records as $index => $record) {
+                $objects[$index] = $this->findByRecord($record, $toScenario);
             }
         }
 
@@ -304,8 +304,8 @@ trait Accessor
         // Find record in db
         if ($records = $this->findAllRecordsByCriteria($criteria)
         ) {
-            foreach ($records as $record) {
-                $objects[] = $this->findByRecord($record, $toScenario);
+            foreach ($records as $index => $record) {
+                $objects[$index] = $this->findByRecord($record, $toScenario);
             }
         }
 
