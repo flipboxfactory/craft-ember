@@ -6,6 +6,7 @@ Changelog
 - Manage element action trait
 - SiteHelper::get to assist in resolving site models
 - ModelErrorFilter has a 'returnNullOnError' property to allow returning null when an error is found
+- QueryHelper functions to assist with normalizing a db query
 
 ### Changed
 - Create/Update element actions are specific to elements
