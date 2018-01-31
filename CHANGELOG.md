@@ -12,6 +12,9 @@ Changelog
 - Create/Update element actions are specific to elements
 - CheckAccess trait now throws an UnauthorizedHttpException
 
+### Fixed
+- Incorrect caching on ElementAccessor traits
+
 ## 1.0.0-rc.7 - 2018-01-17
 ### Changed
 - Index actions are more flexible when creating the data provider

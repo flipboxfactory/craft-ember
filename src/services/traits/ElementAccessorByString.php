@@ -114,9 +114,11 @@ trait ElementAccessorByString
      */
     public function findByString(string $string, int $siteId = null, string $toScenario = null)
     {
+        $siteId = SiteHelper::resolveSiteId($siteId);
+
         if (!$element = $this->findCacheByString($string, $siteId)) {
             if (!$element = $this->freshFindByString($string, $siteId)) {
-                $this->cacheByString[$string] = null;
+                $this->cacheByString[$siteId][$string] = null;
                 return null;
             }
 

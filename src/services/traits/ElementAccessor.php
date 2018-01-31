@@ -166,9 +166,11 @@ trait ElementAccessor
      */
     public function findById(int $id, int $siteId = null, string $toScenario = null)
     {
+        $siteId = SiteHelper::resolveSiteId($siteId);
+
         if (!$element = $this->findCacheById($id, $siteId)) {
             if (!$element = $this->freshFindById($id, $siteId)) {
-                $this->cacheById[$id] = null;
+                $this->cacheById[$siteId][$id] = null;
                 return null;
             }
 
