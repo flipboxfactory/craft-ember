@@ -1,5 +1,13 @@
 Changelog
 =========
+## Unreleased
+### Added
+- InvalidQueryException
+
+### Changed
+- Exceptions now inherit Yii's base Exception, not ErrorException
+- Deprecated ElementNotFoundException in favor of Craft's first party exception.
+
 ## 1.0.0-rc.8 - 2018-01-31
 ### Added
 - ElementAccessor traits for element centric services

@@ -8,19 +8,12 @@
 
 namespace flipbox\ember\exceptions;
 
-use yii\base\ErrorException as Exception;
-
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
+ *
+ * @deprecated
  */
-class ElementNotFoundException extends Exception
+class ElementNotFoundException extends \craft\errors\ElementNotFoundException
 {
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'Element Not Found Exception';
-    }
 }

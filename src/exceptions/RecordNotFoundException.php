@@ -8,7 +8,7 @@
 
 namespace flipbox\ember\exceptions;
 
-use yii\base\ErrorException as Exception;
+use yii\base\Exception;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -21,6 +21,6 @@ class RecordNotFoundException extends Exception
      */
     public function getName()
     {
-        return 'Record Not Found Exception';
+        return 'Record Not Found';
     }
 }

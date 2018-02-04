@@ -14,13 +14,13 @@ use yii\base\Exception;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-class ModelNotFoundException extends Exception
+class InvalidQueryException extends Exception
 {
     /**
      * @return string
      */
     public function getName()
     {
-        return 'Model Not Found';
+        return 'Invalid Query';
     }
 }
