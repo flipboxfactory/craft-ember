@@ -3,6 +3,7 @@ Changelog
 ## Unreleased
 ### Added
 - InvalidQueryException
+- Query Helper traits to assist with resolving user/user group params
 
 ### Changed
 - Exceptions now inherit Yii's base Exception, not ErrorException
