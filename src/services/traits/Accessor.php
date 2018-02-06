@@ -85,7 +85,6 @@ trait Accessor
     /**
      * @param Record $record
      * @param string|null $toScenario
-     * @throws InvalidConfigException
      * @return BaseObject
      */
     protected function createFromRecord(Record $record, string $toScenario = null): BaseObject
@@ -94,17 +93,12 @@ trait Accessor
             $record->setScenario($toScenario);
         }
 
-        $config = $record->toArray();
-
-        // Auto-set the class
-        if ($class = static::objectClass()) {
-            $config['class'] = $class;
-        }
-
-        return ObjectHelper::create(
-            $config,
-            static::objectClassInstance()
+        $config = array_merge(
+            $record->getRelatedRecords(),
+            $record->toArray()
         );
+
+        return $this->create($config);
     }
 
 
