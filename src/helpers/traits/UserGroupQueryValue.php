@@ -46,11 +46,7 @@ trait UserGroupQueryValue
     {
         if (false === QueryHelper::findParamValue($value, $operator)) {
             if (is_string($value)) {
-                $value = (new Query())
-                    ->select(['id'])
-                    ->from([UserGroupRecord::tableName()])
-                    ->where(Db::parseParam('handle', $value))
-                    ->scalar();
+                $value = static::resolveUserGroupStringValue($value);
             }
 
             if ($value instanceof UserGroup) {
@@ -61,5 +57,18 @@ trait UserGroupQueryValue
                 $value = QueryHelper::assembleParamValue($value, $operator);
             }
         }
+    }
+
+    /**
+     * @param string $value
+     * @return int|null
+     */
+    protected static function resolveUserGroupStringValue(string $value)
+    {
+        return (new Query())
+            ->select(['id'])
+            ->from([UserGroupRecord::tableName()])
+            ->where(Db::parseParam('handle', $value))
+            ->scalar();
     }
 }

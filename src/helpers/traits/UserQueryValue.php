@@ -28,7 +28,7 @@ trait UserQueryValue
     {
         if (false === QueryHelper::parseBaseParam($value, $join)) {
             foreach ($value as $operator => &$v) {
-                self::resolveUserValue($operator, $v);
+                static::resolveUserValue($operator, $v);
             }
         }
 
@@ -40,13 +40,11 @@ trait UserQueryValue
      * @param $operator
      * @param $value
      */
-    private static function resolveUserValue($operator, &$value)
+    protected static function resolveUserValue($operator, &$value)
     {
         if (false === QueryHelper::findParamValue($value, $operator)) {
             if (is_string($value)) {
-                if ($element = Craft::$app->getUsers()->getUserByUsernameOrEmail($value)) {
-                    $value = $element->id;
-                }
+                $value = self::resolveUserStringValue($value);
             }
 
             if ($value instanceof UserElement) {
@@ -57,5 +55,17 @@ trait UserQueryValue
                 $value = QueryHelper::assembleParamValue($value, $operator);
             }
         }
+    }
+
+    /**
+     * @param string $value
+     * @return int|null
+     */
+    protected static function resolveUserStringValue(string $value)
+    {
+        if (!$element = Craft::$app->getUsers()->getUserByUsernameOrEmail($value)) {
+            return null;
+        }
+        return $element->id;
     }
 }

@@ -9,6 +9,7 @@ Changelog
 - Exceptions now inherit Yii's base Exception, not ErrorException
 - Deprecated ElementNotFoundException in favor of Craft's first party exception.
 - Creating an object from a record now considers any record relations populated.
+- Enhancing helper traits for easier overrides
 
 ## 1.0.0-rc.8 - 2018-01-31
 ### Added
