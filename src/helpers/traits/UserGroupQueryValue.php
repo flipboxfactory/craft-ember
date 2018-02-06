@@ -50,7 +50,7 @@ trait UserGroupQueryValue
                     ->select(['id'])
                     ->from([UserGroupRecord::tableName()])
                     ->where(Db::parseParam('handle', $value))
-                    ->column();
+                    ->scalar();
             }
 
             if ($value instanceof UserGroup) {
