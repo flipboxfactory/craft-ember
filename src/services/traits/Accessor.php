@@ -24,7 +24,7 @@ use yii\db\QueryInterface;
  */
 trait Accessor
 {
-    use ActiveRecord;
+    use AccessorActiveRecord;
 
     /**
      * @var BaseObject[]

@@ -8,12 +8,14 @@
 
 namespace flipbox\ember\services\traits;
 
-use Craft;
-use craft\db\ActiveRecord as Record;
 use flipbox\ember\exceptions\RecordNotFoundException;
 use flipbox\ember\helpers\QueryHelper;
 use flipbox\ember\helpers\RecordHelper;
+use yii\caching\Dependency;
 use yii\db\ActiveQuery;
+use yii\db\ActiveRecord as Record;
+use yii\db\Connection;
+use yii\db\TableSchema;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -35,13 +37,29 @@ trait ActiveRecord
     }
 
     /**
+     * @return int|null
+     */
+    protected static function cacheDuration()
+    {
+        return false;
+    }
+
+    /**
+     * @return null|Dependency
+     */
+    protected static function cacheDependency()
+    {
+        return null;
+    }
+
+    /**
      * @param array $config
      * @return \yii\db\ActiveQuery
      */
-    public function getRecordQuery($config = []): ActiveQuery
+    public static function getQuery($config = []): ActiveQuery
     {
         /** @var Record $recordClass */
-        $recordClass = $this->recordClass();
+        $recordClass = static::recordClass();
 
         $query = $recordClass::find();
 
@@ -55,6 +73,29 @@ trait ActiveRecord
         return $query;
     }
 
+    /**
+     * @return Connection
+     */
+    public static function getDb(): Connection
+    {
+        /** @var Record $recordClass */
+        $recordClass = static::recordClass();
+
+        return $recordClass::getDb();
+    }
+
+    /**
+     * @return TableSchema
+     * @throws \yii\base\InvalidConfigException
+     */
+    public static function getTableSchema(): TableSchema
+    {
+        /** @var Record $recordClass */
+        $recordClass = static::recordClass();
+
+        return $recordClass::getTableSchema();
+    }
+
     /*******************************************
      * CREATE
      *******************************************/
@@ -64,7 +105,7 @@ trait ActiveRecord
      * @param string $toScenario
      * @return Record
      */
-    public function createRecord(array $attributes = [], string $toScenario = null)
+    public function create(array $attributes = [], string $toScenario = null): Record
     {
         /** @var string $recordClass */
         $recordClass = static::recordClass();
@@ -85,41 +126,68 @@ trait ActiveRecord
         return $record;
     }
 
+
+    /*******************************************
+     * FIND / GET
+     *******************************************/
+
+    /**
+     * @param string $toScenario
+     * @return Record[]
+     */
+    public function findAll(string $toScenario = null)
+    {
+        return $this->findAllByCondition(null, $toScenario);
+    }
+
+    /**
+     * @param $identifier
+     * @param string|null $toScenario
+     * @return Record|null
+     */
+    public function find($identifier, string $toScenario = null)
+    {
+        if ($identifier instanceof Record) {
+            if (null !== $toScenario) {
+                $identifier->setScenario($toScenario);
+            }
+            return $identifier;
+        }
+
+        return $this->findByCondition($identifier, $toScenario);
+    }
+
+    /**
+     * @param $identifier
+     * @param string $toScenario
+     * @return Record
+     * @throws RecordNotFoundException
+     */
+    public function get($identifier, string $toScenario = null): Record
+    {
+        if (!$object = $this->find($identifier, $toScenario)) {
+            $this->notFoundException();
+        }
+
+        return $object;
+    }
+
+
+    /*******************************************
+     * ONE CONDITION
+     *******************************************/
+
     /**
      * @param $condition
      * @param string $toScenario
      * @return Record|null
      */
-    public function findRecordByCondition($condition, string $toScenario = null)
+    public function findByCondition($condition, string $toScenario = null)
     {
-        if (empty($condition)) {
-            return null;
-        }
-
-        return $this->findRecordByCriteria(
+        return $this->findByCriteria(
             RecordHelper::conditionToCriteria($condition),
             $toScenario
         );
-    }
-
-    /**
-     * @param $criteria
-     * @param string $toScenario
-     * @return Record
-     */
-    public function findRecordByCriteria($criteria, string $toScenario = null)
-    {
-        $query = $this->getRecordQuery($criteria);
-
-        /** @var Record $record */
-        if ($record = $query->one()) {
-            // Set scenario
-            if ($toScenario) {
-                $record->setScenario($toScenario);
-            }
-        }
-
-        return $record;
     }
 
     /**
@@ -128,10 +196,33 @@ trait ActiveRecord
      * @return Record
      * @throws RecordNotFoundException
      */
-    public function getRecordByCondition($condition, string $toScenario = null)
+    public function getByCondition($condition, string $toScenario = null)
     {
-        if (!$record = $this->findRecordByCondition($condition, $toScenario)) {
-            $this->notFoundRecordException();
+        if (!$record = $this->findByCondition($condition, $toScenario)) {
+            $this->notFoundException();
+        }
+
+        return $record;
+    }
+
+
+    /*******************************************
+     * ONE CRITERIA
+     *******************************************/
+
+    /**
+     * @param $criteria
+     * @param string|null $toScenario
+     * @return mixed
+     */
+    public function findByCriteria($criteria, string $toScenario = null)
+    {
+        $record = $this->queryOne(
+            $this->getQuery($criteria)
+        );
+
+        if ($record && $toScenario) {
+            $record->setScenario($toScenario);
         }
 
         return $record;
@@ -143,56 +234,65 @@ trait ActiveRecord
      * @return Record
      * @throws RecordNotFoundException
      */
-    public function getRecordByCriteria($criteria, string $toScenario = null)
+    public function getByCriteria($criteria, string $toScenario = null)
     {
-        if (!$record = $this->findRecordByCriteria($criteria, $toScenario)) {
-            $this->notFoundRecordException();
+        if (!$record = $this->findByCriteria($criteria, $toScenario)) {
+            $this->notFoundException();
         }
 
         return $record;
     }
 
 
-    /**
-     * @param string $toScenario
-     * @return Record[]
-     */
-    public function findAllRecords(string $toScenario = null)
-    {
-        return $this->findAllRecordsByCondition(null, $toScenario);
-    }
+    /*******************************************
+     * ALL CONDITION
+     *******************************************/
 
     /**
      * @param array $condition
      * @param string $toScenario
      * @return Record[]
      */
-    public function findAllRecordsByCondition($condition = [], string $toScenario = null)
+    public function findAllByCondition($condition = [], string $toScenario = null)
     {
-        return $this->findAllRecordsByCriteria(
+        return $this->findAllByCriteria(
             RecordHelper::conditionToCriteria($condition),
             $toScenario
         );
     }
 
     /**
+     * @param array $condition
+     * @param string $toScenario
+     * @return Record[]
+     * @throws RecordNotFoundException
+     */
+    public function getAllByCondition($condition = [], string $toScenario = null)
+    {
+        if (!$records = $this->findAllByCondition($condition, $toScenario)) {
+            $this->notFoundException();
+        }
+
+        return $records;
+    }
+
+    /*******************************************
+     * ALL CRITERIA
+     *******************************************/
+
+    /**
      * @param array $criteria
      * @param string $toScenario
      * @return Record[]
      */
-    public function findAllRecordsByCriteria($criteria = [], string $toScenario = null)
+    public function findAllByCriteria($criteria = [], string $toScenario = null)
     {
-        $query = $this->getRecordQuery($criteria);
+        $records = $this->queryAll(
+            $this->getQuery($criteria)
+        );
 
-        /** @var Record[] $record s */
-        $records = $query->all();
-
-        // Set scenario
         if ($toScenario) {
-
-            /** @var Record $record */
             foreach ($records as $record) {
-                // Set scenario
                 $record->setScenario($toScenario);
             }
         }
@@ -200,52 +300,70 @@ trait ActiveRecord
         return $records;
     }
 
-
-    /**
-     * @deprecated
-     * @param array $condition
-     * @param string $toScenario
-     * @return Record[]
-     * @throws RecordNotFoundException
-     */
-    public function getAllRecords($condition = [], string $toScenario = null)
-    {
-        Craft::$app->getDeprecator()->log(
-            __METHOD__,
-            'Use the "getAllRecordsByCondition" method'
-        );
-
-        return $this->getAllRecordsByCondition($condition, $toScenario);
-    }
-
-    /**
-     * @param array $condition
-     * @param string $toScenario
-     * @return Record[]
-     * @throws RecordNotFoundException
-     */
-    public function getAllRecordsByCondition($condition = [], string $toScenario = null)
-    {
-        if (!$records = $this->findAllRecordsByCondition($condition, $toScenario)) {
-            $this->notFoundRecordException();
-        }
-
-        return $records;
-    }
-
     /**
      * @param array $criteria
      * @param string $toScenario
      * @return Record[]
      * @throws RecordNotFoundException
      */
-    public function getAllRecordsByCriteria($criteria = [], string $toScenario = null)
+    public function getAllByCriteria($criteria = [], string $toScenario = null)
     {
-        if (!$records = $this->findAllRecordsByCriteria($criteria, $toScenario)) {
-            $this->notFoundRecordException();
+        if (!$records = $this->findAllByCriteria($criteria, $toScenario)) {
+            $this->notFoundException();
         }
 
         return $records;
+    }
+
+
+    /*******************************************
+     * CACHE
+     *******************************************/
+
+    /**
+     * @param ActiveQuery $query
+     * @return Record|null
+     */
+    protected function queryOne(ActiveQuery $query)
+    {
+        $db = static::getDb();
+
+        try {
+            if (false === ($cacheDuration = static::cacheDuration())) {
+                return $query->one($db);
+            }
+
+            $record = $db->cache(function ($db) use ($query) {
+                return $query->one($db);
+            }, $cacheDuration, static::cacheDependency());
+        } catch (\Exception $e) {
+            return null;
+        }
+
+        return $record;
+    }
+
+    /**
+     * @param ActiveQuery $query
+     * @return Record[]
+     */
+    protected function queryAll(ActiveQuery $query)
+    {
+        $db = static::getDb();
+
+        try {
+            if (false === ($cacheDuration = static::cacheDuration())) {
+                return $query->all($db);
+            }
+
+            $record = $db->cache(function ($db) use ($query) {
+                return $query->all($db);
+            }, $cacheDuration, static::cacheDependency());
+        } catch (\Exception $e) {
+            return [];
+        }
+
+        return $record;
     }
 
     /*******************************************
@@ -255,7 +373,7 @@ trait ActiveRecord
     /**
      * @throws RecordNotFoundException
      */
-    protected function notFoundRecordException()
+    protected function notFoundException()
     {
         throw new RecordNotFoundException(
             sprintf(
