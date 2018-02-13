@@ -9,7 +9,8 @@
 namespace flipbox\ember\helpers;
 
 use Craft;
-use craft\models\Site;
+use craft\models\Site as SiteModel;
+use craft\records\Site as SiteRecord;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -18,12 +19,25 @@ use craft\models\Site;
 class SiteHelper
 {
     /**
-     * @param int|string|Site $site
-     * @return Site
+     * @param null $site
+     * @return SiteModel
      */
-    public static function get($site = null): Site
+    public static function get($site = null): SiteModel
     {
-        if ($site instanceof Site) {
+        if (null === $site) {
+            return Craft::$app->getSites()->currentSite;
+        }
+
+        return static::resolve($site);
+    }
+
+    /**
+     * @param $site
+     * @return SiteModel
+     */
+    public static function resolve($site = null): SiteModel
+    {
+        if ($site instanceof SiteModel) {
             return $site;
         }
 
@@ -35,7 +49,17 @@ class SiteHelper
             return Craft::$app->getSites()->getSiteByHandle($site);
         }
 
-        return Craft::$app->getSites()->currentSite;
+        try {
+            $object = Craft::createObject(SiteModel::class, [$site]);
+        } catch (\Exception $e) {
+            $object = new SiteModel();
+            ObjectHelper::populate(
+                $object,
+                $site
+            );
+        }
+
+        return $object;
     }
 
     /**
