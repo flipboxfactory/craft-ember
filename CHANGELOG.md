@@ -5,6 +5,7 @@ Changelog
 - InvalidQueryException
 - Query Helper traits to assist with resolving user/user group params
 - ActiveRecord service accessor traits
+- ArrayHelper to assist with filtering null/empty array values
 
 ### Changed
 - Exceptions now inherit Yii's base Exception, not ErrorException
