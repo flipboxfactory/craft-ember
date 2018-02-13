@@ -8,7 +8,6 @@
 
 namespace flipbox\ember\helpers;
 
-use craft\helpers\ArrayHelper;
 use craft\helpers\Json as JsonHelper;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;

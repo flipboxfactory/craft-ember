@@ -8,7 +8,6 @@
 
 namespace flipbox\ember\helpers;
 
-use craft\helpers\ArrayHelper;
 use craft\helpers\StringHelper;
 use yii\db\Query;
 use yii\db\QueryInterface;

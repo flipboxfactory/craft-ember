@@ -9,7 +9,6 @@
 namespace flipbox\ember\helpers;
 
 use Craft;
-use craft\helpers\ArrayHelper;
 use craft\log\FileTarget;
 use craft\web\Request;
 use flipbox\ember\Modules\interfaces\LoggableInterface;
