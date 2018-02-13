@@ -7,6 +7,7 @@ Changelog
 - ActiveRecord service accessor traits
 - ArrayHelper to assist with filtering null/empty array values
 - CacheableActiveQuery, similar to an ElementQuery
+- FieldLayoutHelper to assist with resolving a FieldLayout
 
 ### Changed
 - Exceptions now inherit Yii's base Exception, not ErrorException
