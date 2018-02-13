@@ -8,6 +8,7 @@
 
 namespace flipbox\ember\validators;
 
+use craft\helpers\ArrayHelper;
 use yii\base\Model;
 use yii\validators\Validator;
 
@@ -45,29 +46,66 @@ class ModelValidator extends Validator
      */
     protected function validateValue($value)
     {
-        if (!$value instanceof Model) {
+        if (empty($value)) {
             return null;
         }
 
+        if ($value instanceof Model) {
+            $value = [$value];
+        }
+
+        if (!is_array($value) ||
+            ArrayHelper::isAssociative($value) ||
+            false === $this->validateModels($value)
+        ) {
+            return [$this->message, []];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param array $models
+     * @return bool
+     */
+    private function validateModels(array $models): bool
+    {
+        $isValid = true;
+
+        foreach ($models as $model) {
+            if (false === $this->validateModel($model)) {
+                $isValid = false;
+            }
+        }
+
+        return $isValid;
+    }
+
+    /**
+     * @param Model $model
+     * @return bool
+     */
+    private function validateModel(Model $model): bool
+    {
         // Current scenario
-        $defaultScenarios = $value->getScenario();
+        $defaultScenarios = $model->getScenario();
 
         // Change to validation scenario
         if ($this->scenario) {
-            $value->setScenario($this->scenario);
+            $model->setScenario($this->scenario);
         }
 
         // Validate
-        $errors = null;
-        if (!$value->validate($this->modelAttributeNames, $this->clearErrors)) {
-            $errors = [$this->message, []];
+        $isValid = true;
+        if (!$model->validate($this->modelAttributeNames, $this->clearErrors)) {
+            $isValid = false;
         }
 
         // Revert back to prior scenario
         if ($this->scenario) {
-            $value->setScenario($defaultScenarios);
+            $model->setScenario($defaultScenarios);
         }
 
-        return $errors;
+        return $isValid;
     }
 }
