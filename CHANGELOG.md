@@ -1,6 +1,6 @@
 Changelog
 =========
-## Unreleased
+## 1.0.0-rc.9 - 2018-02-13
 ### Added
 - InvalidQueryException
 - Query Helper traits to assist with resolving user/user group params
