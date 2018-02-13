@@ -10,7 +10,7 @@ namespace flipbox\ember\helpers\traits;
 
 use Craft;
 use craft\elements\User as UserElement;
-use craft\helpers\ArrayHelper;
+use flipbox\ember\helpers\ArrayHelper;
 use flipbox\ember\helpers\QueryHelper;
 
 /**
@@ -32,8 +32,13 @@ trait UserQueryValue
             }
         }
 
-        // parse param to allow for mixed variables
-        return array_merge([$join], ArrayHelper::filterEmptyStringsFromArray($value));
+        $value = ArrayHelper::filterEmptyAndNullValuesFromArray($value);
+
+        if (empty($value)) {
+            return [];
+        }
+
+        return array_merge([$join], $value);
     }
 
     /**

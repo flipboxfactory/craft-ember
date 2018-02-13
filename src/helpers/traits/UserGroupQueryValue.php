@@ -11,7 +11,7 @@ namespace flipbox\ember\helpers\traits;
 use craft\db\Query;
 use craft\helpers\Db;
 use craft\models\UserGroup;
-use craft\helpers\ArrayHelper;
+use flipbox\ember\helpers\ArrayHelper;
 use flipbox\ember\helpers\QueryHelper;
 use craft\records\UserGroup as UserGroupRecord;
 
@@ -34,8 +34,14 @@ trait UserGroupQueryValue
             }
         }
 
+        $value = ArrayHelper::filterEmptyAndNullValuesFromArray($value);
+
+        if (empty($value)) {
+            return [];
+        }
+
         // parse param to allow for mixed variables
-        return array_merge([$join], ArrayHelper::filterEmptyStringsFromArray($value));
+        return array_merge([$join], $value);
     }
 
     /**
