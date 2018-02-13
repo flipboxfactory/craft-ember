@@ -6,6 +6,7 @@ Changelog
 - Query Helper traits to assist with resolving user/user group params
 - ActiveRecord service accessor traits
 - ArrayHelper to assist with filtering null/empty array values
+- CacheableActiveQuery, similar to an ElementQuery
 
 ### Changed
 - Exceptions now inherit Yii's base Exception, not ErrorException
