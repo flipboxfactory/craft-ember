@@ -87,7 +87,6 @@ class QueryHelper
      */
     public static function findParamValue(&$value, &$operator): bool
     {
-
         if (is_array($value) || is_object($value)) {
             $value = static::assembleParamValue($value, $operator);
         } else {
@@ -96,7 +95,7 @@ class QueryHelper
             $operator = static::parseParamOperator($value);
 
             if (is_numeric($value)) {
-                $value = static::assembleParamValue($value, $operator);
+                $value = static::prependOperator($value, $operator);
             } else {
                 $value = StringHelper::toLowerCase($value);
 
@@ -117,17 +116,20 @@ class QueryHelper
      *
      * @param $value
      * @param $operator
+     * @param string|int|mixed $defaultValue
      * @return string
      */
-    public static function assembleParamValue($value, $operator)
+    public static function assembleParamValue($value, $operator, $defaultValue = ':default:')
     {
-
-        // Handle arrays as values
         if (is_array($value) || is_object($value)) {
-            // Look for an 'id' key in an array
-            if ($id = static::findIdFromObjectArray($value, $operator)) {
-                // Prepend the operator
+            $id = static::findIdFromObjectArray($value, $operator);
+
+            if ($id !== null) {
                 return static::prependOperator($id, $operator);
+            }
+
+            if (is_object($value)) {
+                return $defaultValue;
             }
         }
 
