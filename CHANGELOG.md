@@ -1,5 +1,9 @@
 Changelog
 =========
+## Unreleased
+### Added
+- ArrayHelper::insertSequential to assist in injecting a key within sequentially ordered values.
+
 ## 1.0.0-rc.9 - 2018-02-13
 ### Added
 - InvalidQueryException

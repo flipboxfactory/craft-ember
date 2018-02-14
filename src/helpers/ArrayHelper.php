@@ -46,4 +46,52 @@ class ArrayHelper extends \craft\helpers\ArrayHelper
             return $value !== null && $value !== '';
         });
     }
+
+    /**
+     * @param array $sourceArray The source array which the target is to be inserted into.  The
+     * key represents a unique identifier, while the value is the sort order.
+     * @param string|int $targetKey
+     * @param int $targetOrder
+     * @return array|bool
+     */
+    public static function insertSequential(array $sourceArray, $targetKey, int $targetOrder)
+    {
+        // Append exiting types after position
+        if (false === ($indexPosition = array_search($targetKey, array_keys($sourceArray)))) {
+            return false;
+        }
+
+        // All types that are affected by re-ordering
+        $affectedTypes = array_slice($sourceArray, $indexPosition, null, true);
+
+        // Remove the current type (we're going to put it back in later)
+        $currentPosition = (int)ArrayHelper::remove($affectedTypes, $targetKey);
+
+        // Already in that position?
+        if ($currentPosition === $targetOrder) {
+            return true;
+        }
+
+        $startingSortOrder = $targetOrder;
+        if ($indexPosition++ < $targetOrder) {
+            $startingSortOrder = $indexPosition;
+        }
+
+        // Prepend current type
+        $order = [$targetKey => $targetOrder];
+
+        // Assemble order
+        if (false !== ($position = array_search($targetOrder, array_values($affectedTypes)))) {
+            $position++;
+
+            $order = array_slice($affectedTypes, 0, $position, true) +
+                $order +
+                array_slice($affectedTypes, $position, null, true);
+        }
+
+        return array_combine(
+            range($startingSortOrder, count($order) + 1),
+            array_keys($order)
+        );
+    }
 }
