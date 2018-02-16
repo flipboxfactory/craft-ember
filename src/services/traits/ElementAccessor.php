@@ -93,7 +93,7 @@ trait ElementAccessor
      * @param $criteria
      * @return ElementQueryInterface
      */
-    public function getQuery($criteria = [])
+    public function getQuery($criteria = []): ElementQueryInterface
     {
         /** @var ElementInterface $elementClass */
         $elementClass = static::elementClass();
