@@ -25,7 +25,6 @@ trait DateUpdatedMutator
      */
     public function setDateUpdated($value)
     {
-
         if ($value) {
             $value = DateTimeHelper::toDateTime($value);
         }
@@ -40,7 +39,6 @@ trait DateUpdatedMutator
      */
     public function getDateUpdated()
     {
-
         if (empty($this->dateUpdated)) {
             return DateTimeHelper::toDateTime(
                 new DateTime('now')

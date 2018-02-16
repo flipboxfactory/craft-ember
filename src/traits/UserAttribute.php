@@ -25,11 +25,6 @@ trait UserAttribute
     private $userId;
 
     /**
-     * @var UserElement|null
-     */
-    private $user;
-
-    /**
      * @return array
      */
     protected function userFields(): array

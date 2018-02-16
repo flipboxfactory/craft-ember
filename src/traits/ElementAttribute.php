@@ -25,11 +25,6 @@ trait ElementAttribute
     private $elementId;
 
     /**
-     * @var Element|null
-     */
-    private $element;
-
-    /**
      * @return array
      */
     protected function elementFields(): array

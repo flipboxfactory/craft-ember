@@ -8,8 +8,11 @@
 
 namespace flipbox\ember\records\traits;
 
+use Craft;
+use craft\base\ElementInterface;
 use craft\records\Element as ElementRecord;
 use flipbox\ember\traits\ElementRules;
+use flipbox\ember\traits\ElementMutator;
 use yii\db\ActiveQueryInterface;
 
 /**
@@ -18,46 +21,61 @@ use yii\db\ActiveQueryInterface;
  */
 trait ElementAttribute
 {
-    use ElementRules;
-
+    use ActiveRecord,
+        ElementRules,
+        ElementMutator;
+    
     /**
-     * Declares a `has-one` relation.
-     * The declaration is returned in terms of a relational [[ActiveQuery]] instance
-     * through which the related record can be queried and retrieved back.
+     * Get associated elementId
      *
-     * A `has-one` relation means that there is at most one related record matching
-     * the criteria set by this relation, e.g., a customer has one country.
-     *
-     * For example, to declare the `country` relation for `Customer` class, we can write
-     * the following code in the `Customer` class:
-     *
-     * ```php
-     * public function getCountry()
-     * {
-     *     return $this->hasOne(Country::className(), ['id' => 'country_id']);
-     * }
-     * ```
-     *
-     * Note that in the above, the 'id' key in the `$link` parameter refers to an attribute name
-     * in the related class `Country`, while the 'country_id' value refers to an attribute name
-     * in the current AR class.
-     *
-     * Call methods declared in [[ActiveQuery]] to further customize the relation.
-     *
-     * @param string $class the class name of the related record
-     * @param array $link the primary-foreign key constraint. The keys of the array refer to
-     * the attributes of the record associated with the `$class` model, while the values of the
-     * array refer to the corresponding attributes in **this** AR class.
-     * @return ActiveQueryInterface the relational query object.
+     * @return int|null
      */
-    abstract public function hasOne($class, $link);
+    public function getElementId()
+    {
+        $id = $this->getAttribute('elementId');
+        if (null === $id && null !== $this->element) {
+            $id = $this->elementId = $this->element->id;
+        }
+
+        return $id;
+    }
 
     /**
-     * Get the associated User
+     * @return ElementInterface|null
+     */
+    protected function resolveElement()
+    {
+        if ($model = $this->resolveElementFromRelation()) {
+            return $model;
+        }
+
+        return $this->resolveElementFromId();
+    }
+
+    /**
+     * @return ElementInterface|null
+     */
+    private function resolveElementFromRelation()
+    {
+        if (false === $this->isRelationPopulated('elementRecord')) {
+            return null;
+        }
+
+        /** @var ElementRecord $record */
+        $record = $this->getRelation('elementRecord');
+        if (null === $record) {
+            return null;
+        }
+
+        return Craft::$app->getElements()->getElementById($record->id);
+    }
+    
+    /**
+     * Get the associated Element
      *
      * @return ActiveQueryInterface
      */
-    public function getElement()
+    public function getElementRecord()
     {
         return $this->hasOne(
             ElementRecord::class,

@@ -24,7 +24,7 @@ trait SiteAttribute
     use ActiveRecord,
         SiteRules,
         SiteMutator {
-        resolveSite as parentResolveSite;
+            resolveSite as parentResolveSite;
     }
 
     /**

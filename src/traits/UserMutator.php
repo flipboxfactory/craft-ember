@@ -9,17 +9,23 @@
 namespace flipbox\ember\traits;
 
 use Craft;
-use craft\elements\User as UserElement;
+use craft\elements\User;
+use flipbox\ember\helpers\ObjectHelper;
 
 /**
  * @property int|null $userId
- * @property UserElement|null $user
+ * @property User|null $user
  *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
 trait UserMutator
 {
+    /**
+     * @var User|null
+     */
+    private $user;
+
     /**
      * Set associated userId
      *
@@ -28,16 +34,7 @@ trait UserMutator
      */
     public function setUserId(int $id)
     {
-        // Has the id changed?
-        if ($id !== $this->userId) {
-            // Invalidate existing user
-            if ($this->user !== null && $this->user->getId() !== $id) {
-                $this->user = null;
-            };
-
-            $this->userId = $id;
-        }
-
+        $this->userId = $id;
         return $this;
     }
 
@@ -48,30 +45,27 @@ trait UserMutator
      */
     public function getUserId()
     {
+        if (null === $this->userId && null !== $this->user) {
+            $this->userId = $this->user->id;
+        }
+
         return $this->userId;
     }
-
 
     /**
      * Associate a user
      *
-     * @param $user
+     * @param mixed $user
      * @return $this
      */
-    public function setUser($user)
+    public function setUser($user = null)
     {
-        // Clear cache
         $this->user = null;
 
-        // Find element
-        if (!$user = $this->findUserElement($user)) {
-            // Clear property / cache
-            $this->userId = $this->user = null;
+        if (!$user = $this->internalResolveUser($user)) {
+            $this->user = $this->userId = null;
         } else {
-            // Set property
-            $this->userId = $user->getId();
-
-            // Set cache
+            $this->userId = $user->id;
             $this->user = $user;
         }
 
@@ -79,53 +73,80 @@ trait UserMutator
     }
 
     /**
-     * @return UserElement|null
+     * @return User|null
      */
-    public function getUser()
+    public function getUser(): User
     {
-        // Check cache
-        if (is_null($this->user)) {
-            // Check property
-            if (!empty($this->userId)) {
-                // Find element
-                if ($userElement = Craft::$app->getUsers()->getUserById($this->userId)) {
-                    // Set
-                    $this->setUser($userElement);
-                } else {
-                    // Clear property (it's invalid)
-                    $this->userId = null;
-
-                    // Prevent subsequent look-ups
-                    $this->user = false;
-                }
-            } else {
-                // Prevent subsequent look-ups
-                $this->user = false;
-            }
+        if ($this->user === null) {
+            $user = $this->resolveUser();
+            $this->setUser($user);
+            return $user;
         }
 
-        return !$this->user ? null : $this->user;
+        $userId = $this->userId;
+        if ($userId !== null &&
+            $userId !== $this->user->id
+        ) {
+            $this->user = null;
+            return $this->getUser();
+        }
+
+        return $this->user;
+    }
+
+    /**
+     * @return User|null
+     */
+    protected function resolveUser()
+    {
+        if ($model = $this->resolveUserFromId()) {
+            return $model;
+        }
+
+        return null;
+    }
+
+    /**
+     * @return User|null
+     */
+    private function resolveUserFromId()
+    {
+        if (null === $this->userId) {
+            return null;
+        }
+
+        return Craft::$app->getUsers()->getUserById($this->userId);
     }
 
     /**
      * @param $user
-     * @return UserElement|null
+     * @return User|null
      */
-    private function findUserElement($user)
+    protected function internalResolveUser($user = null)
     {
-        // Element
-        if ($user instanceof UserElement) {
+        if ($user instanceof User) {
             return $user;
-
-            // Id
-        } elseif (is_numeric($user)) {
+        }
+        
+        if (is_numeric($user)) {
             return Craft::$app->getUsers()->getUserById($user);
-
-            // Username / Email
-        } elseif (!is_null($user)) {
-            return Craft::$app->getUsers()->getUserByUsernameOrEmail($user);
         }
 
-        return null;
+        if (is_string($user)) {
+            return Craft::$app->getUsers()->getUserByUsernameOrEmail($user);
+        }
+        
+        try {
+            $object = Craft::createObject(User::class, [$user]);
+        } catch (\Exception $e) {
+            $object = new User();
+            ObjectHelper::populate(
+                $object,
+                $user
+            );
+        }
+
+        /** @var User $object */
+        return $object;
     }
 }

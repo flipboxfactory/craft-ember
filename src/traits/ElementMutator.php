@@ -14,13 +14,18 @@ use craft\base\ElementInterface;
 
 /**
  * @property int|null $elementId
- * @property Element|null $element
+ * @property Element|ElementInterface|null $element
  *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
 trait ElementMutator
 {
+    /**
+     * @var Element|null
+     */
+    private $element;
+
     /**
      * Set associated elementId
      *
@@ -29,16 +34,7 @@ trait ElementMutator
      */
     public function setElementId(int $id)
     {
-        // Has the id changed?
-        if ($id !== $this->elementId) {
-            // Invalidate existing element
-            if ($this->element !== null && $this->element->getId() !== $id) {
-                $this->element = null;
-            };
-
-            $this->elementId = $id;
-        }
-
+        $this->elementId = $id;
         return $this;
     }
 
@@ -49,29 +45,27 @@ trait ElementMutator
      */
     public function getElementId()
     {
+        if (null === $this->elementId && null !== $this->element) {
+            $this->elementId = $this->element->id;
+        }
+
         return $this->elementId;
     }
-
 
     /**
      * Associate a element
      *
-     * @param $element
+     * @param mixed $element
      * @return $this
      */
-    public function setElement($element)
+    public function setElement($element = null)
     {
-        // Clear cache
         $this->element = null;
 
-        // Find element
-        if (!$element = $this->findElement($element)) {
-            // Clear property / cache
-            $this->elementId = $this->element = null;
+        if (!$element = $this->internalResolveElement($element)) {
+            $this->element = $this->elementId = null;
         } else {
-            // Set property
-            $this->elementId = $element->getId();
-            // Set cache
+            $this->elementId = $element->id;
             $this->element = $element;
         }
 
@@ -79,69 +73,69 @@ trait ElementMutator
     }
 
     /**
-     * @return Element|null
+     * @return ElementInterface|null
      */
-    public function getElement()
+    public function getElement(): ElementInterface
     {
-        // Check cache
-        if (is_null($this->element)) {
-            // Check property
-            if (!empty($this->elementId)) {
-                // Find element
-                if ($elementElement = Craft::$app->getElements()->getElementById($this->elementId)) {
-                    // Set
-                    $this->setElement($elementElement);
-                } else {
-                    // Clear property (it's invalid)
-                    $this->elementId = null;
-                    // Prevent subsequent look-ups
-                    $this->element = false;
-                }
-            } else {
-                // Prevent subsequent look-ups
-                $this->element = false;
-            }
+        if ($this->element === null) {
+            $element = $this->resolveElement();
+            $this->setElement($element);
+            return $element;
         }
 
-        return !$this->element ? null : $this->element;
+        $elementId = $this->elementId;
+        if ($elementId !== null &&
+            $elementId !== $this->element->id
+        ) {
+            $this->element = null;
+            return $this->getElement();
+        }
+
+        return $this->element;
     }
 
     /**
-     * @param string|int|ElementInterface $identifier
-     *
      * @return ElementInterface|null
      */
-    private function findElement($identifier)
+    protected function resolveElement()
     {
-        // Element
-        if ($identifier instanceof ElementInterface) {
-            return $identifier;
-            // Id
-        } elseif (is_numeric($identifier)) {
-            return $this->findElementById((bool)$identifier);
-            // String
-        } elseif (!is_string($identifier)) {
-            return $this->findElementByString($identifier);
+        if ($model = $this->resolveElementFromId()) {
+            return $model;
         }
 
         return null;
     }
 
     /**
-     * @param int $id
      * @return ElementInterface|null
      */
-    protected function findElementById(int $id)
+    private function resolveElementFromId()
     {
-        return Craft::$app->getElements()->getElementById($id);
+        if (null === $this->elementId) {
+            return null;
+        }
+
+        return Craft::$app->getElements()->getElementById($this->elementId);
     }
 
     /**
-     * @param string $string
-     * @return ElementInterface|null
+     * @param $element
+     * @return ElementInterface|Element|null
      */
-    protected function findElementByString(string $string)
+    protected function internalResolveElement($element = null)
     {
-        return Craft::$app->getElements()->getElementByUri($string);
+        if ($element instanceof ElementInterface) {
+            return $element;
+        }
+
+        if (is_numeric($element)) {
+            return Craft::$app->getElements()->getElementById($element);
+        }
+
+        if (is_string($element)) {
+            return Craft::$app->getElements()->getElementByUri($element);
+        }
+
+        return Craft::$app->getElements()->createElement($element);
     }
 }

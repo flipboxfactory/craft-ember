@@ -53,27 +53,6 @@ trait ActiveRecord
     }
 
     /**
-     * @param array $config
-     * @return \yii\db\ActiveQuery
-     */
-    public static function getQuery($config = []): ActiveQuery
-    {
-        /** @var Record $recordClass */
-        $recordClass = static::recordClass();
-
-        $query = $recordClass::find();
-
-        if ($config) {
-            QueryHelper::configure(
-                $query,
-                $config
-            );
-        }
-
-        return $query;
-    }
-
-    /**
      * @return Connection
      */
     public static function getDb(): Connection
@@ -94,6 +73,31 @@ trait ActiveRecord
         $recordClass = static::recordClass();
 
         return $recordClass::getTableSchema();
+    }
+
+    /*******************************************
+     * QUERY
+     *******************************************/
+
+    /**
+     * @param array $config
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuery($config = []): ActiveQuery
+    {
+        /** @var Record $recordClass */
+        $recordClass = static::recordClass();
+
+        $query = $recordClass::find();
+
+        if ($config) {
+            QueryHelper::configure(
+                $query,
+                $config
+            );
+        }
+
+        return $query;
     }
 
     /*******************************************

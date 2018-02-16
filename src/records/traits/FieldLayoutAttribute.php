@@ -23,9 +23,7 @@ trait FieldLayoutAttribute
 {
     use ActiveRecord,
         FieldLayoutRules,
-        FieldLayoutMutator {
-        resolveFieldLayout as parentResolveFieldLayout;
-    }
+        FieldLayoutMutator;
 
     /**
      * Get associated fieldLayoutId
@@ -51,7 +49,7 @@ trait FieldLayoutAttribute
             return $fieldLayout;
         }
 
-        return $this->parentResolveFieldLayout();
+        return $this->resolveFieldLayoutFromId();
     }
 
     /**
@@ -63,7 +61,7 @@ trait FieldLayoutAttribute
             return null;
         }
 
-        return FieldLayoutHelper::resolve($this->getRelation('fieldLayoutRecord'));
+        return $this->internalResolveFieldLayout($this->getRelation('fieldLayoutRecord'));
     }
 
     /**

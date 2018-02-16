@@ -180,6 +180,21 @@ trait ElementAccessor
         return $this->applyScenario($element, $toScenario);
     }
 
+    /**
+     * @param int $id
+     * @param int|null $siteId
+     * @param string $toScenario
+     * @return ElementInterface|null
+     * @throws ElementNotFoundException
+     */
+    public function getById(int $id, int $siteId = null, string $toScenario = null): ElementInterface
+    {
+        if (!$element = $this->findById($id, $siteId, $toScenario)) {
+            $this->notFoundByIdException($id);
+        }
+
+        return $element;
+    }
 
     /*******************************************
      * FRESH FIND

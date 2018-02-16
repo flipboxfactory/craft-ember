@@ -25,7 +25,6 @@ trait DateCreatedMutator
      */
     public function setDateCreated($value)
     {
-
         if ($value) {
             $value = DateTimehelper::toDateTime($value);
         }
@@ -40,7 +39,6 @@ trait DateCreatedMutator
      */
     public function getDateCreated()
     {
-
         if (empty($this->dateCreated)) {
             return DateTimeHelper::toDateTime(
                 new DateTime('now')

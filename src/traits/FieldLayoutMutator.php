@@ -10,12 +10,11 @@ namespace flipbox\ember\traits;
 
 use Craft;
 use craft\models\FieldLayout;
-use craft\models\FieldLayout as FieldLayoutModel;
-use flipbox\ember\helpers\FieldLayoutHelper;
+use flipbox\ember\helpers\ObjectHelper;
 
 /**
  * @property int|null $fieldLayoutId
- * @property FieldLayoutModel|null $fieldLayout
+ * @property FieldLayout|null $fieldLayout
  *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
@@ -23,7 +22,7 @@ use flipbox\ember\helpers\FieldLayoutHelper;
 trait FieldLayoutMutator
 {
     /**
-     * @var FieldLayoutModel|null
+     * @var FieldLayout|null
      */
     private $fieldLayout;
 
@@ -68,7 +67,7 @@ trait FieldLayoutMutator
     {
         $this->fieldLayout = null;
 
-        if (!$fieldLayout = FieldLayoutHelper::resolve($fieldLayout)) {
+        if (!$fieldLayout = $this->internalResolveFieldLayout($fieldLayout)) {
             $this->fieldLayout = $this->fieldLayoutId = null;
         } else {
             $this->fieldLayoutId = $fieldLayout->id;
@@ -79,9 +78,9 @@ trait FieldLayoutMutator
     }
 
     /**
-     * @return FieldLayoutModel|null
+     * @return FieldLayout|null
      */
-    public function getFieldLayout(): FieldLayoutModel
+    public function getFieldLayout(): FieldLayout
     {
         if ($this->fieldLayout === null) {
             if (!$fieldLayout = $this->resolveFieldLayout()) {
@@ -104,10 +103,10 @@ trait FieldLayoutMutator
     }
 
     /**
-     * @param FieldLayoutModel $fieldLayout
-     * @return FieldLayoutModel
+     * @param FieldLayout $fieldLayout
+     * @return FieldLayout
      */
-    protected function setTypeOnFieldLayout(FieldLayoutModel $fieldLayout): FieldLayoutModel
+    protected function setTypeOnFieldLayout(FieldLayout $fieldLayout): FieldLayout
     {
         if ($fieldLayout->type === null) {
             $fieldLayout->type = static::fieldLayoutType();
@@ -117,7 +116,7 @@ trait FieldLayoutMutator
     }
 
     /**
-     * @return FieldLayoutModel|null
+     * @return FieldLayout|null
      */
     protected function resolveFieldLayout()
     {
@@ -129,7 +128,7 @@ trait FieldLayoutMutator
     }
 
     /**
-     * @return FieldLayoutModel|null
+     * @return FieldLayout|null
      */
     private function resolveFieldLayoutFromId()
     {
@@ -141,7 +140,7 @@ trait FieldLayoutMutator
     }
 
     /**
-     * @return FieldLayoutModel|null
+     * @return FieldLayout|null
      */
     private function resolveFieldLayoutFromType()
     {
@@ -160,5 +159,37 @@ trait FieldLayoutMutator
         ]);
 
         return $fieldLayoutModel;
+    }
+
+    /**
+     * @param $fieldLayout
+     * @return FieldLayout|null
+     */
+    protected function internalResolveFieldLayout($fieldLayout = null): FieldLayout
+    {
+        if ($fieldLayout instanceof FieldLayout) {
+            return $fieldLayout;
+        }
+
+        if (is_numeric($fieldLayout)) {
+            return Craft::$app->getFields()->getLayoutById($fieldLayout);
+        }
+
+        if (is_string($fieldLayout)) {
+            return Craft::$app->getFields()->getLayoutByType($fieldLayout);
+        }
+
+        try {
+            $object = Craft::createObject(FieldLayout::class, [$fieldLayout]);
+        } catch (\Exception $e) {
+            $object = new FieldLayout();
+            ObjectHelper::populate(
+                $object,
+                $fieldLayout
+            );
+        }
+
+        /** @var FieldLayout $object */
+        return $object;
     }
 }
