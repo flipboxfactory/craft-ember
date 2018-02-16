@@ -8,11 +8,6 @@
 
 namespace flipbox\ember\helpers;
 
-use Craft;
-use craft\web\Controller as CraftWebController;
-use yii\web\Controller as WebController;
-use yii\web\Response;
-
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
@@ -50,6 +45,32 @@ class ArrayHelper extends \craft\helpers\ArrayHelper
     /**
      * @param array $sourceArray The source array which the target is to be inserted into.  The
      * key represents a unique identifier, while the value is the sort order.
+     *
+     * As an example if this is the $sourceArray
+     *
+     * ```
+     * [
+     *      111 => 1,
+     *      343 => 2,
+     *      545 => 3,
+     *      'foo' => 4,
+     *      'bar' => 5
+     * ]
+     * ```
+     *
+     * And your $targetKey is 'fooBar' with a $targetOrder of 4, the result would be
+     *
+     * ```
+     * [
+     *      111 => 1,
+     *      343 => 2,
+     *      545 => 3,
+     *      'fooBar' => 4,
+     *      'foo' => 5,
+     *      'bar' => 6
+     * ]
+     * ```
+     *
      * @param string|int $targetKey
      * @param int $targetOrder
      * @return array|bool
