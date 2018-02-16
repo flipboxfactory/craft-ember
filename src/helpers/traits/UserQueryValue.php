@@ -24,7 +24,7 @@ trait UserQueryValue
      * @param string $join
      * @return array
      */
-    public static function parseUserValue($value, string $join = 'and'): array
+    public static function parseUserValue($value, string $join = 'or'): array
     {
         if (false === QueryHelper::parseBaseParam($value, $join)) {
             foreach ($value as $operator => &$v) {
