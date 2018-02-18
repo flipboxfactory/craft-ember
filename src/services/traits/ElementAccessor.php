@@ -166,7 +166,7 @@ trait ElementAccessor
      */
     public function findById(int $id, int $siteId = null, string $toScenario = null)
     {
-        $siteId = SiteHelper::resolveSiteId($siteId);
+        $siteId = SiteHelper::ensureSiteId($siteId);
 
         if (!$element = $this->findCacheById($id, $siteId)) {
             if (!$element = $this->freshFindById($id, $siteId)) {
@@ -280,7 +280,7 @@ trait ElementAccessor
      */
     public function findCacheById(int $id, int $siteId = null)
     {
-        $siteId = SiteHelper::resolveSiteId($siteId);
+        $siteId = SiteHelper::ensureSiteId($siteId);
 
         if ($this->isCachedById($id, $siteId)) {
             return $this->cacheById[$siteId][$id];
@@ -298,7 +298,7 @@ trait ElementAccessor
      */
     protected function isCachedById(int $id, int $siteId = null): bool
     {
-        $siteId = SiteHelper::resolveSiteId($siteId);
+        $siteId = SiteHelper::ensureSiteId($siteId);
 
         if (!array_key_exists($siteId, $this->cacheById)) {
             $this->cacheById[$siteId] = [];
