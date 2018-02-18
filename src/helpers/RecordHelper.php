@@ -19,47 +19,6 @@ use yii\db\QueryInterface;
 class RecordHelper
 {
     /**
-     * @param $config
-     * @param string|null $instanceOf
-     * @param string|null $toScenario
-     * @return Record
-     * @throws InvalidConfigException
-     */
-    public static function create($config, string $instanceOf = null, string $toScenario = null)
-    {
-        // Get class from config
-        $class = ObjectHelper::checkConfig($config, $instanceOf);
-
-        // New model
-        $model = new $class();
-
-        return static::populate($model, $config, $toScenario);
-    }
-
-    /**
-     * @param Record $record
-     * @param array $properties
-     * @param string $toScenario
-     * @return Record
-     */
-    public static function populate(Record $record, $properties = [], string $toScenario = null)
-    {
-        // Set properties
-        foreach ($properties as $name => $value) {
-            if ($record->canSetProperty($name)) {
-                $record->$name = $value;
-            }
-        }
-
-        // Set scenario
-        if (null !== $toScenario) {
-            $record->setScenario($toScenario);
-        }
-
-        return $record;
-    }
-
-    /**
      * @param $condition
      * @return array
      */
@@ -77,22 +36,5 @@ class RecordHelper
         }
 
         return ['where' => ['and', $condition]];
-    }
-
-    /**
-     * @param string|Record $record
-     * @param $criteria
-     * @return QueryInterface
-     */
-    public static function configure($record, $criteria)
-    {
-        $query = $record::find();
-
-        QueryHelper::configure(
-            $query,
-            $criteria
-        );
-
-        return $query;
     }
 }

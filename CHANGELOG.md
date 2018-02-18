@@ -1,5 +1,9 @@
 Changelog
 =========
+## Unreleased
+### Removed
+- RecordHelper::configure, RecordHelper::create and RecordHelper::populate as was code smell
+
 ## 1.0.0-rc.10 - 2018-02-16
 ### Added
 - ArrayHelper::insertSequential to assist in injecting a key within sequentially ordered values.
