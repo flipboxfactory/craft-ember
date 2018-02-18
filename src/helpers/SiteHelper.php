@@ -19,19 +19,6 @@ use craft\records\Site as SiteRecord;
 class SiteHelper
 {
     /**
-     * @param null $site
-     * @return SiteModel
-     */
-    public static function get($site = null): SiteModel
-    {
-        if (null === $site) {
-            return Craft::$app->getSites()->currentSite;
-        }
-
-        return static::resolve($site);
-    }
-
-    /**
      * @param $site
      * @return SiteModel
      */
@@ -39,6 +26,10 @@ class SiteHelper
     {
         if ($site instanceof SiteModel) {
             return $site;
+        }
+
+        if (null === $site) {
+            return Craft::$app->getSites()->currentSite;
         }
 
         if (is_numeric($site)) {
@@ -66,12 +57,12 @@ class SiteHelper
      * @param int|null $siteId
      * @return int
      */
-    public static function resolveSiteId(int $siteId = null): int
+    public static function ensureSiteId(int $siteId = null): int
     {
-        if (is_null($siteId)) {
-            $siteId = Craft::$app->getSites()->currentSite->id;
+        if (null === $siteId) {
+            $siteId = (int) Craft::$app->getSites()->currentSite->id;
         }
 
-        return $siteId;
+        return (int) $siteId;
     }
 }

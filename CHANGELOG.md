@@ -3,7 +3,8 @@ Changelog
 ## Unreleased
 ### Removed
 - RecordHelper::configure, RecordHelper::create and RecordHelper::populate as they're code smell
-- ElementHelper due to code smell 
+- ElementHelper due to code smell
+- SiteHelper::get due to code smell
 
 ## 1.0.0-rc.10 - 2018-02-16
 ### Added
