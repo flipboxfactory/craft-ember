@@ -3,6 +3,7 @@ Changelog
 ## Unreleased
 ### Added
 - NotFoundException to indicate a generic not found error
+- New accessor traits
 
 ### Changed
 - Deprecated all existing accessor traits in favor of a more optimized query approach
