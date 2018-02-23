@@ -1,6 +1,6 @@
 Changelog
 =========
-## Unreleased
+## 1.0.0-rc.12 - 2018-02-22
 ### Added
 - NotFoundException to indicate a generic not found error
 - New accessor traits
