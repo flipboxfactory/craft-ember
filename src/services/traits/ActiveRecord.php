@@ -20,6 +20,8 @@ use yii\db\TableSchema;
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
+ *
+ * @deprecated
  */
 trait ActiveRecord
 {
@@ -27,14 +29,6 @@ trait ActiveRecord
      * @return string
      */
     public abstract static function recordClass(): string;
-
-    /**
-     * @return string
-     */
-    public static function recordClassInstance(): string
-    {
-        return Record::class;
-    }
 
     /**
      * @return int|null

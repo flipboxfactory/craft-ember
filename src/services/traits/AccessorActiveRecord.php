@@ -18,6 +18,8 @@ use yii\db\ActiveQuery;
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
+ *
+ * @deprecated
  */
 trait AccessorActiveRecord
 {

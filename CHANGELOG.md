@@ -4,6 +4,9 @@ Changelog
 ### Added
 - NotFoundException to indicate a generic not found error
 
+### Changed
+- Deprecated all existing accessor traits in favor of a more optimized query approach
+
 ## 1.0.0-rc.11 - 2018-02-18
 ### Removed
 - RecordHelper::configure, RecordHelper::create and RecordHelper::populate as they're code smell

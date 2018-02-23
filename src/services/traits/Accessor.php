@@ -21,6 +21,8 @@ use yii\db\QueryInterface;
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
+ *
+ * @deprecated
  */
 trait Accessor
 {
