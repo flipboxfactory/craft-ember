@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 1.0.0-rc.13 - 2018-03-01
 ### Added
 - BaseAccessor service query trait
 
