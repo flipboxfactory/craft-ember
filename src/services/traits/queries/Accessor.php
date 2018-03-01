@@ -8,13 +8,8 @@
 
 namespace flipbox\ember\services\traits\queries;
 
-use Craft;
 use flipbox\ember\exceptions\NotFoundException;
 use flipbox\ember\helpers\RecordHelper;
-use yii\base\BaseObject;
-use yii\caching\Dependency;
-use yii\db\Connection;
-use yii\db\QueryInterface;
 
 /**
  * A set of robust methods commonly used to retrieve data from the attached database.  An optional
@@ -25,43 +20,7 @@ use yii\db\QueryInterface;
  */
 trait Accessor
 {
-    /*******************************************
-     * QUERY
-     *******************************************/
-
-    /**
-     * @param array $config
-     * @return \yii\db\ActiveQuery
-     */
-    abstract public function getQuery($config = []): QueryInterface;
-
-    /*******************************************
-     * CACHE
-     *******************************************/
-
-    /**
-     * @return int|null
-     */
-    protected static function cacheDuration()
-    {
-        return false;
-    }
-
-    /**
-     * @return null|Dependency
-     */
-    protected static function cacheDependency()
-    {
-        return null;
-    }
-
-    /**
-     * @return Connection
-     */
-    protected static function getDb(): Connection
-    {
-        return Craft::$app->getDb();
-    }
+    use BaseAccessor;
 
     /*******************************************
      * FIND / GET
@@ -167,7 +126,7 @@ trait Accessor
 
     /**
      * @param array $condition
-     * @return BaseObject[]
+     * @return array
      */
     public function findAllByCondition($condition = []): array
     {
@@ -178,7 +137,7 @@ trait Accessor
 
     /**
      * @param array $condition
-     * @return BaseObject[]
+     * @return array
      * @throws NotFoundException
      */
     public function getAllByCondition($condition = []): array
@@ -197,7 +156,7 @@ trait Accessor
 
     /**
      * @param array $criteria
-     * @return BaseObject[]
+     * @return array
      */
     public function findAllByCriteria($criteria = []): array
     {
@@ -210,7 +169,7 @@ trait Accessor
 
     /**
      * @param array $criteria
-     * @return BaseObject[]
+     * @return array
      * @throws NotFoundException
      */
     public function getAllByCriteria($criteria = []): array
@@ -221,72 +180,5 @@ trait Accessor
         }
 
         return $records;
-    }
-
-
-    /*******************************************
-     * CACHE
-     *******************************************/
-
-    /**
-     * @param QueryInterface $query
-     * @return mixed|null
-     */
-    protected function queryOne(QueryInterface $query)
-    {
-        $db = static::getDb();
-
-        try {
-            if (false === ($cacheDuration = static::cacheDuration())) {
-                return $query->one($db);
-            }
-
-            $result = $db->cache(function ($db) use ($query) {
-                return $query->one($db);
-            }, $cacheDuration, static::cacheDependency());
-        } catch (\Exception $e) {
-            return null;
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param QueryInterface $query
-     * @return mixed[]
-     */
-    protected function queryAll(QueryInterface $query)
-    {
-        $db = static::getDb();
-
-        try {
-            if (false === ($cacheDuration = static::cacheDuration())) {
-                return $query->all($db);
-            }
-
-            $results = $db->cache(function ($db) use ($query) {
-                return $query->all($db);
-            }, $cacheDuration, static::cacheDependency());
-        } catch (\Exception $e) {
-            return [];
-        }
-
-        return $results;
-    }
-
-    /*******************************************
-     * EXCEPTIONS
-     *******************************************/
-
-    /**
-     * @throws NotFoundException
-     */
-    protected function notFoundException()
-    {
-        throw new NotFoundException(
-            sprintf(
-                "Results not found."
-            )
-        );
     }
 }
