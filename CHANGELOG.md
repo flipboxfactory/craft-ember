@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## 1.0.0-rc.13.1 - 2018-03-01
+## 1.0.0-rc.14 - 2018-03-01
 ### Changed
 - Legacy translation categories
 
