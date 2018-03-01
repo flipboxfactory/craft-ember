@@ -49,7 +49,7 @@ trait FieldLayoutAttribute
     protected function fieldLayoutAttributeLabels(): array
     {
         return [
-            'fieldLayoutId' => Craft::t('organization', 'Field Layout Id')
+            'fieldLayoutId' => Craft::t('app', 'Field Layout Id')
         ];
     }
 }

@@ -49,7 +49,7 @@ trait SiteAttribute
     protected function siteAttributeLabels(): array
     {
         return [
-            'siteId' => Craft::t('organization', 'Site Id')
+            'siteId' => Craft::t('app', 'Site Id')
         ];
     }
 }
