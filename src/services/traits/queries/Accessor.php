@@ -31,7 +31,7 @@ trait Accessor
      */
     public function findAll()
     {
-        return $this->findAllByCondition(null);
+        return $this->findAllByCondition([]);
     }
 
     /**
