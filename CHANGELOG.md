@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 1.0.0-rc.13.1 - 2018-03-01
+### Changed
+- Legacy translation categories
+
 ## 1.0.0-rc.13 - 2018-03-01
 ### Added
 - BaseAccessor service query trait
