@@ -14,17 +14,11 @@ use craft\errors\ElementNotFoundException;
 use craft\helpers\ArrayHelper;
 use flipbox\ember\helpers\ObjectHelper;
 use flipbox\ember\helpers\QueryHelper;
-use flipbox\ember\helpers\SiteHelper;
 use flipbox\ember\services\traits\queries\BaseAccessor;
-use yii\base\BaseObject;
-use yii\db\QueryInterface;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
- *
- * @method BaseObject parentQueryOne(QueryInterface $query)
- * @method BaseObject[] parentQueryAll(QueryInterface $query)
  */
 trait Accessor
 {
@@ -109,50 +103,60 @@ trait Accessor
         return $query;
     }
 
+    /**
+     * @param $identifier
+     * @return array
+     */
+    protected function identifierCondition($identifier): array
+    {
+        $base = [
+            'status' => null
+        ];
+
+        if (is_array($identifier)) {
+            return array_merge($base, $identifier);
+        }
+
+        $base['id'] = $identifier;
+
+        return $base;
+    }
 
     /*******************************************
      * FIND / GET
      *******************************************/
 
     /**
-     * @param int|null $siteId
      * @return ElementInterface[]
      */
-    public function findAll(int $siteId = null)
+    public function findAll()
     {
-        $config = [];
-        if ($siteId !== null) {
-            $config['siteId'] = $siteId;
-        }
-        return $this->getQuery($config)->all();
+        return $this->getQuery()->all();
     }
 
     /**
      * @param $identifier
-     * @param int|null $siteId
      * @return ElementInterface|null
      */
-    public function find($identifier, int $siteId = null)
+    public function find($identifier)
     {
         if ($identifier instanceof ElementInterface) {
             return $identifier;
         }
 
-        return $this->findByQuery($this->getQuery([
-            'id' => $identifier,
-            'siteId' => SiteHelper::ensureSiteId($siteId)
-        ]));
+        return $this->findByQuery($this->getQuery(
+            $this->identifierCondition($identifier)
+        ));
     }
 
     /**
      * @param $identifier
-     * @param int $siteId
      * @return ElementInterface
      * @throws ElementNotFoundException
      */
-    public function get($identifier, int $siteId = null): ElementInterface
+    public function get($identifier): ElementInterface
     {
-        if (!$object = $this->find($identifier, $siteId)) {
+        if (!$object = $this->find($identifier)) {
             $this->notFoundException();
         }
 
