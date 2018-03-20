@@ -5,6 +5,9 @@ Changelog
 ### Added
 - ActiveRecord::create trait method to create a new ActiveRecord
 
+### Changed
+- Removed various deprecations
+
 ## 1.0.0-rc.14 - 2018-03-01
 ### Changed
 - Legacy translation categories
