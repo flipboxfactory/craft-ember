@@ -32,7 +32,7 @@ trait CheckAccess
     public $checkAccess = null;
 
     /**
-     * @param array ...$params
+     * @param mixed ...$params
      * @return mixed
      * @throws UnauthorizedHttpException
      */
