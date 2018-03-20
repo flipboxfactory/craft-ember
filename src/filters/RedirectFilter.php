@@ -12,7 +12,8 @@ use Craft;
 use craft\web\Controller as CraftController;
 use yii\base\Action;
 use yii\base\ActionFilter;
-use yii\web\Controller;
+use yii\base\Controller;
+use yii\helpers\Url;
 use yii\web\Response;
 
 /**
@@ -105,6 +106,6 @@ class RedirectFilter extends ActionFilter
             $url = Craft::$app->getView()->renderObjectTemplate($url, $object);
         }
 
-        return $controller->redirect($url);
+        return Craft::$app->getResponse()->redirect(Url::to($url));
     }
 }

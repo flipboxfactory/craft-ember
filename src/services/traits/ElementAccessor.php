@@ -128,6 +128,7 @@ trait ElementAccessor
         } elseif (is_numeric($identifier)) {
             return $this->findById($identifier, $siteId);
         } elseif (is_array($identifier)) {
+            /** @var Element $element */
             $element = $this->getQuery($identifier)
                 ->siteId($siteId)
                 ->one();

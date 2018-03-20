@@ -17,6 +17,9 @@ use flipbox\ember\helpers\SiteHelper;
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
+ *
+ * @method ElementInterface parentFind($identifier, int $siteId = null, string $toScenario = null)
+ * @method ElementInterface parentFindCache($identifier, int $siteId = null)
  */
 trait ElementAccessorByString
 {
@@ -222,20 +225,19 @@ trait ElementAccessorByString
     }
 
     /**
-     * @param ElementInterface|Element $element
+     * @param ElementInterface $element
      * @return $this
      */
     protected function cacheByString(ElementInterface $element)
     {
+        /** @var Element $element */
         $stringValue = $this->stringValue($element);
 
         if (null === $stringValue) {
             return $this;
         }
 
-        $siteId = $element->siteId;
-
-        // todo - ensure siteId is set?
+        $siteId = SiteHelper::ensureSiteId($element->siteId);
 
         // Check if already in cache
         if (!$this->isCachedByString($stringValue, $siteId)) {

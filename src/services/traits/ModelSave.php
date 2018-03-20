@@ -77,28 +77,16 @@ trait ModelSave
             // The 'before' event
             if (!$model->beforeSave($event)) {
                 $transaction->rollBack();
-
                 return false;
             }
 
             $record = $this->modelToRecord($model, $mirrorScenario);
 
-            // Validate
-            if (!$record->validate($attributes)) {
-                $model->addErrors($record->getErrors());
-
-                $transaction->rollBack();
-
-                return false;
-            }
-
             // Insert record
-            if (!$record->save($attributes)) {
-                // Transfer errors to model
+            if (!$record->save($runValidation, $attributes)) {
                 $model->addErrors($record->getErrors());
 
                 $transaction->rollBack();
-
                 return false;
             }
 
@@ -109,11 +97,9 @@ trait ModelSave
                 $isNew
             );
 
-
             // The 'after' event
             if (!$model->afterSave($event)) {
                 $transaction->rollBack();
-
                 return false;
             }
         } catch (\Exception $e) {
@@ -123,10 +109,7 @@ trait ModelSave
         }
 
         $transaction->commit();
-
-        // an 'afterSave' event
         $this->afterSave($model, $isNew);
-
         return true;
     }
 

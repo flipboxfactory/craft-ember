@@ -62,6 +62,7 @@ trait ElementMutator
     {
         $this->element = null;
 
+        /** @var Element $element */
         if (!$element = $this->internalResolveElement($element)) {
             $this->element = $this->elementId = null;
         } else {
@@ -77,6 +78,7 @@ trait ElementMutator
      */
     public function getElement(): ElementInterface
     {
+        /** @var Element $element */
         if ($this->element === null) {
             $element = $this->resolveElement();
             $this->setElement($element);

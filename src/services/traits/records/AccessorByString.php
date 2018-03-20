@@ -14,6 +14,8 @@ use yii\db\ActiveRecord as Record;
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
+ *
+ * @method Record parentFind($identifier)
  */
 trait AccessorByString
 {
@@ -32,16 +34,15 @@ trait AccessorByString
 
     /**
      * @param $identifier
-     * @param string|null $toScenario
      * @return Record|null
      */
-    public function find($identifier, string $toScenario = null)
+    public function find($identifier)
     {
         if (!is_numeric($identifier) && is_string($identifier)) {
-            return $this->findByString($identifier, $toScenario);
+            return $this->findByString($identifier);
         }
 
-        return $this->parentFind($identifier, $toScenario);
+        return $this->parentFind($identifier);
     }
 
     /*******************************************

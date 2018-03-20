@@ -23,6 +23,9 @@ use yii\db\QueryInterface;
  *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
+ *
+ * @method BaseObject parentQueryOne(QueryInterface $query)
+ * @method BaseObject[] parentQueryAll(QueryInterface $query)
  */
 trait Accessor
 {
@@ -103,7 +106,6 @@ trait Accessor
     /**
      * @param Record $record
      * @return BaseObject
-     * @throws \yii\base\InvalidConfigException
      */
     protected function createFromRecord(Record $record)
     {
@@ -175,7 +177,6 @@ trait Accessor
     /**
      * @param array $results
      * @return array
-     * @throws \yii\base\InvalidConfigException
      */
     protected function createAllFromQueryResults(array $results): array
     {

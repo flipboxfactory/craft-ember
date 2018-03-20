@@ -38,7 +38,7 @@ trait BaseAccessor
      *******************************************/
 
     /**
-     * @return int|null
+     * @return int|null|false
      */
     protected static function cacheDuration()
     {
@@ -76,8 +76,8 @@ trait BaseAccessor
 
     /**
      * @param QueryInterface $query
-     * @return mixed
      * @throws NotFoundException
+     * @return mixed
      */
     public function getByQuery(QueryInterface $query)
     {

@@ -13,7 +13,7 @@ use craft\models\Site as SiteModel;
 use flipbox\ember\helpers\SiteHelper;
 
 /**
- * @property int|null $siteId
+ * @property int|null|false $siteId
  *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
@@ -48,7 +48,7 @@ trait SiteMutator
             $this->siteId = $this->site->id;
         }
 
-        return $this->siteId;
+        return $this->siteId !== false ? $this->siteId : null;
     }
 
     /**
