@@ -23,6 +23,16 @@ use yii\db\QueryInterface;
  */
 trait BaseAccessor
 {
+    /**
+     * @var int|null|false
+     */
+    protected $cacheDuration = false;
+
+    /**
+     * @var null|Dependency
+     */
+    protected $cacheDependency = null;
+
     /*******************************************
      * QUERY
      *******************************************/
@@ -38,19 +48,27 @@ trait BaseAccessor
      *******************************************/
 
     /**
-     * @return int|null|false
+     * @param $duration
+     * @return $this
      */
-    protected static function cacheDuration()
+    public function setCacheDuration($duration)
     {
-        return false;
+        if (is_numeric($duration)) {
+            $duration = (int)$duration;
+        }
+
+        $this->cacheDuration = $duration;
+        return $this;
     }
 
     /**
-     * @return null|Dependency
+     * @param Dependency|null $dependency
+     * @return $this
      */
-    protected static function cacheDependency()
+    public function setCacheDependency(Dependency $dependency = null)
     {
-        return null;
+        $this->cacheDependency = $dependency;
+        return $this;
     }
 
     /**
@@ -76,7 +94,7 @@ trait BaseAccessor
 
     /**
      * @param QueryInterface $query
-     * @throws NotFoundException
+     *
      * @return mixed
      */
     public function getByQuery(QueryInterface $query)
@@ -130,13 +148,13 @@ trait BaseAccessor
         $db = static::getDb();
 
         try {
-            if (false === ($cacheDuration = static::cacheDuration())) {
+            if (false === $this->cacheDuration) {
                 return $query->one($db);
             }
 
             $result = $db->cache(function ($db) use ($query) {
                 return $query->one($db);
-            }, $cacheDuration, static::cacheDependency());
+            }, $this->cacheDuration, $this->cacheDependency);
         } catch (\Exception $e) {
             return null;
         }
@@ -154,13 +172,13 @@ trait BaseAccessor
         $db = static::getDb();
 
         try {
-            if (false === ($cacheDuration = static::cacheDuration())) {
+            if (false === $this->cacheDuration) {
                 return $query->all($db);
             }
 
             $results = $db->cache(function ($db) use ($query) {
                 return $query->all($db);
-            }, $cacheDuration, static::cacheDependency());
+            }, $this->cacheDuration, $this->cacheDependency);
         } catch (\Exception $e) {
             return [];
         }
