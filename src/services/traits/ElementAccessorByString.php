@@ -11,7 +11,7 @@ namespace flipbox\ember\services\traits;
 use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\elements\db\ElementQuery;
-use flipbox\ember\exceptions\ElementNotFoundException;
+use craft\errors\ElementNotFoundException;
 use flipbox\ember\helpers\SiteHelper;
 
 /**

@@ -13,7 +13,7 @@ use craft\base\ElementInterface;
 use craft\elements\db\ElementQuery;
 use craft\elements\db\ElementQueryInterface;
 use craft\helpers\ArrayHelper;
-use flipbox\ember\exceptions\ElementNotFoundException;
+use craft\errors\ElementNotFoundException;
 use flipbox\ember\helpers\ObjectHelper;
 use flipbox\ember\helpers\QueryHelper;
 use flipbox\ember\helpers\SiteHelper;
