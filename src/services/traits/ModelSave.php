@@ -20,7 +20,6 @@ use yii\db\ActiveRecord as Record;
  */
 trait ModelSave
 {
-
     /*******************************************
      * ABSTRACTS
      *******************************************/
@@ -52,12 +51,6 @@ trait ModelSave
      */
     public function save(Model $model, bool $runValidation = true, $attributes = null, bool $mirrorScenario = true)
     {
-        // Validate
-        if ($runValidation && !$model->validate($attributes)) {
-            Craft::info('Model not saved due to validation error.', __METHOD__);
-            return false;
-        }
-
         $isNew = $this->isNew($model);
 
         // a 'beforeSave' event
@@ -85,7 +78,6 @@ trait ModelSave
             // Insert record
             if (!$record->save($runValidation, $attributes)) {
                 $model->addErrors($record->getErrors());
-
                 $transaction->rollBack();
                 return false;
             }
@@ -144,8 +136,6 @@ trait ModelSave
      */
     protected function transferFromRecord(Model $model, Record $record, bool $isNew)
     {
-
-        // Transfer record to model
         if ($isNew) {
             if ($model instanceof IdAttributeInterface && $record instanceof IdAttributeInterface) {
                 $model->setId($record->getId());

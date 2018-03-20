@@ -61,7 +61,7 @@ trait SiteMutator
     {
         $this->site = null;
 
-        if (!$site = SiteHelper::resolve($site)) {
+        if (($site = SiteHelper::resolve($site)) === null) {
             $this->site = false;
             $this->siteId = null;
         } else {
@@ -78,7 +78,7 @@ trait SiteMutator
     public function getSite()
     {
         if ($this->site === null) {
-            if (!$site = $this->resolveSite()) {
+            if (($site = $this->resolveSite()) === null) {
                 $this->siteId = null;
                 $this->site = false;
                 return null;
@@ -104,8 +104,8 @@ trait SiteMutator
      */
     protected function resolveSite()
     {
-        if ($fieldLayoutModel = $this->resolveSiteFromId()) {
-            return $fieldLayoutModel;
+        if ($site = $this->resolveSiteFromId()) {
+            return $site;
         }
 
         return null;

@@ -67,7 +67,6 @@ trait ModelDelete
 
             // Insert record
             if (false === $record->delete()) {
-                // Transfer errors to model
                 $model->addErrors($record->getErrors());
                 $transaction->rollBack();
                 return false;

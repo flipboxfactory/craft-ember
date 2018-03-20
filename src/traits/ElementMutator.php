@@ -62,10 +62,10 @@ trait ElementMutator
     {
         $this->element = null;
 
-        /** @var Element $element */
         if (!$element = $this->internalResolveElement($element)) {
             $this->element = $this->elementId = null;
         } else {
+            /** @var Element $element */
             $this->elementId = $element->id;
             $this->element = $element;
         }
@@ -121,7 +121,7 @@ trait ElementMutator
     }
 
     /**
-     * @param $element
+     * @param mixed $element
      * @return ElementInterface|Element|null
      */
     protected function internalResolveElement($element = null)
