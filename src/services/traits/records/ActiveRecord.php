@@ -41,21 +41,15 @@ trait ActiveRecord
 
     /**
      * @param array $attributes
-     * @param string $toScenario
      * @return Record
      */
-    public function create(array $attributes = [], string $toScenario = null): Record
+    public function create(array $attributes = []): Record
     {
         /** @var string $recordClass */
         $recordClass = static::recordClass();
 
         /** @var Record $record */
         $record = new $recordClass();
-
-        // Set scenario
-        if ($toScenario) {
-            $record->setScenario($toScenario);
-        }
 
         // Do we need to set properties too
         if (!empty($attributes)) {
