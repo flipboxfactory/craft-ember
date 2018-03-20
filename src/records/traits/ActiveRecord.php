@@ -8,7 +8,7 @@
 
 namespace flipbox\ember\records\traits;
 
-use yii\base\InvalidParamException;
+use yii\base\InvalidArgumentException;
 use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
 
@@ -23,6 +23,15 @@ trait ActiveRecord
      * @see hasAttribute()
      */
     abstract public function getAttribute($name);
+
+    /**
+     * Sets the named attribute value.
+     * @param string $name the attribute name
+     * @param mixed $value the attribute value.
+     * @throws InvalidArgumentException if the named attribute does not exist.
+     * @see hasAttribute()
+     */
+    abstract public function setAttribute($name, $value);
     
     /**
      * Check whether the named relation has been populated with records.
@@ -42,7 +51,7 @@ trait ActiveRecord
      * @param bool $throwException whether to throw exception if the relation does not exist.
      * @return ActiveQueryInterface|ActiveQuery the relational query object. If the relation does not exist
      * and `$throwException` is `false`, `null` will be returned.
-     * @throws InvalidParamException if the named relation does not exist.
+     * @throws InvalidArgumentException if the named relation does not exist.
      */
     abstract public function getRelation($name, $throwException = true);
 
