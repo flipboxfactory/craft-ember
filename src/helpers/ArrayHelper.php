@@ -74,6 +74,7 @@ class ArrayHelper extends \craft\helpers\ArrayHelper
      * @param string|int $targetKey
      * @param int $targetOrder
      * @return array|bool
+     * @deprecated
      */
     public static function insertSequential(array $sourceArray, $targetKey, int $targetOrder)
     {
