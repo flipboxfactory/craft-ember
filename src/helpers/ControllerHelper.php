@@ -16,6 +16,8 @@ use yii\web\Response;
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
+ *
+ * @deprecated
  */
 class ControllerHelper
 {
@@ -24,6 +26,8 @@ class ControllerHelper
      * @param null $object
      * @param string|null $default
      * @return \yii\web\Response|\craft\web\Response
+     *
+     * @deprecated
      */
     public static function redirectToPostedUrl(
         WebController $controller,

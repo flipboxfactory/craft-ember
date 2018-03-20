@@ -18,6 +18,8 @@ use yii\db\ActiveQueryInterface;
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
+ *
+ * @method SiteModel parentResolveSite()
  */
 trait SiteAttribute
 {
@@ -44,6 +46,7 @@ trait SiteAttribute
 
     /**
      * @return SiteModel|null
+     * @throws \yii\base\InvalidArgumentException
      */
     protected function resolveSite()
     {
@@ -55,7 +58,8 @@ trait SiteAttribute
     }
 
     /**
-     * @return SiteModel|null|object
+     * @return SiteModel|null
+     * @throws \yii\base\InvalidArgumentException
      */
     private function resolveSiteFromRelation()
     {

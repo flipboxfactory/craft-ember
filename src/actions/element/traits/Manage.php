@@ -15,6 +15,8 @@ use yii\base\Model;
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
+ *
+ * @method ElementInterface traitRunInternal
  */
 trait Manage
 {
@@ -31,7 +33,7 @@ trait Manage
     /**
      * @inheritdoc
      * @param ElementInterface $element
-     * @return Model
+     * @return ElementInterface
      */
     protected function runInternal(ElementInterface $element)
     {

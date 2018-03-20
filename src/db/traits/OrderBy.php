@@ -49,10 +49,7 @@ trait OrderBy
      * Applies the 'fixedOrder' and 'orderBy' params to the query being prepared.
      *
      * @param Connection|null $db The database connection used to generate the SQL statement.
-     *                            If this parameter is not given, the `db` application component will be used.
-     *
-     * @throws Exception if the DB connection doesn't support fixed ordering
-     * @throws QueryAbortedException
+     * If this parameter is not given, the `db` application component will be used.
      */
     protected function applyOrderByParams(Connection $db)
     {
@@ -70,8 +67,6 @@ trait OrderBy
 
     /**
      * @param Connection $db
-     * @throws Exception
-     * @throws QueryAbortedException
      */
     protected function applyEmptyOrderByParams(Connection $db)
     {

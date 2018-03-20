@@ -8,7 +8,8 @@
 
 namespace flipbox\ember\filters;
 
-use flipbox\ember\helpers\ControllerHelper;
+use Craft;
+use craft\web\Controller as CraftController;
 use yii\base\Action;
 use yii\base\ActionFilter;
 use yii\web\Controller;
@@ -32,9 +33,12 @@ class RedirectFilter extends ActionFilter
     public $allowNull = false;
 
     /**
-     * @param \yii\base\Action $action
+     * @param Action $action
      * @param mixed $result
      * @return mixed|Response
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\BadRequestHttpException
      */
     public function afterAction($action, $result)
     {
@@ -51,11 +55,14 @@ class RedirectFilter extends ActionFilter
     /**
      * @param Action $action
      * @param $result
-     * @return \craft\web\Response|Response
+     * @return Response
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\BadRequestHttpException
      */
     protected function redirect(Action $action, $result)
     {
-        return ControllerHelper::redirectToPostedUrl(
+        return $this->redirectToPostedUrl(
             $action->controller,
             $result
         );
@@ -68,5 +75,36 @@ class RedirectFilter extends ActionFilter
     protected function resultMatch($result): bool
     {
         return $result !== null || ($this->allowNull === true);
+    }
+
+    /**
+     * @param Controller $controller
+     * @param null $object
+     * @param string|null $default
+     * @return Response
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\BadRequestHttpException
+     */
+    protected function redirectToPostedUrl(
+        Controller $controller,
+        $object = null,
+        string $default = null
+    ): Response {
+        if ($controller instanceof CraftController) {
+            return $controller->redirectToPostedUrl($object, $default);
+        }
+
+        $url = Craft::$app->getRequest()->getValidatedBodyParam('redirect');
+
+        if ($url === null) {
+            $url = Craft::$app->getRequest()->getPathInfo();
+        }
+
+        if ($object !== null) {
+            $url = Craft::$app->getView()->renderObjectTemplate($url, $object);
+        }
+
+        return $controller->redirect($url);
     }
 }

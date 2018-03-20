@@ -65,10 +65,10 @@ class QueryHelper
         }
 
         // Get join type ('and' , 'or')
-        $join = static::getJoinType($value, $join);
+        $join = self::getJoinType($value, $join);
 
         // Check for object array (via 'id' key)
-        if ($id = static::findIdFromObjectArray($value)) {
+        if ($id = self::findIdFromObjectArray($value)) {
             $value = [$id];
             return true;
         }
@@ -89,12 +89,12 @@ class QueryHelper
         if (is_array($value) || is_object($value)) {
             $value = static::assembleParamValue($value, $operator);
         } else {
-            static::normalizeEmptyValue($value);
+            self::normalizeEmptyValue($value);
 
-            $operator = static::parseParamOperator($value);
+            $operator = self::parseParamOperator($value);
 
             if (is_numeric($value)) {
-                $value = static::prependOperator($value, $operator);
+                $value = self::prependOperator($value, $operator);
             } else {
                 $value = StringHelper::toLowerCase($value);
 
@@ -116,15 +116,15 @@ class QueryHelper
      * @param $value
      * @param $operator
      * @param string|int|mixed $defaultValue
-     * @return string
+     * @return array|string
      */
     public static function assembleParamValue($value, $operator, $defaultValue = ':default:')
     {
         if (is_array($value) || is_object($value)) {
-            $id = static::findIdFromObjectArray($value, $operator);
+            $id = self::findIdFromObjectArray($value, $operator);
 
             if ($id !== null) {
-                return static::prependOperator($id, $operator);
+                return self::prependOperator($id, $operator);
             }
 
             if (is_object($value)) {
@@ -132,7 +132,7 @@ class QueryHelper
             }
         }
 
-        return static::prependOperator($value, $operator);
+        return self::prependOperator($value, $operator);
     }
 
     /**
@@ -149,8 +149,8 @@ class QueryHelper
         if (is_array($value)) {
             return true;
         } else {
-            static::normalizeEmptyValue($value);
-            $operator = static::parseParamOperator($value);
+            self::normalizeEmptyValue($value);
+            $operator = self::parseParamOperator($value);
 
             if (is_numeric($value)) {
                 return true;
@@ -201,7 +201,7 @@ class QueryHelper
     private static function findIdFromObjectArray($value, $operator = null)
     {
         if ($id = ArrayHelper::getValue($value, 'id')) {
-            return static::prependOperator($id, $operator);
+            return self::prependOperator($id, $operator);
         }
 
         return $id;

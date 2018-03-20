@@ -31,6 +31,6 @@ class ViewHelper
      */
     public static function isViewClass($view)
     {
-        return is_string($view) && is_subclass_of($view, ViewInterface::class);
+        return is_string($view) && (is_subclass_of($view, ViewInterface::class) || $view instanceof ViewInterface);
     }
 }

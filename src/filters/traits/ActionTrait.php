@@ -51,7 +51,7 @@ trait ActionTrait
      */
     protected function actionMatch(string $action): bool
     {
-        if ($this->findAction($action)) {
+        if ($this->findAction($action) !== null) {
             return true;
         }
 

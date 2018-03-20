@@ -6,7 +6,7 @@
  * @link       https://github.com/flipboxfactory/craft-ember
  */
 
-namespace flipbox\ember\helpers\traits;
+namespace flipbox\ember\db\traits;
 
 use Craft;
 use craft\elements\User as UserElement;
@@ -17,18 +17,62 @@ use flipbox\ember\helpers\QueryHelper;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-trait UserQueryValue
+trait UserAttribute
 {
+    /**
+     * The user(s) that the resulting organizations’ users must have.
+     *
+     * @var string|string[]|int|int[]|UserElement|UserElement[]|null
+     */
+    public $user;
+
+    /**
+     * @param string|string[]|int|int[]|UserElement|UserElement[]|null $value
+     * @return static The query object
+     */
+    public function setUser($value)
+    {
+        $this->user = $value;
+        return $this;
+    }
+
+    /**
+     * @param string|string[]|int|int[]|UserElement|UserElement[]|null $value
+     * @return static The query object
+     */
+    public function user($value)
+    {
+        return $this->setUser($value);
+    }
+
+    /**
+     * @param string|string[]|int|int[]|UserElement|UserElement[]|null $value
+     * @return static The query object
+     */
+    public function setUserId($value)
+    {
+        return $this->setUser($value);
+    }
+
+    /**
+     * @param string|string[]|int|int[]|UserElement|UserElement[]|null $value
+     * @return static The query object
+     */
+    public function userId($value)
+    {
+        return $this->setUser($value);
+    }
+
     /**
      * @param $value
      * @param string $join
      * @return array
      */
-    public static function parseUserValue($value, string $join = 'or'): array
+    public function parseUserValue($value, string $join = 'or'): array
     {
         if (false === QueryHelper::parseBaseParam($value, $join)) {
             foreach ($value as $operator => &$v) {
-                static::resolveUserValue($operator, $v);
+                $this->resolveUserValue($operator, $v);
             }
         }
 
@@ -45,11 +89,11 @@ trait UserQueryValue
      * @param $operator
      * @param $value
      */
-    protected static function resolveUserValue($operator, &$value)
+    protected function resolveUserValue($operator, &$value)
     {
         if (false === QueryHelper::findParamValue($value, $operator)) {
             if (is_string($value)) {
-                $value = self::resolveUserStringValue($value);
+                $value = $this->resolveUserStringValue($value);
             }
 
             if ($value instanceof UserElement) {
@@ -66,7 +110,7 @@ trait UserQueryValue
      * @param string $value
      * @return int|null
      */
-    protected static function resolveUserStringValue(string $value)
+    protected function resolveUserStringValue(string $value)
     {
         if (!$element = Craft::$app->getUsers()->getUserByUsernameOrEmail($value)) {
             return null;

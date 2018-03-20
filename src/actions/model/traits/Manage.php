@@ -14,6 +14,8 @@ use yii\base\Model;
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
+ *
+ * @method Model traitRunInternal
  */
 trait Manage
 {

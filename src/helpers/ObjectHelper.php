@@ -76,7 +76,9 @@ class ObjectHelper
         $class = static::getClassFromConfig($config, $removeClass);
 
         // Make sure we have a valid class
-        if ($instanceOf && !is_subclass_of($class, $instanceOf)) {
+        if ($instanceOf !== null &&
+            (!is_subclass_of($class, $instanceOf) || !$class instanceof $instanceOf)
+        ) {
             throw new InvalidConfigException(
                 sprintf(
                     "The class '%s' must be an instance of '%s'",

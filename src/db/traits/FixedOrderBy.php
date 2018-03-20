@@ -18,6 +18,8 @@ use yii\db\Connection;
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
+ *
+ * @method void traitApplyEmptyOrderByParams(Connection $db)
  */
 trait FixedOrderBy
 {
