@@ -1,9 +1,10 @@
 Changelog
 =========
 
-## Unreleased
+## 1.0.0-rc.15 - 2018-03-20
 ### Added
 - ActiveRecord::create trait method to create a new ActiveRecord
+- Element Accessor traits
 
 ### Changed
 - Removed various deprecations
