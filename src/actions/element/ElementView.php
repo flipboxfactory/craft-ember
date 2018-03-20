@@ -8,15 +8,15 @@
 
 namespace flipbox\ember\actions\element;
 
-use flipbox\ember\actions\model\ModelView;
+use yii\base\Action;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
  */
-abstract class ElementView extends ModelView
+abstract class ElementView extends Action
 {
-    use traits\Lookup;
+    use traits\View, traits\Lookup;
 
     /**
      * @inheritdoc

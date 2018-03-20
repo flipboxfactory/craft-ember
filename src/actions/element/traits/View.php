@@ -6,10 +6,10 @@
  * @link       https://github.com/flipboxfactory/craft-ember
  */
 
-namespace flipbox\ember\actions\model\traits;
+namespace flipbox\ember\actions\element\traits;
 
+use craft\base\ElementInterface;
 use flipbox\ember\actions\traits\CheckAccess;
-use yii\base\Model;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -20,17 +20,17 @@ trait View
     use CheckAccess;
 
     /**
-     * @param Model $model
-     * @return Model
+     * @param ElementInterface $element
+     * @return ElementInterface
      * @throws \yii\web\UnauthorizedHttpException
      */
-    protected function runInternal(Model $model)
+    protected function runInternal(ElementInterface $element)
     {
         // Check access
-        if (($access = $this->checkAccess($model)) !== true) {
+        if (($access = $this->checkAccess($element)) !== true) {
             return $access;
         }
 
-        return $model;
+        return $element;
     }
 }

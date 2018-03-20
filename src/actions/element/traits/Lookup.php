@@ -11,6 +11,7 @@ namespace flipbox\ember\actions\element\traits;
 use Craft;
 use craft\base\ElementInterface;
 use flipbox\ember\actions\traits\Lookup as BaseLookup;
+use yii\web\Response;
 
 trait Lookup
 {
@@ -19,7 +20,7 @@ trait Lookup
     /**
      * @inheritdoc
      * @param ElementInterface $element
-     * @inheritdoc
+     * @return ElementInterface|Response
      */
     abstract protected function runInternal(ElementInterface $element);
 
