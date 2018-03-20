@@ -14,7 +14,6 @@ use flipbox\ember\helpers\ObjectHelper;
 
 /**
  * @property int|null $userId
- * @property User|null $user
  *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
@@ -75,7 +74,7 @@ trait UserMutator
     /**
      * @return User|null
      */
-    public function getUser(): User
+    public function getUser()
     {
         if ($this->user === null) {
             $user = $this->resolveUser();

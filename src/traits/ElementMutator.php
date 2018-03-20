@@ -76,7 +76,7 @@ trait ElementMutator
     /**
      * @return ElementInterface|null
      */
-    public function getElement(): ElementInterface
+    public function getElement()
     {
         /** @var Element $element */
         if ($this->element === null) {

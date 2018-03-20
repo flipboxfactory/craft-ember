@@ -14,7 +14,6 @@ use flipbox\ember\helpers\ObjectHelper;
 
 /**
  * @property int|null $fieldLayoutId
- * @property FieldLayout|null $fieldLayout
  *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
@@ -32,8 +31,6 @@ trait FieldLayoutMutator
     abstract static protected function fieldLayoutType(): string;
 
     /**
-     * Set associated fieldLayoutId
-     *
      * @param $id
      * @return $this
      */
@@ -58,12 +55,10 @@ trait FieldLayoutMutator
     }
 
     /**
-     * Associate a fieldLayout
-     *
-     * @param $fieldLayout
+     * @param mixed $fieldLayout
      * @return $this
      */
-    public function setFieldLayout($fieldLayout)
+    public function setFieldLayout($fieldLayout = null)
     {
         $this->fieldLayout = null;
 
@@ -78,7 +73,7 @@ trait FieldLayoutMutator
     }
 
     /**
-     * @return FieldLayout|null
+     * @return FieldLayout
      */
     public function getFieldLayout(): FieldLayout
     {

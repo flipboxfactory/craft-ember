@@ -13,7 +13,7 @@ use craft\models\Site as SiteModel;
 use flipbox\ember\helpers\SiteHelper;
 
 /**
- * @property int|null|false $siteId
+ * @property int|null $siteId
  *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.0
@@ -48,16 +48,16 @@ trait SiteMutator
             $this->siteId = $this->site->id;
         }
 
-        return $this->siteId !== false ? $this->siteId : null;
+        return $this->siteId;
     }
 
     /**
      * Associate a site
      *
-     * @param $site
+     * @param mixed $site
      * @return $this
      */
-    public function setSite($site)
+    public function setSite($site = null)
     {
         $this->site = null;
 
@@ -78,12 +78,7 @@ trait SiteMutator
     public function getSite()
     {
         if ($this->site === null) {
-            if (($site = $this->resolveSite()) === null) {
-                $this->siteId = null;
-                $this->site = false;
-                return null;
-            }
-
+            $site = $this->resolveSite();
             $this->setSite($site);
             return $site;
         }
@@ -96,7 +91,7 @@ trait SiteMutator
             return $this->getSite();
         }
 
-        return !$this->site ? null : $this->site;
+        return $this->site;
     }
 
     /**
