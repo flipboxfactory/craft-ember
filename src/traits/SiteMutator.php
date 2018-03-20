@@ -62,8 +62,7 @@ trait SiteMutator
         $this->site = null;
 
         if (($site = SiteHelper::resolve($site)) === null) {
-            $this->site = false;
-            $this->siteId = null;
+            $this->site = $this->siteId = null;
         } else {
             $this->siteId = $site->id;
             $this->site = $site;
