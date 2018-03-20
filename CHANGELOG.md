@@ -1,5 +1,8 @@
 Changelog
 =========
+## Unreleased
+### Fixed
+- Incorrect condition when checking instance on ObjectHelper::create
 
 ## 1.0.0-rc.15 - 2018-03-20
 ### Added

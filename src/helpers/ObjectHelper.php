@@ -77,7 +77,7 @@ class ObjectHelper
 
         // Make sure we have a valid class
         if ($instanceOf !== null &&
-            (!is_subclass_of($class, $instanceOf) || !$class instanceof $instanceOf)
+            !(is_subclass_of($class, $instanceOf) || $class instanceof $instanceOf)
         ) {
             throw new InvalidConfigException(
                 sprintf(
