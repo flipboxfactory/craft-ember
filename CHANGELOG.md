@@ -1,5 +1,11 @@
 Changelog
 =========
+
+## Unreleased
+### Added
+- Record base actions
+
+
 ## 1.0.0-rc.16 - 2018-03-20
 ### Fixed
 - Incorrect condition when checking instance on ObjectHelper::create
