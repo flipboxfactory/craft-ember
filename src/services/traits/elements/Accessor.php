@@ -38,7 +38,7 @@ trait Accessor
      *******************************************/
 
     /**
-     * @param array $config
+     * @param mixed $config
      * @return ElementInterface
      * @throws \yii\base\InvalidConfigException
      */
@@ -46,6 +46,10 @@ trait Accessor
     {
         if ($config instanceof ElementInterface) {
             return $config;
+        }
+
+        if (!is_array($config)) {
+            $config = ArrayHelper::toArray($config, [], false);
         }
 
         /** @var ElementInterface $element */
@@ -61,12 +65,8 @@ trait Accessor
      * @param array $config
      * @return array
      */
-    protected function prepareConfig($config = []): array
+    protected function prepareConfig(array $config = []): array
     {
-        if (!is_array($config)) {
-            $config = ArrayHelper::toArray($config, [], false);
-        }
-
         // Auto-set the class
         $class = static::elementClass();
         if ($class !== null) {

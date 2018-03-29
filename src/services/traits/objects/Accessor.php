@@ -56,7 +56,7 @@ trait Accessor
      *******************************************/
 
     /**
-     * @param array $config
+     * @param mixed $config
      * @return BaseObject
      * @throws \yii\base\InvalidConfigException
      */
@@ -64,6 +64,10 @@ trait Accessor
     {
         if ($config instanceof Record) {
             $config = $this->prepareConfigFromRecord($config);
+        }
+
+        if (!is_array($config)) {
+            $config = ArrayHelper::toArray($config, [], false);
         }
 
         return ObjectHelper::create(
@@ -76,12 +80,8 @@ trait Accessor
      * @param array $config
      * @return array
      */
-    protected function prepareConfig($config = []): array
+    protected function prepareConfig(array $config = []): array
     {
-        if (!is_array($config)) {
-            $config = ArrayHelper::toArray($config, [], false);
-        }
-
         // Auto-set the class
         $class = static::objectClass();
         if ($class !== null) {
@@ -102,21 +102,6 @@ trait Accessor
             $record->toArray()
         );
     }
-
-    /**
-     * @param Record $record
-     * @return BaseObject
-     */
-    protected function createFromRecord(Record $record)
-    {
-        $config = array_merge(
-            $record->getRelatedRecords(),
-            $record->toArray()
-        );
-
-        return $this->create($config);
-    }
-
 
     /*******************************************
      * FIND / GET
