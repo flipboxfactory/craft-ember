@@ -1,10 +1,9 @@
 Changelog
 =========
 
-## Unreleased
+## 1.0.0-rc.17 - 2018-03-29
 ### Added
 - Record base actions
-
 
 ## 1.0.0-rc.16 - 2018-03-20
 ### Fixed
