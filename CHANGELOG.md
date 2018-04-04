@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## Unreleased
+### Added
+- `flipbox\ember\db\traits\ElementAttribute`
+
 ## 1.0.0-rc.17 - 2018-03-29
 ### Added
 - Record base actions
