@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 1.0.0-rc.18 - 2018-04-04
 ### Added
 - `flipbox\ember\db\traits\ElementAttribute`
 
