@@ -76,7 +76,7 @@ trait Manage
      */
     protected function statusCodeFail(): int
     {
-        return $this->statusCodeFail ?: 401;
+        return $this->statusCodeFail ?: 400;
     }
 
     /**
