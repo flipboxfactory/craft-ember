@@ -36,11 +36,6 @@
                 data: data,
                 success: callback,
                 error: function (jqXHR, textStatus) {
-                    if (typeof Craft.cp !== 'undefined') {
-                        Craft.cp.displayError();
-                    } else {
-                        alert(Craft.t('app', 'An unknown error occurred.'));
-                    }
                     if (callback) {
                         callback(null, textStatus, jqXHR);
                     }
