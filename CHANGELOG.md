@@ -1,5 +1,11 @@
 Changelog
 =========
+
+## Unreleased
+
+### Added
+- MinMaxValidator which extends Craft's MinMaxValidator except it also works with query value attributes
+
 ## 1.0.0 - 2018-04-24
 - Production release
 
