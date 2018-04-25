@@ -24,7 +24,7 @@ class MinMaxValidator extends ArrayValidator
     {
         $value = $model->$attribute;
 
-        if($value instanceof QueryInterface) {
+        if ($value instanceof QueryInterface) {
             return $this->validateQueryAttribute($model, $attribute, $value);
         }
 
@@ -36,7 +36,7 @@ class MinMaxValidator extends ArrayValidator
      */
     protected function validateValue($value)
     {
-        if($value instanceof QueryInterface) {
+        if ($value instanceof QueryInterface) {
             return $this->validateQueryValue($value);
         }
 
