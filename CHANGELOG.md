@@ -1,5 +1,7 @@
 Changelog
 =========
+## 1.0.0 - 2018-04-24
+- Production release
 
 ## 1.0.0-rc.18 - 2018-04-04
 ### Added
