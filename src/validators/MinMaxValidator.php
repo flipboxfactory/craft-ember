@@ -6,7 +6,7 @@
  * @link       https://github.com/flipboxfactory/craft-ember
  */
 
-namespace flipbox\domains\validators;
+namespace flipbox\ember\validators;
 
 use craft\validators\ArrayValidator;
 use yii\db\QueryInterface;
