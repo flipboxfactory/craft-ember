@@ -1,5 +1,9 @@
 Changelog
 =========
+## 1.0.2.1 - 2018-05-03
+### Added
+- trace and info level logging also evaluates `YII_DEBUG` 
+
 ## 1.0.2 - 2018-05-03
 ### Added
 - `\flipbox\ember\modules\LoggerTrait` class to assist with plugin level logging to a separate file
