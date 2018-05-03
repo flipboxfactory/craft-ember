@@ -1,6 +1,6 @@
 Changelog
 =========
-## Unreleased
+## 1.0.2 - 2018-05-03
 ### Added
 - `\flipbox\ember\modules\LoggerTrait` class to assist with plugin level logging to a separate file
 
