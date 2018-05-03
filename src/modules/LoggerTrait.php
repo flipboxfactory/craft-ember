@@ -10,10 +10,14 @@ namespace flipbox\ember\modules;
 
 use Craft;
 use craft\helpers\StringHelper;
+use craft\log\FileTarget;
 use yii\log\Dispatcher;
 use yii\log\Logger;
 
 /**
+ * This trait will create and attach a separate log dispatcher / logger.  It allows modules to log to a separate
+ * log file, while still supporting the use of categories.
+ *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 1.0.2
  */
@@ -34,7 +38,7 @@ trait LoggerTrait
     /**
      * @inheritdoc
      */
-    public static function isDebugModeEnabled()
+    protected static function isDebugModeEnabled()
     {
         return false;
     }
@@ -98,7 +102,7 @@ trait LoggerTrait
         $generalConfig = Craft::$app->getConfig()->getGeneral();
 
         return [
-            'class' => craft\log\FileTarget::class,
+            'class' => FileTarget::class,
             'fileMode' => $generalConfig->defaultFileMode,
             'dirMode' => $generalConfig->defaultDirMode,
             'logVars' => [],
@@ -106,11 +110,19 @@ trait LoggerTrait
                 ['error', 'warning'],
                 static::isDebugModeEnabled() ? ['trace', 'info'] : []
             ),
-            'logFile' => '@storage/logs/' .
-                StringHelper::toKebabCase(
-                    StringHelper::removeRight(static::getLogFileName(), '.log')
-                ) . '.log'
+            'logFile' => '@storage/logs/' . self::prepLogFileName(static::getLogFileName())
         ];
+    }
+
+    /**
+     * @param string $fileName
+     * @return string
+     */
+    private static function prepLogFileName(string $fileName): string
+    {
+        return StringHelper::toKebabCase(
+                StringHelper::removeRight($fileName, '.log')
+            ) . '.log';
     }
 
     /**
