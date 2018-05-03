@@ -108,7 +108,7 @@ trait LoggerTrait
             'logVars' => [],
             'levels' => array_merge(
                 ['error', 'warning'],
-                static::isDebugModeEnabled() ? ['trace', 'info'] : []
+                (static::isDebugModeEnabled() || YII_DEBUG) ? ['trace', 'info'] : []
             ),
             'logFile' => '@storage/logs/' . self::prepLogFileName(static::getLogFileName())
         ];
