@@ -26,7 +26,7 @@ trait LoggerTrait
     /**
      * @var Logger|null
      */
-    private static $_logger;
+    private static $logger;
 
     /**
      * The log file name
@@ -48,11 +48,11 @@ trait LoggerTrait
      */
     public static function getLogger(): Logger
     {
-        if (self::$_logger === null) {
-            self::$_logger = static::resolveLogger();
+        if (self::$logger === null) {
+            self::$logger = static::resolveLogger();
         }
 
-        return self::$_logger;
+        return self::$logger;
     }
 
     /**
@@ -121,8 +121,8 @@ trait LoggerTrait
     private static function prepLogFileName(string $fileName): string
     {
         return StringHelper::toKebabCase(
-                StringHelper::removeRight($fileName, '.log')
-            ) . '.log';
+            StringHelper::removeRight($fileName, '.log')
+        ) . '.log';
     }
 
     /**
