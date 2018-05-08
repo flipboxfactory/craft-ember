@@ -1,6 +1,6 @@
 Changelog
 =========
-## Unreleased
+## 1.0.3 - 2018-05-08
 ### Added
 - \flipbox\ember\data\ActiveDataProvider class to perform clone operations including behaviours
 
