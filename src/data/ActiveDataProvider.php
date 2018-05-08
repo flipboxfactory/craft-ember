@@ -63,7 +63,7 @@ class ActiveDataProvider extends \yii\data\ActiveDataProvider
 
         if ($this->query instanceof Query) {
             /** @var Query $query */
-            foreach($this->query->getBehaviors() as $name => $behavior) {
+            foreach ($this->query->getBehaviors() as $name => $behavior) {
                 $query->attachBehavior($name, clone $behavior);
             }
         }
