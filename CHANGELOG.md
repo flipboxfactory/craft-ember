@@ -1,5 +1,9 @@
 Changelog
 =========
+## Unreleased
+### Added
+- \flipbox\ember\data\ActiveDataProvider class to perform clone operations including behaviours
+
 ## 1.0.2.1 - 2018-05-03
 ### Added
 - trace and info level logging also evaluates `YII_DEBUG` 
