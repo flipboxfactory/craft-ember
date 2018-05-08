@@ -56,7 +56,8 @@ class ActiveDataProvider extends \yii\data\ActiveDataProvider
     private function getQueryClone(): QueryInterface
     {
         if (!$this->query instanceof QueryInterface) {
-            throw new InvalidConfigException('The "query" property must be an instance of a class that implements the QueryInterface e.g. yii\db\Query or its subclasses.');
+            throw new InvalidConfigException('The "query" property must be an instance of a class that implements 
+            the QueryInterface e.g. yii\db\Query or its subclasses.');
         }
 
         $query = clone $this->query;
