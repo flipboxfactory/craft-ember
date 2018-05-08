@@ -8,7 +8,6 @@
 
 namespace flipbox\ember\actions\element;
 
-use craft\helpers\ArrayHelper;
 use flipbox\ember\actions\model\ModelIndex;
 
 /**
@@ -17,15 +16,4 @@ use flipbox\ember\actions\model\ModelIndex;
  */
 abstract class ElementIndex extends ModelIndex
 {
-    /**
-     * @inheritdoc
-     *
-     * Ref: https://github.com/craftcms/cms/issues/2310
-     */
-    protected function normalizeQueryConfig(array $config = []): array
-    {
-        // OrderBy should be an array, not an empty string (which is set in the default element query)
-        $config['orderBy'] = ArrayHelper::getValue($config, 'orderBy', []);
-        return $config;
-    }
 }

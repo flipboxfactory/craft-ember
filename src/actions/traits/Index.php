@@ -9,7 +9,7 @@
 namespace flipbox\ember\actions\traits;
 
 use flipbox\ember\helpers\ObjectHelper;
-use yii\data\ActiveDataProvider;
+use flipbox\ember\data\ActiveDataProvider;
 use yii\data\DataProviderInterface;
 use yii\db\QueryInterface;
 
