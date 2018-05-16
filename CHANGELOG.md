@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 1.0.4 - 2018-05-16
 ### Changed
 - Save action traits populate the object/record/element prior to checking access.
 
