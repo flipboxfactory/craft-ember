@@ -28,14 +28,15 @@ trait Save
      */
     public function runInternal(ElementInterface $element)
     {
+        // Populate
+        $this->populate($element);
+
         // Check access
         if (($access = $this->checkAccess($element)) !== true) {
             return $access;
         }
 
-        if (!$this->performAction(
-            $this->populate($element)
-        )) {
+        if (!$this->performAction($element)) {
             return $this->handleFailResponse($element);
         }
 

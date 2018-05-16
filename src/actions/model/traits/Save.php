@@ -27,14 +27,15 @@ trait Save
      */
     public function runInternal(Model $model)
     {
+        // Populate
+        $this->populate($model);
+
         // Check access
         if (($access = $this->checkAccess($model)) !== true) {
             return $access;
         }
 
-        if (!$this->performAction(
-            $this->populate($model)
-        )) {
+        if (!$this->performAction($model)) {
             return $this->handleFailResponse($model);
         }
 
