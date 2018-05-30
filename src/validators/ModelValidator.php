@@ -68,7 +68,7 @@ class ModelValidator extends Validator
      * @param array $models
      * @return bool
      */
-    private function validateModels(array $models): bool
+    protected function validateModels(array $models): bool
     {
         $isValid = true;
 
@@ -85,7 +85,7 @@ class ModelValidator extends Validator
      * @param Model $model
      * @return bool
      */
-    private function validateModel(Model $model): bool
+    protected function validateModel(Model $model): bool
     {
         // Current scenario
         $defaultScenarios = $model->getScenario();
