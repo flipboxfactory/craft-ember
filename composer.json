@@ -13,7 +13,7 @@
     "email": "hello@flipboxfactory.com"
   }],
   "require": {
-    "craftcms/cms": "~3.0.10.2",
+    "craftcms/cms": "^3.0.10.2",
     "yiisoft/yii2": "~2.0.15"
   },
   "require-dev": {
