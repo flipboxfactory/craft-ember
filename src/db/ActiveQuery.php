@@ -35,9 +35,7 @@ class ActiveQuery extends \yii\db\ActiveQuery
         $limit = $this->limit;
         $this->limit = 1;
         try {
-            if (false === ($result = parent::one($db))) {
-                $result = null;
-            }
+            $result = parent::one($db);
         } catch (QueryAbortedException $e) {
             $result = null;
         }
