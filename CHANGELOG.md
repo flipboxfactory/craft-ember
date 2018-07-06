@@ -1,6 +1,6 @@
 Changelog
 =========
-## Unreleased
+## 1.0.6 - 2018-07-06
 ### Changed
 - ActiveQuery accessor methods will catch QueryAbortedExceptions similar to native Craft Query accessor methods.
 
