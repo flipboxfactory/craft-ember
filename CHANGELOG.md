@@ -1,5 +1,9 @@
 Changelog
 =========
+## Unreleased
+### Changed
+- ActiveQuery accessor methods will catch QueryAbortedExceptions similar to native Craft Query accessor methods.
+
 ## 1.0.5 - 2018-06-21
 ### Fixed
 - Post functions that were introduced by [Craft 3.0.10](https://github.com/craftcms/cms/commit/6b446e83dd2bd426c269c893d446dbaaef2bae74#diff-9fb0aaf8b328a3f55c1157c12692e1ee)

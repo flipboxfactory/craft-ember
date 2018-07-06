@@ -9,7 +9,6 @@
 namespace flipbox\ember\db;
 
 use yii\base\ArrayableTrait;
-use yii\db\ActiveQuery;
 
 class CacheableActiveQuery extends ActiveQuery
 {
