@@ -29,17 +29,13 @@ class ActiveQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return array|null the first row (in terms of an array) of the query result. Null is returned if the query
-     * results in nothing.
      */
     public function one($db = null)
     {
         $limit = $this->limit;
         $this->limit = 1;
         try {
-            $result = parent::one($db);
-            // Be more like Yii 2.1
-            if ($result === false) {
+            if (false === ($result = parent::one($db))) {
                 $result = null;
             }
         } catch (QueryAbortedException $e) {
