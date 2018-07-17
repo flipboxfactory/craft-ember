@@ -1,6 +1,6 @@
 Changelog
 =========
-## Unreleased
+## 1.0.7 - 2018-07-17
 ### Changed
 - `\flipbox\ember\services\traits\queries\Accessor::findAllByCondition` will attempt to set query property values prior to creating a 'where' condition.
 
