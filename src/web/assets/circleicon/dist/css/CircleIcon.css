@@ -13,6 +13,9 @@
     .circle-icon > .icon > svg {
       width: 100%;
       height: 100%; }
+      .circle-icon > .icon > svg rect, .circle-icon > .icon > svg circle, .circle-icon > .icon > svg ellipse, .circle-icon > .icon > svg line, .circle-icon > .icon > svg polyline, .circle-icon > .icon > svg polygon, .circle-icon > .icon > svg path, .circle-icon > .icon > svg text {
+        fill: #a6a6a6;
+        stroke-width: 0; }
   .circle-icon > .status {
     position: absolute;
     top: 0;

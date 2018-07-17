@@ -1,3 +1,5 @@
+@import "../../../../../vendor/craftcms/cms/lib/craftcms-sass/mixins";
+
 @charset "UTF-8";
 
 .circle-icon {
@@ -21,6 +23,7 @@
     > svg {
       width: 100%;
       height: 100%;
+      @include svg-mask(#a6a6a6);
 
     }
 

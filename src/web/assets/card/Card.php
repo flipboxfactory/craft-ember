@@ -28,11 +28,7 @@ class Card extends AssetBundle
     public function init()
     {
         $this->css = [
-            'Card.css'
-        ];
-
-        $this->js = [
-            'Card'.$this->dotJs()
+            'css/Card.css'
         ];
 
         parent::init();
