@@ -193,7 +193,7 @@ trait Accessor
         $query = $this->getQuery();
 
         // Apply method/property vs setting in 'where'
-        if ($query instanceof BaseObject) {
+        if ($query instanceof BaseObject && is_array($condition)) {
             foreach ($condition as $key => $value) {
                 if ($query->canSetProperty($key)) {
                     $query->{$key} = $value;
