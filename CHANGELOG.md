@@ -1,5 +1,9 @@
 Changelog
 =========
+## Unreleased
+### Changed
+- `\flipbox\ember\services\traits\queries\Accessor::findAllByCondition` will attempt to set query property values prior to creating a 'where' condition.
+
 ## 1.0.6 - 2018-07-06
 ### Changed
 - ActiveQuery accessor methods will catch QueryAbortedExceptions similar to native Craft Query accessor methods.

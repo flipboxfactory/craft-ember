@@ -9,7 +9,10 @@
 namespace flipbox\ember\services\traits\queries;
 
 use flipbox\ember\exceptions\NotFoundException;
+use flipbox\ember\helpers\QueryHelper;
 use flipbox\ember\helpers\RecordHelper;
+use yii\base\BaseObject;
+use yii\db\QueryInterface;
 
 /**
  * A set of robust methods commonly used to retrieve data from the attached database.  An optional
@@ -130,9 +133,25 @@ trait Accessor
      */
     public function findAllByCondition($condition = []): array
     {
-        return $this->findAllByCriteria(
+        /** @var QueryInterface $query */
+        $query = $this->getQuery();
+
+        // Apply method/property vs setting in 'where'
+        if ($query instanceof BaseObject) {
+            foreach($condition as $key => $value) {
+                if ($query->canSetProperty($key)) {
+                    $query->{$key} = $value;
+                    unset($condition[$key]);
+                }
+            }
+        }
+
+        QueryHelper::configure(
+            $query,
             RecordHelper::conditionToCriteria($condition)
         );
+
+        return $this->queryAll($query);
     }
 
     /**
@@ -160,11 +179,9 @@ trait Accessor
      */
     public function findAllByCriteria($criteria = []): array
     {
-        $records = $this->queryAll(
+        return $this->queryAll(
             $this->getQuery($criteria)
         );
-
-        return $records;
     }
 
     /**
