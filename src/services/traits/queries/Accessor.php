@@ -71,8 +71,8 @@ trait Accessor
      */
     public function findByCondition($condition)
     {
-        return $this->findByCriteria(
-            RecordHelper::conditionToCriteria($condition)
+        return $this->queryOne(
+            $this->buildQueryFromCondition($condition)
         );
     }
 
@@ -133,25 +133,9 @@ trait Accessor
      */
     public function findAllByCondition($condition = []): array
     {
-        /** @var QueryInterface $query */
-        $query = $this->getQuery();
-
-        // Apply method/property vs setting in 'where'
-        if ($query instanceof BaseObject) {
-            foreach($condition as $key => $value) {
-                if ($query->canSetProperty($key)) {
-                    $query->{$key} = $value;
-                    unset($condition[$key]);
-                }
-            }
-        }
-
-        QueryHelper::configure(
-            $query,
-            RecordHelper::conditionToCriteria($condition)
+        return $this->queryAll(
+            $this->buildQueryFromCondition($condition)
         );
-
-        return $this->queryAll($query);
     }
 
     /**
@@ -197,5 +181,32 @@ trait Accessor
         }
 
         return $records;
+    }
+
+    /**
+     * @param array $condition
+     * @return QueryInterface
+     */
+    protected function buildQueryFromCondition($condition = []): QueryInterface
+    {
+        /** @var QueryInterface $query */
+        $query = $this->getQuery();
+
+        // Apply method/property vs setting in 'where'
+        if ($query instanceof BaseObject) {
+            foreach ($condition as $key => $value) {
+                if ($query->canSetProperty($key)) {
+                    $query->{$key} = $value;
+                    unset($condition[$key]);
+                }
+            }
+        }
+
+        QueryHelper::configure(
+            $query,
+            RecordHelper::conditionToCriteria($condition)
+        );
+
+        return $query;
     }
 }
