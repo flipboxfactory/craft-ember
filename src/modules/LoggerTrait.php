@@ -44,6 +44,14 @@ trait LoggerTrait
     }
 
     /**
+     * @return string
+     */
+    public static function getLogFile(): string
+    {
+        return '@storage/logs/' . self::prepLogFileName(static::getLogFileName());
+    }
+
+    /**
      * @return Logger
      */
     public static function getLogger(): Logger
@@ -110,7 +118,7 @@ trait LoggerTrait
                 ['error', 'warning'],
                 (static::isDebugModeEnabled() || YII_DEBUG) ? ['trace', 'info'] : []
             ),
-            'logFile' => '@storage/logs/' . self::prepLogFileName(static::getLogFileName())
+            'logFile' => static::getLogFile()
         ];
     }
 
