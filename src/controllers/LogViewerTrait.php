@@ -102,7 +102,6 @@ trait LogViewerTrait
         $lines = [];
         $log = [];
         if ($file = fopen($file, "r")) {
-
             while (($line = fgets($file)) !== false) {
                 // Log line
                 if (preg_match($this->lineRegex(), $line, $matches)) {
@@ -115,7 +114,6 @@ trait LogViewerTrait
                 }
             }
             fclose($file);
-
         }
         return $lines;
     }
