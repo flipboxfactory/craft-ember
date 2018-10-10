@@ -11,7 +11,6 @@ namespace flipbox\ember\modules;
 use Craft;
 use craft\helpers\StringHelper;
 use craft\log\FileTarget;
-use yii\log\Dispatcher;
 use yii\log\Logger;
 
 /**
@@ -23,10 +22,7 @@ use yii\log\Logger;
  */
 trait LoggerTrait
 {
-    /**
-     * @var Logger|null
-     */
-    private static $logger;
+    private static $logTargetSet = false;
 
     /**
      * The log file name
@@ -44,6 +40,27 @@ trait LoggerTrait
     }
 
     /**
+     * The log categories
+     *
+     * @return string
+     */
+    protected static function getLogId(): string
+    {
+        return static::getLogFileName();
+    }
+
+    /**
+     * The log categories
+     *
+     * @return array
+     */
+    protected static function getLogCategories(): array
+    {
+        $fileName = static::getLogId();
+        return [$fileName, $fileName . ':*'];
+    }
+
+    /**
      * @return string
      */
     public static function getLogFile(): string
@@ -56,50 +73,34 @@ trait LoggerTrait
      */
     public static function getLogger(): Logger
     {
-        if (self::$logger === null) {
-            self::$logger = static::resolveLogger();
-        }
+        if (static::$logTargetSet !== true) {
+            static::addLoggerFileTarget();
 
-        return self::$logger;
-    }
-
-    /**
-     * @return Logger
-     */
-    protected static function resolveLogger(): Logger
-    {
-        try {
-            $logger = Craft::createObject(static::loggerComponent());
-
-            if ($logger instanceof Logger) {
-                return $logger;
-            }
-        } catch (\Throwable $e) {
-            Craft::error(
-                'An exception was caught trying to create a logger: ' . $e->getMessage(),
-                static::getLogFileName()
-            );
+            static::$logTargetSet = true;
         }
 
         return Craft::getLogger();
     }
 
     /**
-     * @return \Closure
+     * @noinspection PhpDocMissingThrowsInspection
+     * @return FileTarget
      */
-    protected static function loggerComponent()
+    protected static function createLoggerFileTarget(): FileTarget
     {
-        return function () {
-            $dispatcher = Craft::createObject([
-                'class' => Dispatcher::class,
-                'logger' => new Logger(),
-                'targets' => [
-                    static::loggerFileTarget()
-                ]
-            ]);
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        /** @noinspection PhpUnhandledExceptionInspection */
+        return Craft::createObject(
+            static::loggerFileTarget()
+        );
+    }
 
-            return $dispatcher->getLogger();
-        };
+    /**
+     * Adds the file target logger
+     */
+    protected static function addLoggerFileTarget()
+    {
+        Craft::getLogger()->dispatcher->targets[static::getLogId()] = static::createLoggerFileTarget();
     }
 
     /**
@@ -114,6 +115,7 @@ trait LoggerTrait
             'fileMode' => $generalConfig->defaultFileMode,
             'dirMode' => $generalConfig->defaultDirMode,
             'logVars' => [],
+            'categories' => static::getLogCategories(),
             'levels' => array_merge(
                 ['error', 'warning'],
                 (static::isDebugModeEnabled() || YII_DEBUG) ? ['trace', 'info'] : []
@@ -129,8 +131,8 @@ trait LoggerTrait
     private static function prepLogFileName(string $fileName): string
     {
         return StringHelper::toKebabCase(
-            StringHelper::removeRight($fileName, '.log')
-        ) . '.log';
+                StringHelper::removeRight($fileName, '.log')
+            ) . '.log';
     }
 
     /**
@@ -145,7 +147,7 @@ trait LoggerTrait
      */
     public static function debug($message, $category = 'general')
     {
-        static::getLogger()->log($message, Logger::LEVEL_TRACE, $category);
+        static::getLogger()->log($message, Logger::LEVEL_TRACE, static::getLogId() . ':' . $category);
     }
 
     /**
@@ -158,7 +160,7 @@ trait LoggerTrait
      */
     public static function error($message, $category = 'general')
     {
-        static::getLogger()->log($message, Logger::LEVEL_ERROR, $category);
+        static::getLogger()->log($message, Logger::LEVEL_ERROR, static::getLogId() . ':' . $category);
     }
 
     /**
@@ -171,7 +173,7 @@ trait LoggerTrait
      */
     public static function warning($message, $category = 'general')
     {
-        static::getLogger()->log($message, Logger::LEVEL_WARNING, $category);
+        static::getLogger()->log($message, Logger::LEVEL_WARNING, static::getLogId() . ':' . $category);
     }
 
     /**
@@ -184,6 +186,6 @@ trait LoggerTrait
      */
     public static function info($message, $category = 'general')
     {
-        static::getLogger()->log($message, Logger::LEVEL_INFO, $category);
+        static::getLogger()->log($message, Logger::LEVEL_INFO, static::getLogId() . ':' . $category);
     }
 }
