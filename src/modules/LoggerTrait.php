@@ -131,8 +131,8 @@ trait LoggerTrait
     private static function prepLogFileName(string $fileName): string
     {
         return StringHelper::toKebabCase(
-                StringHelper::removeRight($fileName, '.log')
-            ) . '.log';
+            StringHelper::removeRight($fileName, '.log')
+        ) . '.log';
     }
 
     /**
