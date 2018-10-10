@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 1.0.8 - 2018-10-09
 ### Added
 - `\flipbox\ember\controllers\LogViewerTrait` to assist w/ consuming and digesting log files
 
