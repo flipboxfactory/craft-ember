@@ -9,8 +9,8 @@
 namespace flipbox\craft\ember\actions\elements;
 
 use Craft;
-use flipbox\craft\ember\actions\PopulateTrait;
 use craft\base\ElementInterface;
+use flipbox\craft\ember\actions\PopulateTrait;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>

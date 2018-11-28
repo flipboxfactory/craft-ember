@@ -289,10 +289,10 @@ class QueryHelper
             $operatorLength = strlen($testOperator);
 
             if (strncmp(
-                    StringHelper::toLowerCase($value),
-                    $testOperator,
-                    $operatorLength
-                ) == 0
+                StringHelper::toLowerCase($value),
+                $testOperator,
+                $operatorLength
+            ) == 0
             ) {
                 $value = mb_substr($value, $operatorLength);
 
