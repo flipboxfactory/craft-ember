@@ -6,11 +6,11 @@
  * @link       https://github.com/flipboxfactory/craft-ember/
  */
 
-namespace flipbox\ember\views;
+namespace flipbox\craft\ember\views;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
- * @since 1.0.0
+ * @since 2.0.0
  */
 interface ViewInterface
 {

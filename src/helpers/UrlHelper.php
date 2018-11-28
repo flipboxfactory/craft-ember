@@ -3,26 +3,25 @@
 /**
  * @copyright  Copyright (c) Flipbox Digital Limited
  * @license    https://github.com/flipboxfactory/craft-ember/blob/master/LICENSE
- * @link       https://github.com/flipboxfactory/craft-ember
+ * @link       https://github.com/flipboxfactory/craft-ember/
  */
 
-namespace flipbox\ember\helpers;
+namespace flipbox\craft\ember\helpers;
 
 use Craft;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
- * @since 1.0.0
+ * @since 2.0.0
  */
 class UrlHelper extends \craft\helpers\UrlHelper
 {
     /**
      * @param string $path
-     * @param array|string|null $params
-     * @param string|null $protocol The protocol to use (e.g. http, https). If empty, the protocol used for the
-     * current request will be used.
-     *
+     * @param null $params
+     * @param string|null $protocol
      * @return string
+     * @throws \yii\base\Exception
      */
     public static function siteActionUrl(string $path = '', $params = null, string $protocol = null): string
     {
@@ -33,10 +32,8 @@ class UrlHelper extends \craft\helpers\UrlHelper
 
     /**
      * @param string $path
-     * @param array|string|null $params
-     * @param string|null $protocol The protocol to use (e.g. http, https). If empty, the protocol used for the
-     * current request will be used.
-     *
+     * @param null $params
+     * @param string|null $protocol
      * @return string
      */
     public static function cpActionUrl(string $path = '', $params = null, string $protocol = null): string

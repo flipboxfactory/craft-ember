@@ -3,18 +3,19 @@
 /**
  * @copyright  Copyright (c) Flipbox Digital Limited
  * @license    https://github.com/flipboxfactory/craft-ember/blob/master/LICENSE
- * @link       https://github.com/flipboxfactory/craft-ember
+ * @link       https://github.com/flipboxfactory/craft-ember/
  */
 
-namespace flipbox\ember\helpers;
+namespace flipbox\craft\ember\helpers;
 
+use craft\helpers\ArrayHelper;
 use craft\helpers\Json as JsonHelper;
 use yii\base\BaseObject;
 use yii\base\InvalidConfigException;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
- * @since 1.0.0
+ * @since 2.0.0
  */
 class ObjectHelper
 {

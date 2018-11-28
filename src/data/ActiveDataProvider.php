@@ -3,10 +3,10 @@
 /**
  * @copyright  Copyright (c) Flipbox Digital Limited
  * @license    https://github.com/flipboxfactory/craft-ember/blob/master/LICENSE
- * @link       https://github.com/flipboxfactory/craft-ember
+ * @link       https://github.com/flipboxfactory/craft-ember/
  */
 
-namespace flipbox\ember\data;
+namespace flipbox\craft\ember\data;
 
 use yii\base\InvalidConfigException;
 use yii\db\Query;
@@ -14,14 +14,15 @@ use yii\db\QueryInterface;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
- * @since 1.0.2
+ * @since 2.0.0
  *
  * Ref: https://github.com/craftcms/cms/issues/2857
  */
 class ActiveDataProvider extends \yii\data\ActiveDataProvider
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
+     * @throws InvalidConfigException
      */
     protected function prepareModels()
     {
@@ -41,7 +42,8 @@ class ActiveDataProvider extends \yii\data\ActiveDataProvider
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
+     * @throws InvalidConfigException
      */
     protected function prepareTotalCount()
     {

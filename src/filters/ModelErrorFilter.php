@@ -6,7 +6,7 @@
  * @link       https://github.com/flipboxfactory/craft-ember/
  */
 
-namespace flipbox\ember\filters;
+namespace flipbox\craft\ember\filters;
 
 use Craft;
 use yii\base\Action;
@@ -18,14 +18,14 @@ use yii\web\Response;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
- * @since 1.0.0
+ * @since 2.0.0
  *
  * @property Controller|Module $sender
  */
 class ModelErrorFilter extends ActionFilter
 {
-    use traits\FormatTrait,
-        traits\ActionTrait;
+    use FormatTrait,
+        ActionTrait;
 
     /**
      * @var array this property defines the status code mapping for each action.

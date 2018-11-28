@@ -6,7 +6,7 @@
  * @link       https://github.com/flipboxfactory/craft-ember/
  */
 
-namespace flipbox\ember\filters;
+namespace flipbox\craft\ember\filters;
 
 use yii\base\Action;
 use yii\base\ActionFilter;
@@ -15,14 +15,14 @@ use yii\web\Response;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
- * @since 1.0.0
+ * @since 2.0.0
  *
  * @property Controller $sender
  */
 class CallableFilter extends ActionFilter
 {
-    use traits\ActionTrait,
-        traits\FormatTrait;
+    use ActionTrait,
+        FormatTrait;
 
     /**
      * @var array this property defines the transformers for each action.

@@ -6,7 +6,7 @@
  * @link       https://github.com/flipboxfactory/craft-ember/
  */
 
-namespace flipbox\ember\filters;
+namespace flipbox\craft\ember\filters;
 
 use Craft;
 use yii\base\Action;
@@ -16,15 +16,14 @@ use yii\web\Response;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
- * @since 1.0.0
+ * @since 2.0.0
  *
  * @property Controller $sender
  */
 class FlashMessageFilter extends ActionFilter
 {
-
-    use traits\ActionTrait,
-        traits\FormatTrait;
+    use ActionTrait,
+        FormatTrait;
 
     /**
      * Allow redirection of a null result

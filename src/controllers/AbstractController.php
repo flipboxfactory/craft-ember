@@ -3,10 +3,10 @@
 /**
  * @copyright  Copyright (c) Flipbox Digital Limited
  * @license    https://github.com/flipboxfactory/craft-ember/blob/master/LICENSE
- * @link       https://github.com/flipboxfactory/craft-ember
+ * @link       https://github.com/flipboxfactory/craft-ember/
  */
 
-namespace flipbox\ember\controllers;
+namespace flipbox\craft\ember\controllers;
 
 use Craft;
 use craft\helpers\ArrayHelper;
@@ -18,7 +18,7 @@ use yii\web\Response;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
- * @since 1.0.0
+ * @since 2.0.0
  */
 abstract class AbstractController extends Controller
 {
@@ -33,6 +33,7 @@ abstract class AbstractController extends Controller
         $parsers = Craft::$app->getRequest()->parsers;
         if (!array_key_exists('application/json', $parsers)) {
             // Make sure the body wasn't already retrieved (incorrectly)
+            /** @noinspection PhpUnhandledExceptionInspection */
             $bodyParams = Craft::$app->getRequest()->getBodyParams();
             if ($bodyParams !== null && empty($bodyParams)) {
                 Craft::$app->getRequest()->setBodyParams(null);

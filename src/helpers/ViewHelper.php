@@ -6,13 +6,13 @@
  * @link       https://github.com/flipboxfactory/craft-ember
  */
 
-namespace flipbox\ember\helpers;
+namespace flipbox\craft\ember\helpers;
 
-use flipbox\ember\views\ViewInterface;
+use flipbox\craft\ember\views\ViewInterface;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
- * @since 1.0.0
+ * @since 2.0.0
  */
 class ViewHelper
 {

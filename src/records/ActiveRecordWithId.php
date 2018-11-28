@@ -3,21 +3,18 @@
 /**
  * @copyright  Copyright (c) Flipbox Digital Limited
  * @license    https://github.com/flipboxfactory/craft-ember/blob/master/LICENSE
- * @link       https://github.com/flipboxfactory/craft-ember
+ * @link       https://github.com/flipboxfactory/craft-ember/
  */
 
-namespace flipbox\ember\records;
-
-use flipbox\ember\interfaces\IdAttributeInterface;
-use flipbox\ember\records\traits\IdAttribute;
+namespace flipbox\craft\ember\records;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
- * @since 1.0.0
+ * @since 2.0.0
  */
-abstract class ActiveRecordWithId extends ActiveRecord implements IdAttributeInterface
+abstract class ActiveRecordWithId extends ActiveRecord
 {
-    use IdAttribute;
+    use IdAttributeTrait;
 
     /*******************************************
      * RULES

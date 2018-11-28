@@ -6,12 +6,12 @@
  * @link       https://github.com/flipboxfactory/craft-ember/
  */
 
-namespace flipbox\ember\filters;
+namespace flipbox\craft\ember\filters;
 
 use Craft;
 use craft\helpers\Template;
-use flipbox\ember\helpers\ViewHelper;
-use flipbox\ember\views\ViewInterface;
+use flipbox\craft\ember\helpers\ViewHelper;
+use flipbox\craft\ember\views\ViewInterface;
 use yii\base\Action;
 use yii\base\ActionFilter;
 use yii\base\Exception;
@@ -25,8 +25,8 @@ use yii\web\Controller;
  */
 class RawFilter extends ActionFilter
 {
-    use traits\FormatTrait,
-        traits\ActionTrait;
+    use FormatTrait,
+        ActionTrait;
 
     /**
      * @var array this property defines the transformers for each action.

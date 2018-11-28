@@ -3,18 +3,19 @@
 /**
  * @copyright  Copyright (c) Flipbox Digital Limited
  * @license    https://github.com/flipboxfactory/craft-ember/blob/master/LICENSE
- * @link       https://github.com/flipboxfactory/craft-ember
+ * @link       https://github.com/flipboxfactory/craft-ember/
  */
 
-namespace flipbox\ember\helpers;
+namespace flipbox\craft\ember\helpers;
 
+use craft\helpers\ArrayHelper;
 use craft\helpers\StringHelper;
 use yii\db\Query;
 use yii\db\QueryInterface;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
- * @since 1.0.0
+ * @since 2.0.0
  */
 class QueryHelper
 {
@@ -22,6 +23,26 @@ class QueryHelper
      * @var array
      */
     protected static $operators = ['not ', '!=', '<=', '>=', '<', '>', '='];
+
+    /**
+     * @param $condition
+     * @return array
+     */
+    public static function conditionToCriteria($condition)
+    {
+        if (empty($condition)) {
+            return $condition;
+        }
+
+        // Assume it's an id
+        if (!is_array($condition)) {
+            $condition = [
+                'id' => $condition
+            ];
+        }
+
+        return ['where' => ['and', $condition]];
+    }
 
     /**
      * @param QueryInterface|Query $query
@@ -268,10 +289,10 @@ class QueryHelper
             $operatorLength = strlen($testOperator);
 
             if (strncmp(
-                StringHelper::toLowerCase($value),
-                $testOperator,
-                $operatorLength
-            ) == 0
+                    StringHelper::toLowerCase($value),
+                    $testOperator,
+                    $operatorLength
+                ) == 0
             ) {
                 $value = mb_substr($value, $operatorLength);
 

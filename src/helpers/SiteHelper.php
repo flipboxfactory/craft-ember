@@ -3,18 +3,17 @@
 /**
  * @copyright  Copyright (c) Flipbox Digital Limited
  * @license    https://github.com/flipboxfactory/craft-ember/blob/master/LICENSE
- * @link       https://github.com/flipboxfactory/craft-ember
+ * @link       https://github.com/flipboxfactory/craft-ember/
  */
 
-namespace flipbox\ember\helpers;
+namespace flipbox\craft\ember\helpers;
 
 use Craft;
 use craft\models\Site as SiteModel;
-use craft\records\Site as SiteRecord;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
- * @since 1.0.0
+ * @since 2.0.0
  */
 class SiteHelper
 {
@@ -60,9 +59,9 @@ class SiteHelper
     public static function ensureSiteId(int $siteId = null): int
     {
         if (null === $siteId) {
-            $siteId = (int) Craft::$app->getSites()->currentSite->id;
+            $siteId = (int)Craft::$app->getSites()->currentSite->id;
         }
 
-        return (int) $siteId;
+        return (int)$siteId;
     }
 }

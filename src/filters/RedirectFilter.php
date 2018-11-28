@@ -6,7 +6,7 @@
  * @link       https://github.com/flipboxfactory/craft-ember/
  */
 
-namespace flipbox\ember\filters;
+namespace flipbox\craft\ember\filters;
 
 use Craft;
 use craft\web\Controller as CraftController;
@@ -18,14 +18,14 @@ use yii\web\Response;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
- * @since 1.0.0
+ * @since 2.0.0
  *
  * @property Controller $sender
  */
 class RedirectFilter extends ActionFilter
 {
-    use traits\ActionTrait,
-        traits\FormatTrait;
+    use ActionTrait,
+        FormatTrait;
 
     /**
      * Allow redirection of a null result
@@ -37,6 +37,7 @@ class RedirectFilter extends ActionFilter
      * @param Action $action
      * @param mixed $result
      * @return mixed|Response
+     * @throws \Throwable
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\BadRequestHttpException
@@ -57,6 +58,7 @@ class RedirectFilter extends ActionFilter
      * @param Action $action
      * @param $result
      * @return Response
+     * @throws \Throwable
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\BadRequestHttpException
@@ -83,6 +85,7 @@ class RedirectFilter extends ActionFilter
      * @param null $object
      * @param string|null $default
      * @return Response
+     * @throws \Throwable
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\BadRequestHttpException
