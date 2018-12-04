@@ -24,7 +24,12 @@ abstract class CreateElement extends Action
      * @var array
      */
     public $validBodyParams = [];
-    
+
+    /**
+     * @inheritdoc
+     */
+    public $statusCodeSuccess = 201;
+
     /**
      * @inheritdoc
      * @return ElementInterface
@@ -43,14 +48,6 @@ abstract class CreateElement extends Action
     public function run()
     {
         return $this->runInternal($this->newElement());
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function statusCodeSuccess(): int
-    {
-        return $this->statusCodeSuccess ?: 201;
     }
 
     /**

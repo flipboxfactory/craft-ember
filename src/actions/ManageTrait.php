@@ -19,20 +19,6 @@ trait ManageTrait
     use CheckAccessTrait;
 
     /**
-     * HTTP success response code
-     *
-     * @var int|null
-     */
-    public $statusCodeSuccess;
-
-    /**
-     * HTTP fail response code
-     *
-     * @var int|null
-     */
-    public $statusCodeFail;
-
-    /**
      * @param mixed $data
      * @return bool
      */
@@ -64,7 +50,7 @@ trait ManageTrait
      */
     protected function statusCodeSuccess(): int
     {
-        return $this->statusCodeSuccess ?: 200;
+        return $this->statusCodeSuccess ?? 200;
     }
 
     /**
@@ -74,7 +60,7 @@ trait ManageTrait
      */
     protected function statusCodeFail(): int
     {
-        return $this->statusCodeFail ?: 400;
+        return $this->statusCodeFail ?? 400;
     }
 
     /**

@@ -25,6 +25,11 @@ abstract class CreateRecord extends Action
     public $validBodyParams = [];
 
     /**
+     * @inheritdoc
+     */
+    public $statusCodeSuccess = 201;
+
+    /**
      * @param array $config
      * @return ActiveRecord
      */
@@ -62,14 +67,6 @@ abstract class CreateRecord extends Action
         return $this->runInternal(
             $this->newRecord()
         );
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function statusCodeSuccess(): int
-    {
-        return $this->statusCodeSuccess ?: 201;
     }
 
     /**

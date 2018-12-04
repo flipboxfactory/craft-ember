@@ -25,6 +25,11 @@ abstract class CreateModel extends Action
     public $validBodyParams = [];
 
     /**
+     * @inheritdoc
+     */
+    public $statusCodeSuccess = 201;
+
+    /**
      * @param array $config
      * @return Model
      */
@@ -40,14 +45,6 @@ abstract class CreateModel extends Action
     }
 
     /**
-     * @inheritdoc
-     */
-    public function statusCodeSuccess(): int
-    {
-        return $this->statusCodeSuccess ?: 201;
-    }
-
-    /**
      * Body params that should be set on the record.
      *
      * @return array
@@ -55,5 +52,19 @@ abstract class CreateModel extends Action
     protected function validBodyParams(): array
     {
         return $this->validBodyParams;
+    }
+
+    /**
+     * @param Model $model
+     * @return Model
+     */
+    protected function populate(Model $model): Model
+    {
+        // Valid attribute values
+        $model->setAttributes(
+            $this->attributeValuesFromBody()
+        );
+
+        return $model;
     }
 }

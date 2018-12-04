@@ -12,6 +12,10 @@ use yii\base\InvalidArgumentException;
 use yii\db\ActiveQuery;
 use yii\db\ActiveQueryInterface;
 
+/**
+ * @author Flipbox Factory <hello@flipboxfactory.com>
+ * @since 2.0.0
+ */
 trait ActiveRecordTrait
 {
     /**

@@ -22,7 +22,7 @@ abstract class UpdateModel extends Action
      * @var array
      */
     public $validBodyParams = [];
-    
+
     /**
      * Body params that should be set on the record.
      *
