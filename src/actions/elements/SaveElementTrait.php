@@ -8,7 +8,6 @@
 
 namespace flipbox\craft\ember\actions\elements;
 
-use Craft;
 use craft\base\ElementInterface;
 use flipbox\craft\ember\actions\PopulateTrait;
 
@@ -25,8 +24,6 @@ trait SaveElementTrait
     /**
      * @inheritdoc
      * @param ElementInterface $element
-     * @throws \Throwable
-     * @throws \craft\errors\ElementNotFoundException
      * @throws \yii\base\Exception
      * @throws \yii\web\UnauthorizedHttpException
      */
@@ -45,17 +42,5 @@ trait SaveElementTrait
         }
 
         return $this->handleSuccessResponse($element);
-    }
-
-    /**
-     * @inheritdoc
-     * @param ElementInterface $element
-     * @throws \Throwable
-     * @throws \craft\errors\ElementNotFoundException
-     * @throws \yii\base\Exception
-     */
-    protected function performAction(ElementInterface $element): bool
-    {
-        return Craft::$app->getElements()->saveElement($element);
     }
 }

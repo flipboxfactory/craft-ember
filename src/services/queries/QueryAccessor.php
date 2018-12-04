@@ -10,7 +10,6 @@ namespace flipbox\craft\ember\services\queries;
 
 use flipbox\craft\ember\exceptions\NotFoundException;
 use flipbox\craft\ember\helpers\QueryHelper;
-use flipbox\craft\ember\helpers\RecordHelper;
 use yii\base\BaseObject;
 use yii\db\QueryInterface;
 
@@ -204,7 +203,7 @@ trait QueryAccessor
 
         QueryHelper::configure(
             $query,
-            RecordHelper::conditionToCriteria($condition)
+            QueryHelper::conditionToCriteria($condition)
         );
 
         return $query;

@@ -9,6 +9,7 @@
 namespace flipbox\craft\ember\actions\records;
 
 use yii\base\Action;
+use yii\db\ActiveRecord;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -17,4 +18,15 @@ use yii\base\Action;
 abstract class DeleteRecord extends Action
 {
     use DeleteRecordTrait, LookupRecordTrait;
+
+    /**
+     * @param ActiveRecord $record
+     * @return bool
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    protected function performAction(ActiveRecord $record): bool
+    {
+        return $record->delete();
+    }
 }

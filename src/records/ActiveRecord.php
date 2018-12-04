@@ -8,9 +8,14 @@
 
 namespace flipbox\craft\ember\records;
 
+use craft\helpers\Json;
+use flipbox\craft\ember\exceptions\RecordNotFoundException;
 use flipbox\craft\ember\models\DateCreatedRulesTrait;
 use flipbox\craft\ember\models\DateUpdatedRulesTrait;
 use flipbox\craft\ember\models\UidRulesTrait;
+use yii\base\InvalidConfigException;
+use yii\db\ActiveQueryInterface;
+use yii\helpers\ArrayHelper;
 
 /**
  * This class provides additional functionality to Craft's ActiveRecord:
@@ -72,6 +77,95 @@ abstract class ActiveRecord extends \craft\db\ActiveRecord
     {
         return '{{%' . static::tableAlias() . '}}';
     }
+
+
+    /*******************************************
+     * OVERRIDE CONDITION HANDLING
+     *******************************************/
+
+    /**
+     * Finds ActiveRecord instance(s) by the given condition.
+     * This method is internally called by [[findOne()]] and [[findAll()]].
+     * @param mixed $condition please refer to [[findOne()]] for the explanation of this parameter
+     * @return ActiveQueryInterface the newly created [[ActiveQueryInterface|ActiveQuery]] instance.
+     * @throws InvalidConfigException if there is no primary key defined.
+     * @internal
+     */
+    protected static function findByCondition($condition)
+    {
+        $query = static::find();
+
+        if (!ArrayHelper::isAssociative($condition)) {
+            // query by primary key
+            $primaryKey = static::primaryKey();
+            if (isset($primaryKey[0])) {
+                $pk = $primaryKey[0];
+                if (!empty($query->join) || !empty($query->joinWith)) {
+                    $pk = static::tableName() . '.' . $pk;
+                }
+                // if condition is scalar, search for a single primary key, if it is array, search for multiple primary key values
+                $condition = [$pk => is_array($condition) ? array_values($condition) : $condition];
+            } else {
+                throw new InvalidConfigException('"' . get_called_class() . '" must have a primary key.');
+            }
+        } elseif (is_array($condition)) {
+            foreach ($condition as $key => $value) {
+                if ($query->canSetProperty($key)) {
+                    $query->{$key} = $value;
+                    unset($condition[$key]);
+                }
+            }
+
+            $condition = static::filterCondition($condition);
+        }
+
+        return $query->andWhere($condition);
+    }
+
+    /*******************************************
+     * GET
+     *******************************************/
+
+    /**
+     * @param $condition
+     * @return static|null
+     * @throws RecordNotFoundException
+     */
+    public static function getOne($condition)
+    {
+        if (null === ($record = static::findOne($condition))) {
+            throw new RecordNotFoundException(
+                sprintf(
+                    "Record not found with the following condition: %s",
+                    Json::encode($condition)
+                )
+            );
+        }
+
+        return $record;
+    }
+
+    /**
+     * @param $condition
+     * @return static[]
+     * @throws RecordNotFoundException
+     */
+    public static function getAll($condition)
+    {
+        $records = static::findAll($condition);
+
+        if (empty($records)) {
+            throw new RecordNotFoundException(
+                sprintf(
+                    "Records not found with the following condition: %s",
+                    Json::encode($condition)
+                )
+            );
+        }
+
+        return $records;
+    }
+
 
     /*******************************************
      * RULES

@@ -8,6 +8,8 @@
 
 namespace flipbox\craft\ember\actions\elements;
 
+use Craft;
+use craft\base\ElementInterface;
 use yii\base\Action;
 
 /**
@@ -17,4 +19,31 @@ use yii\base\Action;
 abstract class UpdateElement extends Action
 {
     use SaveElementTrait, LookupElementTrait;
+
+    /**
+     * @var array
+     */
+    public $validBodyParams = [];
+
+    /**
+     * Body params that should be set on the record.
+     *
+     * @return array
+     */
+    protected function validBodyParams(): array
+    {
+        return $this->validBodyParams;
+    }
+
+    /**
+     * @inheritdoc
+     * @param ElementInterface $element
+     * @throws \Throwable
+     * @throws \craft\errors\ElementNotFoundException
+     * @throws \yii\base\Exception
+     */
+    protected function performAction(ElementInterface $element): bool
+    {
+        return Craft::$app->getElements()->saveElement($element);
+    }
 }

@@ -20,6 +20,11 @@ abstract class CreateModel extends Action
     use SaveModelTrait;
 
     /**
+     * @var array
+     */
+    public $validBodyParams = [];
+
+    /**
      * @param array $config
      * @return Model
      */
@@ -40,5 +45,15 @@ abstract class CreateModel extends Action
     public function statusCodeSuccess(): int
     {
         return $this->statusCodeSuccess ?: 201;
+    }
+
+    /**
+     * Body params that should be set on the record.
+     *
+     * @return array
+     */
+    protected function validBodyParams(): array
+    {
+        return $this->validBodyParams;
     }
 }

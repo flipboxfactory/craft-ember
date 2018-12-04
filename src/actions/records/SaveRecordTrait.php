@@ -19,7 +19,8 @@ use yii\db\ActiveRecord;
  */
 trait SaveRecordTrait
 {
-    use PopulateTrait, ManageRecordTrait;
+    use PopulateTrait,
+        ManageRecordTrait;
 
     /**
      * @inheritdoc

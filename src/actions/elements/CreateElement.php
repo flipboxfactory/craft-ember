@@ -8,6 +8,7 @@
 
 namespace flipbox\craft\ember\actions\elements;
 
+use Craft;
 use craft\base\ElementInterface;
 use yii\base\Action;
 
@@ -19,6 +20,11 @@ abstract class CreateElement extends Action
 {
     use SaveElementTrait;
 
+    /**
+     * @var array
+     */
+    public $validBodyParams = [];
+    
     /**
      * @inheritdoc
      * @return ElementInterface
@@ -45,5 +51,27 @@ abstract class CreateElement extends Action
     public function statusCodeSuccess(): int
     {
         return $this->statusCodeSuccess ?: 201;
+    }
+
+    /**
+     * Body params that should be set on the record.
+     *
+     * @return array
+     */
+    protected function validBodyParams(): array
+    {
+        return $this->validBodyParams;
+    }
+
+    /**
+     * @inheritdoc
+     * @param ElementInterface $element
+     * @throws \Throwable
+     * @throws \craft\errors\ElementNotFoundException
+     * @throws \yii\base\Exception
+     */
+    protected function performAction(ElementInterface $element): bool
+    {
+        return Craft::$app->getElements()->saveElement($element);
     }
 }

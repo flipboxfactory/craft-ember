@@ -17,4 +17,19 @@ use yii\base\Action;
 abstract class UpdateModel extends Action
 {
     use SaveModelTrait, LookupModelTrait;
+
+    /**
+     * @var array
+     */
+    public $validBodyParams = [];
+    
+    /**
+     * Body params that should be set on the record.
+     *
+     * @return array
+     */
+    protected function validBodyParams(): array
+    {
+        return $this->validBodyParams;
+    }
 }

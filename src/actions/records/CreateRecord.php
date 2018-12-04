@@ -20,10 +20,38 @@ abstract class CreateRecord extends Action
     use SaveRecordTrait;
 
     /**
+     * @var array
+     */
+    public $validBodyParams = [];
+
+    /**
      * @param array $config
      * @return ActiveRecord
      */
     abstract protected function newRecord(array $config = []): ActiveRecord;
+
+    /**
+     * Body params that should be set on the record.
+     *
+     * @return array
+     */
+    protected function validBodyParams(): array
+    {
+        return $this->validBodyParams;
+    }
+
+    /**
+     * @param ActiveRecord $record
+     * @return ActiveRecord
+     */
+    protected function populate(ActiveRecord $record): ActiveRecord
+    {
+        $record->setAttributes(
+            $this->attributeValuesFromBody()
+        );
+
+        return $record;
+    }
 
     /**
      * @return ActiveRecord
@@ -31,7 +59,9 @@ abstract class CreateRecord extends Action
      */
     public function run()
     {
-        return $this->runInternal($this->newRecord());
+        return $this->runInternal(
+            $this->newRecord()
+        );
     }
 
     /**
@@ -40,5 +70,14 @@ abstract class CreateRecord extends Action
     public function statusCodeSuccess(): int
     {
         return $this->statusCodeSuccess ?: 201;
+    }
+
+    /**
+     * @inheritdoc
+     * @param ActiveRecord $record
+     */
+    protected function performAction(ActiveRecord $record): bool
+    {
+        return $record->save();
     }
 }
