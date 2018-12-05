@@ -29,5 +29,11 @@
     "psr-4": {
       "flipbox\\ember\\tests\\": "tests/src/"
     }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-develop": "2.0.x-dev",
+      "dev-master": "1.0.x-dev"
+    }
   }
 }
