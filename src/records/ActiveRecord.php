@@ -103,7 +103,8 @@ abstract class ActiveRecord extends \craft\db\ActiveRecord
                 if (!empty($query->join) || !empty($query->joinWith)) {
                     $pk = static::tableName() . '.' . $pk;
                 }
-                // if condition is scalar, search for a single primary key, if it is array, search for multiple primary key values
+                // if condition is scalar, search for a single primary key, if it is array, search for
+                // multiple primary key values
                 $condition = [$pk => is_array($condition) ? array_values($condition) : $condition];
             } else {
                 throw new InvalidConfigException('"' . get_called_class() . '" must have a primary key.');
