@@ -18,7 +18,6 @@ class ArrayHelper extends \craft\helpers\ArrayHelper
      * Filters null values from an array.
      *
      * @param array $arr
-     *
      * @return array
      */
     public static function filterNullValuesFromArray(array $arr): array
@@ -32,7 +31,6 @@ class ArrayHelper extends \craft\helpers\ArrayHelper
      * Filters null values from an array.
      *
      * @param array $arr
-     *
      * @return array
      */
     public static function filterEmptyAndNullValuesFromArray(array $arr): array

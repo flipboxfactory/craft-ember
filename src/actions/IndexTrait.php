@@ -8,8 +8,8 @@
 
 namespace flipbox\craft\ember\actions;
 
-use flipbox\craft\ember\data\ActiveDataProvider;
 use flipbox\craft\ember\helpers\ObjectHelper;
+use yii\data\ActiveDataProvider;
 use yii\data\DataProviderInterface;
 use yii\db\QueryInterface;
 
@@ -27,10 +27,9 @@ trait IndexTrait
     public $dataProvider = [];
 
     /**
-     * @param array $config
      * @return QueryInterface
      */
-    abstract protected function createQuery(array $config = []): QueryInterface;
+    abstract protected function createQuery(): QueryInterface;
 
     /**
      * @return DataProviderInterface
@@ -72,18 +71,15 @@ trait IndexTrait
     }
 
     /**
-     * @param array $config
      * @return DataProviderInterface
      * @throws \yii\base\InvalidConfigException
      */
-    protected function createDataProvider(array $config = []): DataProviderInterface
+    protected function createDataProvider(): DataProviderInterface
     {
         /** @var DataProviderInterface $dataProvider */
         $dataProvider = ObjectHelper::create(
             $this->dataProviderConfig([
-                'query' => $this->createQuery(
-                    $this->normalizeQueryConfig($config)
-                )
+                'query' => $this->createQuery()
             ]),
             DataProviderInterface::class
         );
@@ -104,14 +100,5 @@ trait IndexTrait
             $config,
             $this->dataProvider
         );
-    }
-
-    /**
-     * @param array $config
-     * @return array
-     */
-    protected function normalizeQueryConfig(array $config = []): array
-    {
-        return $config;
     }
 }
