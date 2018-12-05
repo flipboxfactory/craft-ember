@@ -98,10 +98,6 @@ trait UserAttributeTrait
                 $value = $this->resolveUserStringValue($value);
             }
 
-            if ($value instanceof UserElement) {
-                $value = $value->id;
-            }
-
             if ($value) {
                 $value = QueryHelper::assembleParamValue($value, $operator);
             }

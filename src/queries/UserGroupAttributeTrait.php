@@ -101,10 +101,6 @@ trait UserGroupAttributeTrait
                 $value = $this->resolveUserGroupStringValue($value);
             }
 
-            if ($value instanceof UserGroup) {
-                $value = $value->id;
-            }
-
             if ($value) {
                 $value = QueryHelper::assembleParamValue($value, $operator);
             }

@@ -98,10 +98,6 @@ trait ElementAttributeTrait
                 $value = $this->resolveElementStringValue($value);
             }
 
-            if ($value instanceof ElementInterface) {
-                $value = $value->getId();
-            }
-
             if ($value) {
                 $value = QueryHelper::assembleParamValue($value, $operator);
             }

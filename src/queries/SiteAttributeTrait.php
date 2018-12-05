@@ -98,10 +98,6 @@ trait SiteAttributeTrait
                 $value = $this->resolveStringStringValue($value);
             }
 
-            if ($value instanceof Site) {
-                $value = $value->id;
-            }
-
             if ($value) {
                 $value = QueryHelper::assembleParamValue($value, $operator);
             }
