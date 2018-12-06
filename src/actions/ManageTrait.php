@@ -13,6 +13,9 @@ use Craft;
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
+ *
+ * @property int $statusCodeSuccess
+ * @property int $statusCodeFail
  */
 trait ManageTrait
 {

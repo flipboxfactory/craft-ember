@@ -11,6 +11,12 @@ namespace flipbox\craft\ember\actions\elements;
 use Craft;
 use craft\base\ElementInterface;
 
+/**
+ * @author Flipbox Factory <hello@flipboxfactory.com>
+ * @since 2.0.0
+ *
+ * @property int $statusCodeSuccess
+ */
 trait DeleteElementTrait
 {
     use ManageElementTrait;
@@ -20,7 +26,7 @@ trait DeleteElementTrait
      */
     protected function statusCodeSuccess(): int
     {
-        return $this->statusCodeSuccess ?: 204;
+        return $this->statusCodeSuccess ?? 204;
     }
 
     /**

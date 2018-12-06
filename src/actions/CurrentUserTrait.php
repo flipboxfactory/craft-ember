@@ -15,19 +15,12 @@ use yii\web\HttpException;
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
+ *
+ * @property int $statusCodeUserNotFound
+ * @property string $messageUserNotFound
  */
 trait CurrentUserTrait
 {
-    /**
-     * @return int|null
-     */
-    public $statusCodeUserNotFound;
-
-    /**
-     * @return string|null
-     */
-    public $messageUserNotFound;
-
     /**
      * @return UserElement|null
      */
@@ -56,7 +49,7 @@ trait CurrentUserTrait
      */
     protected function statusCodeUserNotFound(): int
     {
-        return $this->statusCodeUserNotFound ?: 401;
+        return $this->statusCodeUserNotFound ?? 401;
     }
 
     /**
@@ -64,7 +57,7 @@ trait CurrentUserTrait
      */
     protected function messageUserNotFound(): string
     {
-        return $this->messageUserNotFound ?: 'Unable to establish identity.';
+        return $this->messageUserNotFound ?? 'Unable to establish identity.';
     }
 
     /**

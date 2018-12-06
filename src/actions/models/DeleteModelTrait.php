@@ -11,6 +11,9 @@ namespace flipbox\craft\ember\actions\models;
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
+ *
+ * @property int $statusCodeSuccess
+ *
  */
 trait DeleteModelTrait
 {
@@ -23,6 +26,6 @@ trait DeleteModelTrait
      */
     protected function statusCodeSuccess(): int
     {
-        return $this->statusCodeSuccess ?: 204;
+        return $this->statusCodeSuccess ?? 204;
     }
 }

@@ -12,10 +12,10 @@ use flipbox\craft\ember\actions\PopulateTrait;
 use yii\db\ActiveRecord;
 
 /**
- * @method ActiveRecord populate(ActiveRecord $record)
- *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
+ *
+ * @method ActiveRecord populate(ActiveRecord $record)
  */
 trait SaveRecordTrait
 {

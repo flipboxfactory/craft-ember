@@ -13,19 +13,12 @@ use yii\web\UnauthorizedHttpException;
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
+ *
+ * @property int $statusCodeUnauthorized
+ * @property string $messageUnauthorized
  */
 trait CheckAccessTrait
 {
-    /**
-     * @var int|null
-     */
-    public $statusCodeUnauthorized;
-
-    /**
-     * @var string|null
-     */
-    public $messageUnauthorized;
-
     /**
      * @var null|callable
      */
@@ -55,7 +48,7 @@ trait CheckAccessTrait
      */
     protected function statusCodeUnauthorized(): int
     {
-        return $this->statusCodeUnauthorized ?: 403;
+        return $this->statusCodeUnauthorized ?? 403;
     }
 
     /**
@@ -63,7 +56,7 @@ trait CheckAccessTrait
      */
     protected function messageUnauthorized(): string
     {
-        return $this->messageUnauthorized ?: 'Unable to perform action.';
+        return $this->messageUnauthorized ?? 'Unable to perform action.';
     }
 
     /**
