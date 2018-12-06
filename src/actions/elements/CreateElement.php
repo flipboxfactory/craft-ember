@@ -37,10 +37,7 @@ abstract class CreateElement extends Action
     abstract protected function newElement(array $config = []): ElementInterface;
 
     /**
-     * @inheritdoc
-     * @return ElementInterface
-     * @throws \Throwable
-     * @throws \craft\errors\ElementNotFoundException
+     * @return mixed
      * @throws \yii\base\Exception
      * @throws \yii\web\HttpException
      * @throws \yii\web\UnauthorizedHttpException
@@ -61,8 +58,8 @@ abstract class CreateElement extends Action
     }
 
     /**
-     * @inheritdoc
      * @param ElementInterface $element
+     * @return bool
      * @throws \Throwable
      * @throws \craft\errors\ElementNotFoundException
      * @throws \yii\base\Exception

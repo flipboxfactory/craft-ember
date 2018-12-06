@@ -117,6 +117,7 @@ abstract class ActiveRecord extends \craft\db\ActiveRecord
                 }
             }
 
+            /** @noinspection PhpInternalEntityUsedInspection */
             $condition = static::filterCondition($condition);
         }
 
