@@ -1,5 +1,11 @@
 Changelog
 =========
+## 2.0.0 - 2018-12-06
+### Changed
+- Namespace and various classes/traits.
+
+### Removed
+- Various excessive classes/traits.
 
 ## 1.0.8 - 2018-10-09
 ### Added
