@@ -22,12 +22,12 @@
   },
   "autoload": {
     "psr-4": {
-      "flipbox\\ember\\": "src/"
+      "flipbox\\craft\\ember\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "flipbox\\ember\\tests\\": "tests/src/"
+      "flipbox\\craft\\ember\\tests\\": "tests/src/"
     }
   },
   "extra": {
