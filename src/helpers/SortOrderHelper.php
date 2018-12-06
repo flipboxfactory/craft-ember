@@ -8,8 +8,6 @@
 
 namespace flipbox\craft\ember\helpers;
 
-use craft\helpers\ArrayHelper;
-
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0

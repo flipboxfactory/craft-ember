@@ -10,6 +10,7 @@ namespace flipbox\craft\ember\records;
 
 use Craft;
 use craft\base\Field;
+use craft\base\FieldInterface;
 use craft\records\Field as FieldRecord;
 use flipbox\craft\ember\models\FieldRulesTrait;
 use flipbox\craft\ember\objects\FieldMutatorTrait;
@@ -61,7 +62,7 @@ trait FieldAttributeTrait
     }
 
     /**
-     * @return Field|null
+     * @return FieldInterface|Field|null
      */
     protected function resolveField()
     {
@@ -73,7 +74,7 @@ trait FieldAttributeTrait
     }
 
     /**
-     * @return Field|null
+     * @return FieldInterface|Field|null
      */
     private function resolveFieldFromRelation()
     {
@@ -81,12 +82,12 @@ trait FieldAttributeTrait
             return null;
         }
 
-        /** @var FieldRecord $record */
         if (null === ($record = $this->getRelation('fieldRecord'))) {
             return null;
         }
 
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        /** @var FieldRecord $record */
+
         return Craft::$app->getFields()->getFieldById($record->id);
     }
 

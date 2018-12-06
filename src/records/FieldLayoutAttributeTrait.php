@@ -81,10 +81,11 @@ trait FieldLayoutAttributeTrait
             return null;
         }
 
-        /** @var FieldLayoutRecord $record */
         if (null === ($record = $this->getRelation('fieldLayoutRecord'))) {
             return null;
         }
+
+        /** @var FieldLayoutRecord $record */
 
         return Craft::$app->getFields()->getLayoutById($record->id);
     }

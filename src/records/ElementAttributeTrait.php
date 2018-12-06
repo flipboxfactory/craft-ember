@@ -85,10 +85,11 @@ trait ElementAttributeTrait
             return null;
         }
 
-        /** @var ElementRecord $record */
         if (null === ($record = $this->getRelation('elementRecord'))) {
             return null;
         }
+
+        /** @var ElementRecord $record */
 
         return Craft::$app->getElements()->getElementById($record->id);
     }

@@ -21,7 +21,7 @@ use craft\base\FieldInterface;
 trait FieldMutatorTrait
 {
     /**
-     * @var Field|null
+     * @var Field|FieldInterface|null
      */
     private $field;
 
@@ -72,7 +72,7 @@ trait FieldMutatorTrait
     }
 
     /**
-     * @return Field|null
+     * @return FieldInterface|Field|null
      */
     public function getField()
     {
@@ -94,7 +94,7 @@ trait FieldMutatorTrait
     }
 
     /**
-     * @return Field|null
+     * @return FieldInterface|Field|null
      */
     protected function resolveField()
     {
@@ -106,7 +106,7 @@ trait FieldMutatorTrait
     }
 
     /**
-     * @return Field|null
+     * @return FieldInterface|Field|null
      */
     private function resolveFieldFromId()
     {
@@ -120,7 +120,7 @@ trait FieldMutatorTrait
 
     /**
      * @param mixed $field
-     * @return FieldInterface|Field|null
+     * @return FieldInterface|FieldInterface|Field|null
      */
     protected function internalResolveField($field = null)
     {

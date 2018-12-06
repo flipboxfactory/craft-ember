@@ -87,10 +87,11 @@ trait SiteAttributeTrait
             return null;
         }
 
-        /** @var SiteRecord $record */
         if (null === ($record = $this->getRelation('siteRecord'))) {
             return null;
         }
+
+        /** @var SiteRecord $record */
 
         return Craft::$app->getSites()->getSiteById($record->id);
     }
