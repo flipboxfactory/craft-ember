@@ -1,5 +1,9 @@
 Changelog
 =========
+## Unreleased
+### Added
+- Cachable queries can clear cached results
+
 ## 2.0.0 - 2018-12-06
 ### Changed
 - Namespace and various classes/traits.

@@ -89,9 +89,9 @@ class CacheableQuery extends Query
     }
 
     /**
-     * Returns the resulting domains set by [[setCachedResult()]], if the criteria params haven’t changed since then.
+     * Returns the results set by [[setCachedResult()]], if the criteria params haven’t changed since then.
      *
-     * @return array|null The resulting domains, or null if setCachedResult() was never called or the criteria has
+     * @return array|null The results, or null if setCachedResult() was never called or the criteria has
      * changed
      * @see setCachedResult()
      */
@@ -112,7 +112,7 @@ class CacheableQuery extends Query
     }
 
     /**
-     * Sets the resulting domains.
+     * Sets the results.
      *
      * If this is called, [[all()]] will return these domains rather than initiating a new SQL query,
      * as long as none of the parameters have changed since setCachedResult() was called.
@@ -125,6 +125,17 @@ class CacheableQuery extends Query
     {
         $this->result = $objects;
         $this->resultCriteria = $this->getCriteria();
+    }
+
+    /**
+     * Clears the results.
+     *
+     * @see getCachedResult()
+     */
+    public function clearCachedResult()
+    {
+        $this->result = null;
+        $this->resultCriteria = null;
     }
 
     /**
