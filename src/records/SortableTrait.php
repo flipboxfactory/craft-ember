@@ -64,7 +64,7 @@ use yii\db\ActiveQuery;
  *
  * public function afterDelete()
  * {
- *      $this->autoReOrder(
+ *      $this->sequentialOrder(
  *          'categoryId',
  *           [
  *               'userId' => $this->userId
@@ -115,6 +115,38 @@ trait SortableTrait
                 )
             );
         }
+    }
+
+    /**
+     * Ensure all sort order's following this record are in sequential order. As an
+     * example, a record may update the sort order from '4' to '1' which would result in all records after
+     * this one to be altered in sequential order.
+     *
+     * @param string $targetAttribute
+     * @param array $sortOrderCondition
+     * @param string $sortOrderAttribute
+     * @throws \yii\db\Exception
+     */
+    protected function sequentialOrder(
+        string $targetAttribute,
+        array $sortOrderCondition = [],
+        string $sortOrderAttribute = 'sortOrder'
+    ) {
+        // All records (sorted)
+        $sortOrder = $this->sortOrderQuery($sortOrderCondition, $sortOrderAttribute)
+            ->indexBy($targetAttribute)
+            ->select([$sortOrderAttribute])
+            ->column();
+
+        $this->saveNewOrder(
+            array_flip(array_combine(
+                range($sortOrder, count($sortOrder)),
+                array_keys($sortOrder)
+            )),
+            $targetAttribute,
+            $sortOrderCondition,
+            $sortOrderAttribute
+        );
     }
 
     /**
