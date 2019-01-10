@@ -138,15 +138,17 @@ trait SortableTrait
             ->select([$sortOrderAttribute])
             ->column();
 
-        $this->saveNewOrder(
-            array_flip(array_combine(
-                range($sortOrder, count($sortOrder)),
-                array_keys($sortOrder)
-            )),
-            $targetAttribute,
-            $sortOrderCondition,
-            $sortOrderAttribute
-        );
+        if (count($sortOrder) > 0) {
+            $this->saveNewOrder(
+                array_flip(array_combine(
+                    range($sortOrder, count($sortOrder)),
+                    array_keys($sortOrder)
+                )),
+                $targetAttribute,
+                $sortOrderCondition,
+                $sortOrderAttribute
+            );
+        }
     }
 
     /**
