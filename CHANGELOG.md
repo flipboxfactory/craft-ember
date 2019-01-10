@@ -1,6 +1,6 @@
 Changelog
 =========
-## Unreleased
+## 2.1.0 - 2018-01-10
 ### Added
 - Cachable queries can clear cached results
 - Element trait adding explicit `Element::get()` and `Element::getAll()` methods
