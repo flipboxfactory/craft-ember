@@ -43,7 +43,7 @@ trait ExplicitElementTrait
      * @param mixed $criteria The element ID or a set of element criteria parameters
      * @return static|null Element instance matching the condition, or null if nothing matches.
      */
-    abstract public static function findOne($criteria);
+    abstract public static function findOne($criteria = null);
 
     /**
      * Returns a list of elements that match the specified ID(s) or a set of element criteria parameters.
