@@ -229,7 +229,7 @@ abstract class ActiveRecord extends \craft\db\ActiveRecord
         $attributes = $names ?: $this->getterPriorityAttributes;
 
         // Call each attribute to see if the 'getter' has a value
-        foreach($attributes as $attribute) {
+        foreach ($attributes as $attribute) {
             if ($this->hasGetterPriority($attribute)) {
                 $this->{'get' . $attribute}();
             }
