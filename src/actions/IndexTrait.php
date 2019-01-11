@@ -8,6 +8,7 @@
 
 namespace flipbox\craft\ember\actions;
 
+use craft\helpers\ArrayHelper;
 use flipbox\craft\ember\helpers\ObjectHelper;
 use yii\data\ActiveDataProvider;
 use yii\data\DataProviderInterface;
@@ -27,9 +28,10 @@ trait IndexTrait
     public $dataProvider = [];
 
     /**
+     * @param array $config
      * @return QueryInterface
      */
-    abstract protected function createQuery(): QueryInterface;
+    abstract protected function createQuery(array $config = []): QueryInterface;
 
     /**
      * @return DataProviderInterface
@@ -71,16 +73,22 @@ trait IndexTrait
     }
 
     /**
+     * @param array $config
      * @return DataProviderInterface
      * @throws \yii\base\InvalidConfigException
      */
-    protected function createDataProvider(): DataProviderInterface
+    protected function createDataProvider(array $config = []): DataProviderInterface
     {
+        $queryConfig = (array) ArrayHelper::remove($config, 'query', []);
+
         /** @var DataProviderInterface $dataProvider */
         $dataProvider = ObjectHelper::create(
-            $this->dataProviderConfig([
-                'query' => $this->createQuery()
-            ]),
+            $this->dataProviderConfig(ArrayHelper::merge(
+                [
+                    'query' => $this->createQuery($queryConfig)
+                ],
+                $config
+            )),
             DataProviderInterface::class
         );
 
