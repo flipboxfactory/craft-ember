@@ -124,6 +124,24 @@ abstract class ActiveRecord extends \craft\db\ActiveRecord
         return $query->andWhere($condition);
     }
 
+
+    /*******************************************
+     * FIND
+     *******************************************/
+
+    /**
+     * @inheritdoc
+     */
+    public static function findOne($condition)
+    {
+        if ($condition instanceof self) {
+            return $condition;
+        }
+
+        return parent::findOne($condition);
+    }
+
+
     /*******************************************
      * GET
      *******************************************/
