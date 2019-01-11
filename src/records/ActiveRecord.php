@@ -205,7 +205,7 @@ abstract class ActiveRecord extends \craft\db\ActiveRecord
     }
 
     /*******************************************
-     * MAGIC
+     * ATTRIBUTES
      *******************************************/
 
     /**
@@ -214,13 +214,37 @@ abstract class ActiveRecord extends \craft\db\ActiveRecord
      */
     public function __get($name)
     {
-        $getter = 'get' . $name;
-        if (in_array($name, $this->getterPriorityAttributes, true) &&
-            method_exists($this, $getter)
-        ) {
-            return $this->$getter();
+        if ($this->hasGetterPriority($name)) {
+            $this->{'get' . $name}();
         }
 
         return parent::__get($name);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getDirtyAttributes($names = null)
+    {
+        $attributes = $names ?: $this->getterPriorityAttributes;
+
+        // Call each attribute to see if the 'getter' has a value
+        foreach($attributes as $attribute) {
+            if ($this->hasGetterPriority($attribute)) {
+                $this->{'get' . $attribute}();
+            }
+        }
+
+        return parent::getDirtyAttributes($names);
+    }
+
+    /**
+     * @param $name
+     * @return bool
+     */
+    protected function hasGetterPriority($name)
+    {
+        return in_array($name, $this->getterPriorityAttributes, true) &&
+            method_exists($this, 'get' . $name);
     }
 }
