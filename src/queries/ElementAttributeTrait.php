@@ -8,8 +8,8 @@
 
 namespace flipbox\craft\ember\queries;
 
-use Craft;
 use craft\base\ElementInterface;
+use craft\db\Query;
 use flipbox\craft\ember\helpers\QueryHelper;
 
 /**
@@ -70,8 +70,13 @@ trait ElementAttributeTrait
     {
         return QueryHelper::prepareParam(
             $value,
-            function(string $uri) {
-                return Craft::$app->getElements()->getElementByUri($uri);
+            function (string $uri) {
+                $value = (new Query())
+                    ->select(['id'])
+                    ->from(['{{%elements_sites}} elements_sites'])
+                    ->where(['uri' => $uri])
+                    ->scalar();
+                return empty($value) ? false : $value;
             }
         );
     }

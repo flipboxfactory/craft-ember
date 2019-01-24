@@ -9,7 +9,6 @@
 namespace flipbox\craft\ember\queries;
 
 use craft\db\Query;
-use craft\helpers\Db;
 use craft\models\UserGroup;
 use craft\records\UserGroup as UserGroupRecord;
 use flipbox\craft\ember\helpers\QueryHelper;
@@ -72,11 +71,11 @@ trait UserGroupAttributeTrait
     {
         return QueryHelper::prepareParam(
             $value,
-            function(string $handle) {
+            function (string $handle) {
                 $value = (new Query())
                     ->select(['id'])
                     ->from([UserGroupRecord::tableName()])
-                    ->where(Db::parseParam('handle', $handle))
+                    ->where(['handle' => $handle])
                     ->scalar();
                 return empty($value) ? false : $value;
             }

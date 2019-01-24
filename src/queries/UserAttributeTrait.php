@@ -8,8 +8,9 @@
 
 namespace flipbox\craft\ember\queries;
 
-use Craft;
+use craft\db\Query;
 use craft\elements\User as UserElement;
+use craft\records\User as UserRecord;
 use flipbox\craft\ember\helpers\QueryHelper;
 
 /**
@@ -70,8 +71,14 @@ trait UserAttributeTrait
     {
         return QueryHelper::prepareParam(
             $value,
-            function(string $identifier) {
-                return Craft::$app->getUsers()->getUserByUsernameOrEmail($identifier);
+            function (string $identifier) {
+                $value = (new Query())
+                    ->select(['id'])
+                    ->from([UserRecord::tableName()])
+                    ->where(['email' => $identifier])
+                    ->orWhere(['username' => $identifier])
+                    ->scalar();
+                return empty($value) ? false : $value;
             }
         );
     }

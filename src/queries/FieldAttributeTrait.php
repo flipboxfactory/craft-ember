@@ -8,9 +8,9 @@
 
 namespace flipbox\craft\ember\queries;
 
-use Craft;
-use craft\base\Field;
+use craft\records\Field as FieldRecord;
 use craft\base\FieldInterface;
+use craft\db\Query;
 use flipbox\craft\ember\helpers\QueryHelper;
 
 /**
@@ -71,8 +71,13 @@ trait FieldAttributeTrait
     {
         return QueryHelper::prepareParam(
             $value,
-            function(string $handle) {
-                return Craft::$app->getFields()->getFieldByHandle($handle);
+            function (string $handle) {
+                $value = (new Query())
+                    ->select(['id'])
+                    ->from([FieldRecord::tableName()])
+                    ->where(['handle' => $handle])
+                    ->scalar();
+                return empty($value) ? false : $value;
             }
         );
     }

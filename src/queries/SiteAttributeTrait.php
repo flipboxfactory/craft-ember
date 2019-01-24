@@ -8,8 +8,9 @@
 
 namespace flipbox\craft\ember\queries;
 
-use Craft;
+use craft\db\Query;
 use craft\models\Site;
+use craft\records\Site as SiteRecord;
 use flipbox\craft\ember\helpers\QueryHelper;
 
 /**
@@ -70,8 +71,13 @@ trait SiteAttributeTrait
     {
         return QueryHelper::prepareParam(
             $value,
-            function(string $handle) {
-                return Craft::$app->getSites()->getSiteByHandle($handle);
+            function (string $handle) {
+                $value = (new Query())
+                    ->select(['id'])
+                    ->from([SiteRecord::tableName()])
+                    ->where(['handle' => $handle])
+                    ->scalar();
+                return empty($value) ? false : $value;
             }
         );
     }
