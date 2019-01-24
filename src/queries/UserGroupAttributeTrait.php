@@ -66,58 +66,20 @@ trait UserGroupAttributeTrait
 
     /**
      * @param $value
-     * @param string $join
-     * @return array
+     * @return array|string
      */
-    protected function parseUserGroupValue($value, string $join = 'or'): array
+    protected function parseUserGroupValue($value)
     {
-        if (false === QueryHelper::parseBaseParam($value, $join)) {
-            foreach ($value as $operator => &$v) {
-                $this->resolveUserGroupValue($operator, $v);
+        return QueryHelper::prepareParam(
+            $value,
+            function(string $handle) {
+                $value = (new Query())
+                    ->select(['id'])
+                    ->from([UserGroupRecord::tableName()])
+                    ->where(Db::parseParam('handle', $handle))
+                    ->scalar();
+                return empty($value) ? false : $value;
             }
-        }
-
-        // Filter null and empties
-        $value = array_filter($value, function ($arr): bool {
-            return $arr !== null && $arr !== '';
-        });
-
-        if (empty($value)) {
-            return [];
-        }
-
-        // parse param to allow for mixed variables
-        return array_merge([$join], $value);
-    }
-
-    /**
-     * @param $operator
-     * @param $value
-     */
-    protected function resolveUserGroupValue($operator, &$value)
-    {
-        if (false === QueryHelper::findParamValue($value, $operator)) {
-            if (is_string($value)) {
-                $value = $this->resolveUserGroupStringValue($value);
-            }
-
-            if ($value) {
-                $value = QueryHelper::assembleParamValue($value, $operator);
-            }
-        }
-    }
-
-    /**
-     * @param string $value
-     * @return string|null
-     */
-    protected function resolveUserGroupStringValue(string $value)
-    {
-        $value = (new Query())
-            ->select(['id'])
-            ->from([UserGroupRecord::tableName()])
-            ->where(Db::parseParam('handle', $value))
-            ->scalar();
-        return empty($value) ? false : $value;
+        );
     }
 }

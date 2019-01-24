@@ -64,55 +64,15 @@ trait UserAttributeTrait
 
     /**
      * @param $value
-     * @param string $join
-     * @return array
+     * @return array|string
      */
-    protected function parseUserValue($value, string $join = 'or'): array
+    protected function parseUserValue($value)
     {
-        if (false === QueryHelper::parseBaseParam($value, $join)) {
-            foreach ($value as $operator => &$v) {
-                $this->resolveUserValue($operator, $v);
+        return QueryHelper::prepareParam(
+            $value,
+            function(string $identifier) {
+                return Craft::$app->getUsers()->getUserByUsernameOrEmail($identifier);
             }
-        }
-
-        // Filter null and empties
-        $value = array_filter($value, function ($arr): bool {
-            return $arr !== null && $arr !== '';
-        });
-
-        if (empty($value)) {
-            return [];
-        }
-
-        return array_merge([$join], $value);
-    }
-
-    /**
-     * @param $operator
-     * @param $value
-     */
-    protected function resolveUserValue($operator, &$value)
-    {
-        if (false === QueryHelper::findParamValue($value, $operator)) {
-            if (is_string($value)) {
-                $value = $this->resolveUserStringValue($value);
-            }
-
-            if ($value) {
-                $value = QueryHelper::assembleParamValue($value, $operator);
-            }
-        }
-    }
-
-    /**
-     * @param string $value
-     * @return int|null
-     */
-    protected function resolveUserStringValue(string $value)
-    {
-        if (!$element = Craft::$app->getUsers()->getUserByUsernameOrEmail($value)) {
-            return null;
-        }
-        return $element->id;
+        );
     }
 }

@@ -64,55 +64,15 @@ trait SiteAttributeTrait
 
     /**
      * @param $value
-     * @param string $join
-     * @return array
+     * @return array|string
      */
-    protected function parseSiteValue($value, string $join = 'or'): array
+    protected function parseSiteValue($value)
     {
-        if (false === QueryHelper::parseBaseParam($value, $join)) {
-            foreach ($value as $operator => &$v) {
-                $this->resolveSiteValue($operator, $v);
+        return QueryHelper::prepareParam(
+            $value,
+            function(string $handle) {
+                return Craft::$app->getSites()->getSiteByHandle($handle);
             }
-        }
-
-        // Filter null and empties
-        $value = array_filter($value, function ($arr): bool {
-            return $arr !== null && $arr !== '';
-        });
-
-        if (empty($value)) {
-            return [];
-        }
-
-        return array_merge([$join], $value);
-    }
-
-    /**
-     * @param $operator
-     * @param $value
-     */
-    protected function resolveSiteValue($operator, &$value)
-    {
-        if (false === QueryHelper::findParamValue($value, $operator)) {
-            if (is_string($value)) {
-                $value = $this->resolveStringStringValue($value);
-            }
-
-            if ($value) {
-                $value = QueryHelper::assembleParamValue($value, $operator);
-            }
-        }
-    }
-
-    /**
-     * @param string $value
-     * @return int|null
-     */
-    protected function resolveStringStringValue(string $value)
-    {
-        if (!$site = Craft::$app->getSites()->getSiteByHandle($value)) {
-            return null;
-        }
-        return $site->id;
+        );
     }
 }

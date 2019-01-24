@@ -65,61 +65,15 @@ trait FieldAttributeTrait
 
     /**
      * @param $value
-     * @param string $join
-     * @return array
+     * @return array|string
      */
-    protected function parseFieldValue($value, string $join = 'or'): array
+    protected function parseFieldValue($value)
     {
-        if (false === QueryHelper::parseBaseParam($value, $join)) {
-            foreach ($value as $operator => &$v) {
-                $this->resolveFieldValue($operator, $v);
+        return QueryHelper::prepareParam(
+            $value,
+            function(string $handle) {
+                return Craft::$app->getFields()->getFieldByHandle($handle);
             }
-        }
-
-        // Filter null and empties
-        $value = array_filter($value, function ($arr): bool {
-            return $arr !== null && $arr !== '';
-        });
-
-        if (empty($value)) {
-            return [];
-        }
-
-        return array_merge([$join], $value);
-    }
-
-    /**
-     * @param $operator
-     * @param $value
-     */
-    protected function resolveFieldValue($operator, &$value)
-    {
-        if (false === QueryHelper::findParamValue($value, $operator)) {
-            if (is_string($value)) {
-                $value = $this->resolveFieldStringValue($value);
-            }
-
-            if ($value instanceof FieldInterface) {
-                /** @var Field $value */
-                $value = $value->id;
-            }
-
-            if ($value) {
-                $value = QueryHelper::assembleParamValue($value, $operator);
-            }
-        }
-    }
-
-    /**
-     * @param string $value
-     * @return int|null
-     */
-    protected function resolveFieldStringValue(string $value)
-    {
-        /** @var Field $field */
-        if (!$field = Craft::$app->getFields()->getFieldByHandle($value)) {
-            return null;
-        }
-        return $field->id;
+        );
     }
 }

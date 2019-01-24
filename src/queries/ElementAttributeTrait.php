@@ -64,55 +64,15 @@ trait ElementAttributeTrait
 
     /**
      * @param $value
-     * @param string $join
-     * @return array
+     * @return array|string
      */
-    protected function parseElementValue($value, string $join = 'or'): array
+    protected function parseElementValue($value)
     {
-        if (false === QueryHelper::parseBaseParam($value, $join)) {
-            foreach ($value as $operator => &$v) {
-                $this->resolveElementValue($operator, $v);
+        return QueryHelper::prepareParam(
+            $value,
+            function(string $uri) {
+                return Craft::$app->getElements()->getElementByUri($uri);
             }
-        }
-
-        // Filter null and empties
-        $value = array_filter($value, function ($arr): bool {
-            return $arr !== null && $arr !== '';
-        });
-
-        if (empty($value)) {
-            return [];
-        }
-
-        return array_merge([$join], $value);
-    }
-
-    /**
-     * @param $operator
-     * @param $value
-     */
-    protected function resolveElementValue($operator, &$value)
-    {
-        if (false === QueryHelper::findParamValue($value, $operator)) {
-            if (is_string($value)) {
-                $value = $this->resolveElementStringValue($value);
-            }
-
-            if ($value) {
-                $value = QueryHelper::assembleParamValue($value, $operator);
-            }
-        }
-    }
-
-    /**
-     * @param string $value
-     * @return int|null
-     */
-    protected function resolveElementStringValue(string $value)
-    {
-        if (!$element = Craft::$app->getElements()->getElementByUri($value)) {
-            return null;
-        }
-        return $element->getId();
+        );
     }
 }
