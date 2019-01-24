@@ -92,7 +92,6 @@ class QueryHelper
     public static function prepareParam($value, callable $lookup = null)
     {
         if (!is_array($value)) {
-
             // An object (model, element, record)
             if (is_object($value)) {
                 // Try to grab the Id from it
@@ -108,7 +107,6 @@ class QueryHelper
                 !in_array($value, ['and', 'or'], true) &&
                 StringHelper::isAlpha($value)
             ) {
-
                 if (null !== $lookup) {
                     if (null !== ($val = call_user_func($lookup, $value))) {
                         return static::prepareParam($val, $lookup);
@@ -411,10 +409,10 @@ class QueryHelper
             $operatorLength = strlen($testOperator);
 
             if (strncmp(
-                    StringHelper::toLowerCase($value),
-                    $testOperator,
-                    $operatorLength
-                ) == 0
+                StringHelper::toLowerCase($value),
+                $testOperator,
+                $operatorLength
+            ) == 0
             ) {
                 $value = mb_substr($value, $operatorLength);
 

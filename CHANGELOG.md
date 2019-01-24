@@ -1,5 +1,12 @@
 Changelog
 =========
+## Unreleased
+### Added
+- `QueryHelper::prepareParam` to simplify mixed query param handling
+
+### Removed
+Deprecated `QueryHelper::parseBaseParam` and all supporting methods
+
 ## 2.1.0 - 2018-01-10
 ### Added
 - Cachable queries can clear cached results
