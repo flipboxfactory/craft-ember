@@ -96,7 +96,7 @@ class QueryHelper
             if (is_object($value)) {
                 // Try to grab the Id from it
                 try {
-                    return $value->id;
+                    return $value->id ?: false;
                 } catch (\Exception $e) {
                     // Carry on
                 }

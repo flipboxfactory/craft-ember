@@ -1,5 +1,9 @@
 Changelog
 =========
+## 2.2.1 - 2019-02-02
+### Changed
+- When resolving an object value via QueryHelper, return false if the Id is not set.
+
 ## 2.2.0 - 2019-01-24
 ### Added
 - `QueryHelper::prepareParam` to simplify mixed query param handling
