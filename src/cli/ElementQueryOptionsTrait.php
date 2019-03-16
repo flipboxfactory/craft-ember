@@ -93,7 +93,6 @@ trait ElementQueryOptionsTrait
     {
         if (null === ($elementType = $this->elementType ?? null)) {
             throw new Exception("Invalid element type.");
-
         }
         return $elementType;
     }

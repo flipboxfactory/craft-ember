@@ -28,7 +28,7 @@ trait FieldLayoutMutatorTrait
     /**
      * @return string
      */
-    abstract static protected function fieldLayoutType(): string;
+    abstract protected static function fieldLayoutType(): string;
 
     /**
      * @param $id
