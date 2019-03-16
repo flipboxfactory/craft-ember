@@ -1,7 +1,7 @@
 {
   "name": "flipboxfactory/craft-ember",
   "description": "A Craft CMS plugin scaffolding",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "keywords": [
     "flipbox",
     "ember",
@@ -32,7 +32,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-develop": "2.2.x-dev",
+      "dev-develop": "2.3.x-dev",
       "dev-master": "2.2.x-dev"
     }
   }

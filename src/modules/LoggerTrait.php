@@ -12,14 +12,51 @@ use Craft;
 use yii\log\Logger;
 
 /**
- * This trait will create and attach a separate log dispatcher / logger.  It allows modules to log to a separate
- * log file, while still supporting the use of categories.
+ * This trait will prefix log items to a specific category.
+ *
+ * To properly implement, add a static $category attribute to your module such as:
+ *
+ * ```public static $category = 'some-category';```
+ *
+ * Then log a message through the module using the static log methods found within this trait.
+ *
+ * Additionally, you can log to a separate log file by appending log targets via the `config/app.php` file
+ *
+ * ```php
+ * [
+ *  'components' => [
+ *      'log' => function() {
+ *          $config = craft\helpers\App::logConfig();
+ *
+ *          $targetConfigs = \flipbox\craft\ember\helpers\LoggerHelper::targetConfigs(
+ *              ['some-category', 'some-other-category']
+ *          );
+ *
+ *          foreach ($targetConfigs as $key => $targetConfig) {
+ *              $config['targets'][$key] = $targetConfig;
+ *          }
+ *
+            return $config ? Craft::createObject($config) : null;
+ *      }
+ *  ]
+ * ]
+ * ```
  *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
  */
 trait LoggerTrait
 {
+    /**
+     * @return Logger
+     *
+     * @deprecated
+     */
+    public static function getLogger()
+    {
+        return Craft::getLogger();
+    }
+
     /**
      * The log categories
      *
