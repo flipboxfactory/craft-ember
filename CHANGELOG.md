@@ -1,5 +1,12 @@
 Changelog
 =========
+## 2.3.0 - 2019-03-17
+### Added
+- CLI traits to assist with debug, query, and queueable actions
+
+### Changed 
+- The module LoggerTrait has been simplified and now requires a static $category attribute set
+
 ## 2.2.1 - 2019-02-02
 ### Changed
 - When resolving an object value via QueryHelper, return false if the Id is not set.
