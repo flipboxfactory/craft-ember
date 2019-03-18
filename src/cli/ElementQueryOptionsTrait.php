@@ -19,7 +19,7 @@ use yii\helpers\Inflector;
 
 /**
  * @property string $elementType
- * @property array|string $queryConfig
+ * @property array $queryConfig
  * @property Action $action
  */
 trait ElementQueryOptionsTrait
@@ -102,17 +102,7 @@ trait ElementQueryOptionsTrait
      */
     protected function queryConfig(): array
     {
-        $config = $this->queryConfig;
-
-        if (is_string($config)) {
-            $config = ['class' => $config];
-        }
-
-        if (!is_array($config)) {
-            $config = [$config];
-        }
-
-        return $config;
+        return $this->queryConfig ?? [];
     }
 
     /**
@@ -252,10 +242,7 @@ trait ElementQueryOptionsTrait
     protected function getQuery(array $config = []): ElementQueryInterface
     {
         if (null === $this->query) {
-            /** @var ElementInterface $elementClass */
-            $elementClass = $this->elementType();
-
-            $this->query = $elementClass::find();
+            $this->query = $this->createQuery();
 
             QueryHelper::configure(
                 $this->query,
@@ -264,5 +251,17 @@ trait ElementQueryOptionsTrait
         }
 
         return $this->query;
+    }
+
+    /**
+     * @return ElementQueryInterface
+     * @throws Exception
+     */
+    protected function createQuery(): ElementQueryInterface
+    {
+        /** @var ElementInterface $elementClass */
+        $elementClass = $this->elementType();
+
+        return $elementClass::find();
     }
 }
