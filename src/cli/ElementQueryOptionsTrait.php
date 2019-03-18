@@ -19,7 +19,7 @@ use yii\helpers\Inflector;
 
 /**
  * @property string $elementType
- * @property array $queryConfig
+ * @property array|string $queryConfig
  * @property Action $action
  */
 trait ElementQueryOptionsTrait
@@ -102,7 +102,17 @@ trait ElementQueryOptionsTrait
      */
     protected function queryConfig(): array
     {
-        return $this->queryConfig ?? [];
+        $config = $this->queryConfig;
+
+        if (is_string($config)) {
+            $config = ['class' => $config];
+        }
+
+        if (!is_array($config)) {
+            $config = [$config];
+        }
+
+        return $config;
     }
 
     /**

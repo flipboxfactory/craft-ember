@@ -36,7 +36,7 @@ use yii\log\Logger;
  *              $config['targets'][$key] = $targetConfig;
  *          }
  *
-            return $config ? Craft::createObject($config) : null;
+ *          return $config ? Craft::createObject($config) : null;
  *      }
  *  ]
  * ]
