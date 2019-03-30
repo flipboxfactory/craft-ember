@@ -1,5 +1,9 @@
 Changelog
 =========
+## Unreleased
+### Added
+- EmailByKey queue job
+
 ## 2.3.1 - 2019-03-18
 ### Fixed
 - Fat fingered comment in the LoggerTrait
