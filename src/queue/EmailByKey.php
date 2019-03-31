@@ -72,7 +72,8 @@ class EmailByKey extends BaseJob implements \Serializable
                             'recipients' => $this->recipients
                         ]
                     )
-                ), __METHOD__
+                ),
+                __METHOD__
             );
 
             foreach ($this->recipients as $recipient) {
@@ -96,7 +97,8 @@ class EmailByKey extends BaseJob implements \Serializable
                         sprintf(
                             "Failed to send email via job '%s'",
                             (string)$id
-                        ), __METHOD__
+                        ),
+                        __METHOD__
                     );
                     continue;
                 }
@@ -105,10 +107,10 @@ class EmailByKey extends BaseJob implements \Serializable
                     sprintf(
                         "Successfully sent email via job '%s'",
                         (string)$id
-                    ), __METHOD__
+                    ),
+                    __METHOD__
                 );
             }
-
         } catch (\Exception $e) {
             Craft::error(
                 sprintf(
@@ -122,7 +124,8 @@ class EmailByKey extends BaseJob implements \Serializable
                         'Code' => $e->getCode(),
                         'Message' => $e->getMessage()
                     ])
-                ), __METHOD__
+                ),
+                __METHOD__
             );
 
             throw $e;
@@ -169,7 +172,7 @@ class EmailByKey extends BaseJob implements \Serializable
      * @param User|int|string|array $user
      * @return User
      */
-    function resolveUser($user)
+    protected function resolveUser($user)
     {
         if ($user instanceof User) {
             return $user;
