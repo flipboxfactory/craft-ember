@@ -6,20 +6,17 @@
  * @link       https://github.com/flipboxfactory/craft-ember/
  */
 
-namespace flipbox\craft\ember\queries;
+namespace flipbox\craft\ember\queue;
 
 use Craft;
 use craft\elements\User;
 use craft\helpers\ArrayHelper;
-use craft\helpers\StringHelper;
-use craft\queue\BaseJob;
-use yii\helpers\Json;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.3.2
  */
-class EmailByKey extends BaseJob implements \Serializable
+class EmailByKey extends AbstractEmailByKey implements \Serializable
 {
     /**
      *  The email key
@@ -44,92 +41,18 @@ class EmailByKey extends BaseJob implements \Serializable
 
     /**
      * @inheritdoc
-     * @return string|null
      */
-    protected function defaultDescription()
+    public function getKey(): string
     {
-        return 'Sending an email by key.';
+        return $this->key;
     }
 
     /**
      * @inheritdoc
-     * @throws \Exception
      */
-    public function execute($queue)
+    public function getRecipients(): array
     {
-        // A random tracking string
-        $id = StringHelper::randomString();
-
-        try {
-            Craft::info(
-                sprintf(
-                    "[Sending email via job '%s'.] %s",
-                    (string)$id,
-                    (string)Json::encode(
-                        [
-                            'tracking' => $id,
-                            'key' => $this->key,
-                            'recipients' => $this->recipients
-                        ]
-                    )
-                ),
-                __METHOD__
-            );
-
-            foreach ($this->recipients as $recipient) {
-                if (null === ($recipient = $this->resolveUser($recipient))) {
-                    continue;
-                }
-
-                /** @var User $recipient */
-
-                if (!Craft::$app->getMailer()
-                    ->composeFromKey(
-                        $this->key,
-                        array_merge(
-                            ['recipient' => $recipient],
-                            $this->params
-                        )
-                    )->setTo($recipient)
-                    ->send()
-                ) {
-                    Craft::error(
-                        sprintf(
-                            "Failed to send email via job '%s'",
-                            (string)$id
-                        ),
-                        __METHOD__
-                    );
-                    continue;
-                }
-
-                Craft::info(
-                    sprintf(
-                        "Successfully sent email via job '%s'",
-                        (string)$id
-                    ),
-                    __METHOD__
-                );
-            }
-        } catch (\Exception $e) {
-            Craft::error(
-                sprintf(
-                    "Exception caught while trying to run '%s' (Id: %s) job. Exception: [%s].",
-                    (string)get_class($this),
-                    $id,
-                    (string)Json::encode([
-                        'Trace' => $e->getTraceAsString(),
-                        'File' => $e->getFile(),
-                        'Line' => $e->getLine(),
-                        'Code' => $e->getCode(),
-                        'Message' => $e->getMessage()
-                    ])
-                ),
-                __METHOD__
-            );
-
-            throw $e;
-        }
+        return $this->recipients;
     }
 
     /**
@@ -156,6 +79,14 @@ class EmailByKey extends BaseJob implements \Serializable
 
         $this->recipients[] = $recipient;
         return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getParams(): array
+    {
+        return $this->params;
     }
 
     /**
