@@ -26,21 +26,21 @@ abstract class AbstractEmailByKey extends BaseJob
      *
      * @return string
      */
-    public abstract function getKey(): string;
+    abstract public function getKey(): string;
 
     /**
      * The recipients
      *
      * @return User[]
      */
-    public abstract function getRecipients(): array;
+    abstract public function getRecipients(): array;
 
     /**
      * The email params
      *
      * @return array
      */
-    public abstract function getParams(): array;
+    abstract public function getParams(): array;
 
     /**
      * Returns a default description for [[getDescription()]].
@@ -73,7 +73,8 @@ abstract class AbstractEmailByKey extends BaseJob
                             'recipients' => count($this->getRecipients())
                         ]
                     )
-                ), __METHOD__
+                ),
+                __METHOD__
             );
 
             foreach ($this->getRecipients() as $recipient) {
@@ -82,7 +83,8 @@ abstract class AbstractEmailByKey extends BaseJob
                         sprintf(
                             "Failed to send email via job '%s'",
                             (string)$id
-                        ), __METHOD__
+                        ),
+                        __METHOD__
                     );
                     continue;
                 }
@@ -91,10 +93,10 @@ abstract class AbstractEmailByKey extends BaseJob
                     sprintf(
                         "Successfully sent email via job '%s'",
                         (string)$id
-                    ), __METHOD__
+                    ),
+                    __METHOD__
                 );
             }
-
         } catch (\Exception $e) {
             Craft::warning(
                 sprintf(
@@ -108,7 +110,8 @@ abstract class AbstractEmailByKey extends BaseJob
                         'Code' => $e->getCode(),
                         'Message' => $e->getMessage()
                     ])
-                ), __METHOD__
+                ),
+                __METHOD__
             );
 
             throw $e;
