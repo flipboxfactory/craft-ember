@@ -100,67 +100,6 @@ class EmailByKey extends AbstractEmailByKey implements \Serializable
     }
 
     /**
-     * @param User|int|string|array $user
-     * @return User
-     */
-    protected function resolveUser($user)
-    {
-        if ($user instanceof User) {
-            return $user;
-        }
-
-        // An Id
-        if (is_numeric($user)) {
-            return Craft::$app->getUsers()->getUserById($user);
-        }
-
-        // An email
-        if (is_string($user)) {
-            if (!$element = Craft::$app->getUsers()->getUserByUsernameOrEmail($user)) {
-                $element = new User([
-                    'email' => $user
-                ]);
-            }
-
-            return $element;
-        }
-
-        if (is_array($user)) {
-            $email = key($user);
-            $user = reset($user);
-
-            // $user was an array [email => name]
-            if (is_string($email)) {
-                @list($firstName, $lastName) = explode(' ', $user);
-
-                // Resolve user (and set name)
-                if ($element = $this->resolveUser($email)) {
-                    $element->firstName = $firstName ?: $element->firstName;
-                    $element->lastName = $lastName ?: $element->lastName;
-                    return $element;
-                }
-
-                return new User([
-                    'email' => $email,
-                    'firstName' => $firstName,
-                    'lastName' => $lastName
-                ]);
-            }
-
-            // An array of [$user]
-            if (!$element = $this->resolveUser($user)) {
-                return new User([
-                    'email' => $user
-                ]);
-            }
-
-            return $element;
-        }
-
-        return null;
-    }
-
-    /**
      * @inheritdoc
      */
     public function serialize()
