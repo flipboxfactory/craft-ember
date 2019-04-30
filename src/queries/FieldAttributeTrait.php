@@ -8,6 +8,7 @@
 
 namespace flipbox\craft\ember\queries;
 
+use craft\db\QueryAbortedException;
 use craft\records\Field as FieldRecord;
 use craft\base\FieldInterface;
 use craft\db\Query;
@@ -65,11 +66,12 @@ trait FieldAttributeTrait
 
     /**
      * @param $value
-     * @return array|string
+     * @return int
+     * @throws QueryAbortedException
      */
     protected function parseFieldValue($value)
     {
-        return QueryHelper::prepareParam(
+        $return = QueryHelper::prepareParam(
             $value,
             function (string $handle) {
                 $value = (new Query())
@@ -80,5 +82,11 @@ trait FieldAttributeTrait
                 return empty($value) ? false : $value;
             }
         );
+
+        if ($return !== null && empty($return)) {
+            throw new QueryAbortedException();
+        }
+
+        return $return;
     }
 }

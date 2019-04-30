@@ -9,6 +9,7 @@
 namespace flipbox\craft\ember\queries;
 
 use craft\db\Query;
+use craft\db\QueryAbortedException;
 use craft\models\UserGroup;
 use craft\records\UserGroup as UserGroupRecord;
 use flipbox\craft\ember\helpers\QueryHelper;
@@ -65,11 +66,12 @@ trait UserGroupAttributeTrait
 
     /**
      * @param $value
-     * @return array|string
+     * @return int
+     * @throws QueryAbortedException
      */
     protected function parseUserGroupValue($value)
     {
-        return QueryHelper::prepareParam(
+        $return = QueryHelper::prepareParam(
             $value,
             function (string $handle) {
                 $value = (new Query())
@@ -80,5 +82,11 @@ trait UserGroupAttributeTrait
                 return empty($value) ? false : $value;
             }
         );
+
+        if ($return !== null && empty($return)) {
+            throw new QueryAbortedException();
+        }
+
+        return $return;
     }
 }

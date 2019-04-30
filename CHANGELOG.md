@@ -4,6 +4,9 @@ Changelog
 ### Added
 - EmailByKey queue job
 
+### Changed
+- Query attribute traits will throw an exception if parsing an object results in false
+
 ## 2.3.1 - 2019-03-18
 ### Fixed
 - Fat fingered comment in the LoggerTrait

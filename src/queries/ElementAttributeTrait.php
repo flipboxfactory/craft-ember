@@ -10,6 +10,7 @@ namespace flipbox\craft\ember\queries;
 
 use craft\base\ElementInterface;
 use craft\db\Query;
+use craft\db\QueryAbortedException;
 use flipbox\craft\ember\helpers\QueryHelper;
 
 /**
@@ -64,11 +65,12 @@ trait ElementAttributeTrait
 
     /**
      * @param $value
-     * @return array|string
+     * @return int
+     * @throws QueryAbortedException
      */
     protected function parseElementValue($value)
     {
-        return QueryHelper::prepareParam(
+        $return = QueryHelper::prepareParam(
             $value,
             function (string $uri) {
                 $value = (new Query())
@@ -79,5 +81,11 @@ trait ElementAttributeTrait
                 return empty($value) ? false : $value;
             }
         );
+
+        if ($return !== null && empty($return)) {
+            throw new QueryAbortedException();
+        }
+
+        return $return;
     }
 }

@@ -9,6 +9,7 @@
 namespace flipbox\craft\ember\queries;
 
 use craft\db\Query;
+use craft\db\QueryAbortedException;
 use craft\models\Site;
 use craft\records\Site as SiteRecord;
 use flipbox\craft\ember\helpers\QueryHelper;
@@ -66,10 +67,11 @@ trait SiteAttributeTrait
     /**
      * @param $value
      * @return array|string
+     * @throws QueryAbortedException
      */
     protected function parseSiteValue($value)
     {
-        return QueryHelper::prepareParam(
+        $return = QueryHelper::prepareParam(
             $value,
             function (string $handle) {
                 $value = (new Query())
@@ -80,5 +82,11 @@ trait SiteAttributeTrait
                 return empty($value) ? false : $value;
             }
         );
+
+        if ($return !== null && empty($return)) {
+            throw new QueryAbortedException();
+        }
+
+        return $return;
     }
 }

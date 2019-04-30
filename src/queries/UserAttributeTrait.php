@@ -9,6 +9,7 @@
 namespace flipbox\craft\ember\queries;
 
 use craft\db\Query;
+use craft\db\QueryAbortedException;
 use craft\elements\User as UserElement;
 use craft\records\User as UserRecord;
 use flipbox\craft\ember\helpers\QueryHelper;
@@ -65,11 +66,12 @@ trait UserAttributeTrait
 
     /**
      * @param $value
-     * @return array|string
+     * @return int
+     * @throws QueryAbortedException
      */
     protected function parseUserValue($value)
     {
-        return QueryHelper::prepareParam(
+        $return = QueryHelper::prepareParam(
             $value,
             function (string $identifier) {
                 $value = (new Query())
@@ -81,5 +83,11 @@ trait UserAttributeTrait
                 return empty($value) ? false : $value;
             }
         );
+
+        if ($return !== null && empty($return)) {
+            throw new QueryAbortedException();
+        }
+
+        return $return;
     }
 }
