@@ -204,7 +204,7 @@ trait SortableTrait
         $maxSortOrder = $this->sortOrderQuery(
             $sortOrderCondition,
             $sortOrderAttribute
-        )->max($sortOrderAttribute);
+        )->max('[[' . $sortOrderAttribute . ']]');
 
         return ++$maxSortOrder;
     }
