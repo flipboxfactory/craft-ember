@@ -1,18 +1,15 @@
 Changelog
 =========
-## Unreleased
+## 2.3.1 - 2019-04-28
 ### Added
 - EmailByKey queue job
+- ElementQueryOptionsTrait::$queryConfig can be a string or an array
 
 ### Changed
 - Query attribute traits will throw an exception if parsing an object results in false
 
-## 2.3.1 - 2019-03-18
 ### Fixed
 - Fat fingered comment in the LoggerTrait
-
-### Added
-- ElementQueryOptionsTrait::$queryConfig can be a string or an array
 
 ## 2.3.0 - 2019-03-17
 ### Added
