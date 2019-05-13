@@ -1,5 +1,10 @@
 Changelog
 =========
+
+## 2.3.2 - 2019-05-13
+### Removed
+- Yii2 app requirement (let Craft set this)
+
 ## 2.3.1 - 2019-04-28
 ### Added
 - EmailByKey queue job
