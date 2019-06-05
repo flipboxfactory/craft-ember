@@ -123,6 +123,10 @@ trait UserMutatorTrait
      */
     protected function internalResolveUser($user = null)
     {
+        if ($user === null) {
+            return null;
+        }
+
         if ($user instanceof User) {
             return $user;
         }
