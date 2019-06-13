@@ -60,13 +60,14 @@ trait LoggerTrait
     /**
      * The log categories
      *
-     * @param $category
+     * @param string|null $category
+     * @param bool $audit flag as an audit message.
      * @return string
      */
-    protected static function loggerCategory($category): string
+    protected static function loggerCategory(string $category = null, bool $audit = false): string
     {
         /** @noinspection PhpUndefinedFieldInspection */
-        $prefix = static::$category ?? '';
+        $prefix = static::$category ? (static::$category . ($audit ? ':audit' : '')) : '';
 
         if (empty($category)) {
             return $prefix;
@@ -83,11 +84,12 @@ trait LoggerTrait
      * @param string|array $message the message to be logged. This can be a simple string or a more
      * complex data structure, such as array.
      * @param string $category the category of the message.
-     * @since 2.0.14
+     * @param bool $audit flag as an audit message.
+     * @since 2.0.0
      */
-    public static function debug($message, $category = 'general')
+    public static function debug($message, $category = 'general', bool $audit = false)
     {
-        Craft::getLogger()->log($message, Logger::LEVEL_TRACE, static::loggerCategory($category));
+        Craft::getLogger()->log($message, Logger::LEVEL_TRACE, static::loggerCategory($category, $audit));
     }
 
     /**
@@ -97,10 +99,12 @@ trait LoggerTrait
      * @param string|array $message the message to be logged. This can be a simple string or a more
      * complex data structure, such as array.
      * @param string $category the category of the message.
+     * @param bool $audit flag as an audit message.
+     * @since 2.0.0
      */
-    public static function error($message, $category = 'general')
+    public static function error($message, $category = 'general', bool $audit = false)
     {
-        Craft::getLogger()->log($message, Logger::LEVEL_ERROR, static::loggerCategory($category));
+        Craft::getLogger()->log($message, Logger::LEVEL_ERROR, static::loggerCategory($category, $audit));
     }
 
     /**
@@ -110,10 +114,12 @@ trait LoggerTrait
      * @param string|array $message the message to be logged. This can be a simple string or a more
      * complex data structure, such as array.
      * @param string $category the category of the message.
+     * @param bool $audit flag as an audit message.
+     * @since 2.0.0
      */
-    public static function warning($message, $category = 'general')
+    public static function warning($message, $category = 'general', bool $audit = false)
     {
-        Craft::getLogger()->log($message, Logger::LEVEL_WARNING, static::loggerCategory($category));
+        Craft::getLogger()->log($message, Logger::LEVEL_WARNING, static::loggerCategory($category, $audit));
     }
 
     /**
@@ -123,9 +129,11 @@ trait LoggerTrait
      * @param string|array $message the message to be logged. This can be a simple string or a more
      * complex data structure, such as array.
      * @param string $category the category of the message.
+     * @param bool $audit flag as an audit message.
+     * @since 2.0.0
      */
-    public static function info($message, $category = 'general')
+    public static function info($message, $category = 'general', bool $audit = false)
     {
-        Craft::getLogger()->log($message, Logger::LEVEL_INFO, static::loggerCategory($category));
+        Craft::getLogger()->log($message, Logger::LEVEL_INFO, static::loggerCategory($category, $audit));
     }
 }

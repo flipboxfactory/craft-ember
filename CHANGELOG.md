@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## Unreleased
+### Added
+- Module logger can accept an 'audit' flag when logging which adds another category that can be targeted and handled uniquely.
+
 ## 2.3.2 - 2019-05-13
 ### Removed
 - Yii2 app requirement (let Craft set this)
