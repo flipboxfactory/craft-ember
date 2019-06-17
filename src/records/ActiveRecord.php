@@ -58,6 +58,16 @@ abstract class ActiveRecord extends \craft\db\ActiveRecord
     protected $getterPriorityAttributes = [];
 
     /**
+     * These attributes will have their 'setter' methods take priority over the normal attribute setting.
+     *
+     * These setters are commonly used to ensure an associated model and their identifier are in sync.  For example,
+     * a userId attribute and a user object (with an id attribute).
+     *
+     * @var array
+     */
+    protected $setterPriorityAttributes = [];
+
+    /**
      * The table alias
      */
     const TABLE_ALIAS = '';
@@ -222,6 +232,20 @@ abstract class ActiveRecord extends \craft\db\ActiveRecord
     }
 
     /**
+     * @param string $name
+     * @param mixed $value
+     */
+    public function __set($name, $value)
+    {
+        if ($this->hasSetterPriority($name)) {
+            $this->{'set' . $name}();
+            return;
+        }
+
+        parent::__set($name, $value);
+    }
+
+    /**
      * @inheritdoc
      */
     public function getDirtyAttributes($names = null)
@@ -236,6 +260,16 @@ abstract class ActiveRecord extends \craft\db\ActiveRecord
         }
 
         return parent::getDirtyAttributes($names);
+    }
+
+    /**
+     * @param $name
+     * @return bool
+     */
+    protected function hasSetterPriority($name)
+    {
+        return in_array($name, $this->setterPriorityAttributes, true) &&
+            method_exists($this, 'set' . $name);
     }
 
     /**
