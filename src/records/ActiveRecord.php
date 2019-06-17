@@ -238,7 +238,7 @@ abstract class ActiveRecord extends \craft\db\ActiveRecord
     public function __set($name, $value)
     {
         if ($this->hasSetterPriority($name)) {
-            $this->{'set' . $name}();
+            $this->{'set' . $name}($value);
             return;
         }
 
