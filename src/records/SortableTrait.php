@@ -83,6 +83,31 @@ trait SortableTrait
     use ActiveRecordTrait;
 
     /**
+     * Whether sort order should be checked.
+     *
+     * @var bool
+     */
+    private $saveSortOrder = true;
+
+    /**
+     * @return static
+     */
+    public function enforceSortOrder(): self
+    {
+        $this->saveSortOrder = false;
+        return $this;
+    }
+
+    /**
+     * @return static
+     */
+    public function ignoreSortOrder(): self
+    {
+        $this->saveSortOrder = true;
+        return $this;
+    }
+
+    /**
      * Returns the table name
      *
      * @return string
@@ -106,6 +131,10 @@ trait SortableTrait
         array $sortOrderCondition = [],
         string $sortOrderAttribute = 'sortOrder'
     ) {
+        if (!$this->saveSortOrder) {
+            return;
+        }
+
         if ($this->getAttribute($sortOrderAttribute) === null) {
             $this->setAttribute(
                 $sortOrderAttribute,
@@ -132,6 +161,10 @@ trait SortableTrait
         array $sortOrderCondition = [],
         string $sortOrderAttribute = 'sortOrder'
     ) {
+        if (!$this->saveSortOrder) {
+            return;
+        }
+
         // All records (sorted)
         $sortOrder = $this->sortOrderQuery($sortOrderCondition, $sortOrderAttribute)
             ->indexBy($targetAttribute)
@@ -166,6 +199,10 @@ trait SortableTrait
         array $sortOrderCondition = [],
         string $sortOrderAttribute = 'sortOrder'
     ) {
+        if (!$this->saveSortOrder) {
+            return;
+        }
+
         // All records (sorted)
         $sortOrder = $this->sortOrderQuery($sortOrderCondition, $sortOrderAttribute)
             ->indexBy($targetAttribute)
