@@ -94,7 +94,7 @@ trait SortableTrait
      */
     public function enforceSortOrder(): self
     {
-        $this->saveSortOrder = false;
+        $this->saveSortOrder = true;
         return $this;
     }
 
@@ -103,7 +103,7 @@ trait SortableTrait
      */
     public function ignoreSortOrder(): self
     {
-        $this->saveSortOrder = true;
+        $this->saveSortOrder = false;
         return $this;
     }
 
