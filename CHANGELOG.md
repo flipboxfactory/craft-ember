@@ -1,9 +1,10 @@
 Changelog
 =========
 
-## Unreleased
+## 2.4.0 - 2019-06-18
 ### Added
 - Module logger can accept an 'audit' flag when logging which adds another category that can be targeted and handled uniquely.
+- The Active Record `SortableTrait` can ignore sorting by chaining `Record::ignoreSortOrder()` prior to the record `save`.
 
 ## 2.3.2 - 2019-05-13
 ### Removed
