@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 2.4.1 - 2019-06-20
+### Added
+- Object checks to see if an object has been set for a relation
+
 ## 2.4.0 - 2019-06-18
 ### Added
 - Module logger can accept an 'audit' flag when logging which adds another category that can be targeted and handled uniquely.
