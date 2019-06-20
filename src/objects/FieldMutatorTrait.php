@@ -26,6 +26,14 @@ trait FieldMutatorTrait
     private $field;
 
     /**
+     * @return bool
+     */
+    public function isFieldSet(): bool
+    {
+        return null !== $this->field;
+    }
+
+    /**
      * Set associated fieldId
      *
      * @param int|null $id

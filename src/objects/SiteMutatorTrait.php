@@ -26,6 +26,14 @@ trait SiteMutatorTrait
     private $site;
 
     /**
+     * @return bool
+     */
+    public function isSiteSet(): bool
+    {
+        return null !== $this->site;
+    }
+
+    /**
      * Set associated siteId
      *
      * @param $id

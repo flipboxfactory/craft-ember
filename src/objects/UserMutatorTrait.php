@@ -26,6 +26,14 @@ trait UserMutatorTrait
     private $user;
 
     /**
+     * @return bool
+     */
+    public function isUserSet(): bool
+    {
+        return null !== $this->user;
+    }
+
+    /**
      * Set associated userId
      *
      * @param $id

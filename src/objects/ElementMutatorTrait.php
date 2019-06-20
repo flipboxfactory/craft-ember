@@ -27,6 +27,14 @@ trait ElementMutatorTrait
     private $element;
 
     /**
+     * @return bool
+     */
+    public function isElementSet(): bool
+    {
+        return null !== $this->element;
+    }
+
+    /**
      * Set associated elementId
      *
      * @param $id
