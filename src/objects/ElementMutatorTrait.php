@@ -100,6 +100,7 @@ trait ElementMutatorTrait
         $this->internalSetElementId(null);
 
         if (null !== ($element = $this->verifyElement($element))) {
+            /** @var Element element */
             $this->element = $element;
             $this->internalSetElementId($element->id);
         }
