@@ -100,7 +100,6 @@ class FlashMessageFilter extends ActionFilter
 
             Craft::$app->getSession()->setError($message);
         } catch (\Exception $e) {
-
             Craft::warning(
                 sprintf(
                     "Exception caught while trying to set flash message. Exception: [%s].",
