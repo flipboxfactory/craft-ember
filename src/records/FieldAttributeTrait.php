@@ -17,8 +17,14 @@ use flipbox\craft\ember\objects\FieldMutatorTrait;
 use yii\db\ActiveQueryInterface;
 
 /**
+ * Intended to be used on an ActiveRecord, this class provides `$this->userId` attribute along with 'getters'
+ * and 'setters' to ensure continuity between the Id and Object.  An user object is lazy loaded when called.
+ * In addition, ActiveRecord rules are available.
+ *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
+ *
+ * @property FieldRecord $fieldRecord
  */
 trait FieldAttributeTrait
 {
@@ -47,18 +53,23 @@ trait FieldAttributeTrait
     }
 
     /**
-     * Get associated fieldId
-     *
-     * @return int|null
+     * @inheritDoc
      */
-    public function getFieldId()
+    protected function internalSetFieldId(int $id = null)
     {
-        $fieldId = $this->getAttribute('fieldId');
-        if (null === $fieldId && null !== $this->field) {
-            $fieldId = $this->$fieldId = $this->field->id;
-        }
+        $this->setAttribute('fieldId', $id);
+        return $this;
+    }
 
-        return $fieldId;
+    /**
+     * @inheritDoc
+     */
+    protected function internalGetFieldId()
+    {
+        if (null === ($id = $this->getAttribute('fieldId'))) {
+            return null;
+        }
+        return (int) $id;
     }
 
     /**
@@ -96,11 +107,11 @@ trait FieldAttributeTrait
      *
      * @return ActiveQueryInterface
      */
-    public function getFieldRecord()
+    public function getFieldRecord(): ActiveQueryInterface
     {
         return $this->hasOne(
             FieldRecord::class,
-            ['fieldId' => 'id']
+            ['id' => 'fieldId']
         );
     }
 }

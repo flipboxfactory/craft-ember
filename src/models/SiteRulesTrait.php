@@ -10,7 +10,7 @@ namespace flipbox\craft\ember\models;
 
 use craft\models\Site;
 use craft\validators\SiteIdValidator;
-use flipbox\craft\ember\helpers\ModelHelper;
+use yii\base\Model;
 
 /**
  * @property int|null $siteId
@@ -47,7 +47,7 @@ trait SiteRulesTrait
                 ],
                 'safe',
                 'on' => [
-                    ModelHelper::SCENARIO_DEFAULT
+                    Model::SCENARIO_DEFAULT
                 ]
             ]
         ];

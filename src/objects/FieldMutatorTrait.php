@@ -13,7 +13,14 @@ use craft\base\Field;
 use craft\base\FieldInterface;
 
 /**
- * @property int|null $fieldId
+ * This trait accepts both an Field or and Field Id and ensures that the both
+ * the Field and the Id are in sync; If one changes (and does not match the other) it
+ * resolves (removes / updates) the other.
+ *
+ * In addition, this trait is primarily useful when a new Field is set and saved; the Field
+ * Id can be retrieved without needing to explicitly set the newly created Id.
+ * 
+ * @property Field|FieldInterface|null $field
  *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
@@ -24,6 +31,23 @@ trait FieldMutatorTrait
      * @var Field|FieldInterface|null
      */
     private $field;
+
+    /**
+     * Internally set the Field Id.  This can be overridden. A record for example
+     * should use `setAttribute`.
+     *
+     * @param int|null $id
+     * @return $this
+     */
+    abstract protected function internalSetFieldId(int $id = null);
+
+    /**
+     * Internally get the Field Id.  This can be overridden.  A record for example
+     * should use `getAttribute`.
+     *
+     * @return int|null
+     */
+    abstract protected function internalGetFieldId();
 
     /**
      * @return bool
@@ -41,7 +65,12 @@ trait FieldMutatorTrait
      */
     public function setFieldId(int $id = null)
     {
-        $this->fieldId = $id;
+        $this->internalSetFieldId($id);
+
+        if (null !== $this->field && $id !== $this->field->id) {
+            $this->field = null;
+        }
+
         return $this;
     }
 
@@ -52,11 +81,11 @@ trait FieldMutatorTrait
      */
     public function getFieldId()
     {
-        if (null === $this->fieldId && null !== $this->field) {
-            $this->fieldId = $this->field->id;
+        if (null === $this->internalGetFieldId() && null !== $this->field) {
+            $this->setFieldId($this->field->id);
         }
 
-        return $this->fieldId;
+        return $this->internalGetFieldId();
     }
 
     /**
@@ -68,12 +97,11 @@ trait FieldMutatorTrait
     public function setField($field = null)
     {
         $this->field = null;
+        $this->internalSetFieldId(null);
 
-        if (!$field = $this->internalResolveField($field)) {
-            $this->field = $this->fieldId = null;
-        } else {
-            $this->fieldId = $field->id;
+        if (null !== ($field = $this->verifyField($field))) {
             $this->field = $field;
+            $this->internalSetFieldId($field->id);
         }
 
         return $this;
@@ -85,15 +113,13 @@ trait FieldMutatorTrait
     public function getField()
     {
         if ($this->field === null) {
-            $site = $this->resolveField();
-            $this->setField($site);
-            return $site;
+            $field = $this->resolveField();
+            $this->setField($field);
+            return $field;
         }
 
-        $fieldId = $this->fieldId;
-        if ($fieldId !== null &&
-            $fieldId !== $this->field->id
-        ) {
+        $fieldId = $this->internalGetFieldId();
+        if ($fieldId !== null && $fieldId !== $this->field->id) {
             $this->field = null;
             return $this->getField();
         }
@@ -118,20 +144,24 @@ trait FieldMutatorTrait
      */
     private function resolveFieldFromId()
     {
-        if (null === $this->fieldId) {
+        if (null === ($fieldId = $this->internalGetFieldId())) {
             return null;
         }
 
         /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return Craft::$app->getFields()->getFieldById($this->fieldId);
+        return Craft::$app->getFields()->getFieldById($fieldId);
     }
 
     /**
      * @param mixed $field
      * @return FieldInterface|FieldInterface|Field|null
      */
-    protected function internalResolveField($field = null)
+    protected function verifyField($field = null)
     {
+        if (null === $field) {
+            return null;
+        }
+
         if ($field instanceof FieldInterface) {
             return $field;
         }
@@ -144,6 +174,6 @@ trait FieldMutatorTrait
             return Craft::$app->getFields()->getFieldByHandle($field);
         }
 
-        return Craft::$app->getFields()->createField($field);
+        return null;
     }
 }

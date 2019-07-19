@@ -13,7 +13,13 @@ use craft\base\Element;
 use craft\base\ElementInterface;
 
 /**
- * @property int|null $elementId
+ * This trait accepts both an ElementInterface or and Element Id and ensures that the both
+ * the ElementInterface and the Id are in sync. If one changes (and does not match the other) it
+ * resolves (removes / updates) the other.
+ *
+ * In addition, this trait is primarily useful when a new Element is set and saved; the Element
+ * Id can be retrieved without needing to explicitly set the newly created Id.
+ *
  * @property Element|ElementInterface|null $element
  *
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -26,6 +32,23 @@ trait ElementMutatorTrait
      */
     private $element;
 
+    /**
+     * Internally set the Element Id.  This can be overridden. A record for example
+     * should use `setAttribute`.
+     *
+     * @param int|null $id
+     * @return $this
+     */
+    abstract protected function internalSetElementId(int $id = null);
+
+    /**
+     * Internally get the Element Id.  This can be overridden.  A record for example
+     * should use `getAttribute`.
+     *
+     * @return int|null
+     */
+    abstract protected function internalGetElementId();
+    
     /**
      * @return bool
      */
@@ -40,9 +63,14 @@ trait ElementMutatorTrait
      * @param $id
      * @return $this
      */
-    public function setElementId(int $id)
+    public function setElementId(int $id = null)
     {
-        $this->elementId = $id;
+        $this->internalSetElementId($id);
+
+        if (null !== $this->element && $id !== $this->element->id) {
+            $this->element = null;
+        }
+
         return $this;
     }
 
@@ -53,11 +81,11 @@ trait ElementMutatorTrait
      */
     public function getElementId()
     {
-        if (null === $this->elementId && null !== $this->element) {
-            $this->elementId = $this->element->id;
+        if (null === $this->internalGetElementId() && null !== $this->element) {
+            $this->setElementId($this->element->id);
         }
 
-        return $this->elementId;
+        return $this->internalGetElementId();
     }
 
     /**
@@ -69,13 +97,11 @@ trait ElementMutatorTrait
     public function setElement($element = null)
     {
         $this->element = null;
+        $this->internalSetElementId(null);
 
-        if (!$element = $this->internalResolveElement($element)) {
-            $this->element = $this->elementId = null;
-        } else {
-            /** @var Element $element */
-            $this->elementId = $element->id;
+        if (null !== ($element = $this->verifyElement($element))) {
             $this->element = $element;
+            $this->internalSetElementId($element->id);
         }
 
         return $this;
@@ -86,17 +112,14 @@ trait ElementMutatorTrait
      */
     public function getElement()
     {
-        /** @var Element $element */
         if ($this->element === null) {
             $element = $this->resolveElement();
             $this->setElement($element);
             return $element;
         }
 
-        $elementId = $this->elementId;
-        if ($elementId !== null &&
-            $elementId !== $this->element->id
-        ) {
+        $elementId = $this->internalGetElementId();
+        if ($elementId !== null && $elementId !== $this->element->id) {
             $this->element = null;
             return $this->getElement();
         }
@@ -109,8 +132,8 @@ trait ElementMutatorTrait
      */
     protected function resolveElement()
     {
-        if ($model = $this->resolveElementFromId()) {
-            return $model;
+        if ($element = $this->resolveElementFromId()) {
+            return $element;
         }
 
         return null;
@@ -121,19 +144,23 @@ trait ElementMutatorTrait
      */
     private function resolveElementFromId()
     {
-        if (null === $this->elementId) {
+        if (null === ($elementId = $this->internalGetElementId())) {
             return null;
         }
 
-        return Craft::$app->getElements()->getElementById($this->elementId);
+        return Craft::$app->getElements()->getElementById($elementId);
     }
 
     /**
      * @param mixed $element
      * @return ElementInterface|Element|null
      */
-    protected function internalResolveElement($element = null)
+    protected function verifyElement($element = null)
     {
+        if (null === $element) {
+            return null;
+        }
+
         if ($element instanceof ElementInterface) {
             return $element;
         }
@@ -146,6 +173,6 @@ trait ElementMutatorTrait
             return Craft::$app->getElements()->getElementByUri($element);
         }
 
-        return Craft::$app->getElements()->createElement($element);
+        return null;
     }
 }

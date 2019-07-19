@@ -22,6 +22,8 @@ use yii\db\ActiveQueryInterface;
  *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
+ *
+ * @property ElementRecord $elementRecord
  */
 trait ElementAttributeTrait
 {
@@ -50,18 +52,23 @@ trait ElementAttributeTrait
     }
 
     /**
-     * Get associated elementId
-     *
-     * @return int|null
+     * @inheritDoc
      */
-    public function getElementId()
+    protected function internalSetElementId(int $id = null)
     {
-        $id = $this->getAttribute('elementId');
-        if (null === $id && null !== $this->element) {
-            $id = $this->elementId = $this->element->id;
-        }
+        $this->setAttribute('elementId', $id);
+        return $this;
+    }
 
-        return $id;
+    /**
+     * @inheritDoc
+     */
+    protected function internalGetElementId()
+    {
+        if (null === ($id = $this->getAttribute('elementId'))) {
+            return null;
+        }
+        return (int) $id;
     }
 
     /**
@@ -99,11 +106,11 @@ trait ElementAttributeTrait
      *
      * @return ActiveQueryInterface
      */
-    public function getElementRecord()
+    public function getElementRecord(): ActiveQueryInterface
     {
         return $this->hasOne(
             ElementRecord::class,
-            ['elementId' => 'id']
+            ['id' => 'elementId']
         );
     }
 }

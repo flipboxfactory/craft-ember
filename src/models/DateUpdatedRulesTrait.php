@@ -10,7 +10,7 @@ namespace flipbox\craft\ember\models;
 
 use craft\validators\DateTimeValidator;
 use DateTime;
-use flipbox\craft\ember\helpers\ModelHelper;
+use yii\base\Model;
 
 /**
  * @property DateTime|null $dateUpdated
@@ -38,7 +38,7 @@ trait DateUpdatedRulesTrait
                 ],
                 'safe',
                 'on' => [
-                    ModelHelper::SCENARIO_DEFAULT
+                    Model::SCENARIO_DEFAULT
                 ]
             ]
         ];

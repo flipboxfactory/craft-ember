@@ -13,7 +13,14 @@ use craft\models\FieldLayout;
 use flipbox\craft\ember\helpers\ObjectHelper;
 
 /**
- * @property int|null $fieldLayoutId
+ * This trait accepts both an FieldLayout or and FieldLayout Id and ensures that the both
+ * the FieldLayout and the Id are in sync. If one changes (and does not match the other) it
+ * resolves (removes / updates) the other.
+ *
+ * In addition, this trait is primarily useful when a new FieldLayout is set and saved; the FieldLayout
+ * Id can be retrieved without needing to explicitly set the newly created Id.
+ *
+ * @property FieldLayout|null $fieldLayout
  *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
@@ -31,12 +38,42 @@ trait FieldLayoutMutatorTrait
     abstract protected static function fieldLayoutType(): string;
 
     /**
+     * Internally set the FieldLayout Id.  This can be overridden. A record for example
+     * should use `setAttribute`.
+     *
+     * @param int|null $id
+     * @return $this
+     */
+    abstract protected function internalSetFieldLayoutId(int $id = null);
+
+    /**
+     * Internally get the FieldLayout Id.  This can be overridden.  A record for example
+     * should use `getAttribute`.
+     *
+     * @return int|null
+     */
+    abstract protected function internalGetFieldLayoutId();
+
+    /**
+     * @return bool
+     */
+    public function isFieldLayoutSet(): bool
+    {
+        return null !== $this->fieldLayout;
+    }
+
+    /**
      * @param $id
      * @return $this
      */
     public function setFieldLayoutId(int $id)
     {
-        $this->fieldLayoutId = $id;
+        $this->internalSetFieldLayoutId($id);
+
+        if (null !== $this->fieldLayout && $id !== $this->fieldLayout->id) {
+            $this->fieldLayout = null;
+        }
+
         return $this;
     }
 
@@ -47,11 +84,11 @@ trait FieldLayoutMutatorTrait
      */
     public function getFieldLayoutId()
     {
-        if (null === $this->fieldLayoutId && null !== $this->fieldLayout) {
-            $this->fieldLayoutId = $this->fieldLayout->id;
+        if (null === $this->internalGetFieldLayoutId() && null !== $this->fieldLayout) {
+            $this->setFieldLayoutId($this->fieldLayout->id);
         }
 
-        return $this->fieldLayoutId;
+        return $this->internalGetFieldLayoutId();
     }
 
     /**
@@ -61,12 +98,11 @@ trait FieldLayoutMutatorTrait
     public function setFieldLayout($fieldLayout = null)
     {
         $this->fieldLayout = null;
+        $this->internalSetFieldLayoutId(null);
 
-        if (!$fieldLayout = $this->internalResolveFieldLayout($fieldLayout)) {
-            $this->fieldLayout = $this->fieldLayoutId = null;
-        } else {
-            $this->fieldLayoutId = $fieldLayout->id;
+        if (null !== ($fieldLayout = $this->verifyFieldLayout($fieldLayout))) {
             $this->fieldLayout = $fieldLayout;
+            $this->internalSetFieldLayoutId($fieldLayout->id);
         }
 
         return $this;
@@ -82,32 +118,30 @@ trait FieldLayoutMutatorTrait
                 $fieldLayout = $this->createFieldLayout();
             }
 
-            $this->setFieldLayout($fieldLayout);
-            return $this->setTypeOnFieldLayout($fieldLayout);
+            $this->setFieldLayout($fieldLayout)
+                ->setTypeOnFieldLayout($fieldLayout);
+
+            return $fieldLayout;
         }
 
-        $fieldLayoutId = $this->fieldLayoutId;
-        if ($fieldLayoutId !== null &&
-            $fieldLayoutId !== $this->fieldLayout->id
-        ) {
+        $fieldLayoutId = $this->internalGetFieldLayoutId();
+        if ($fieldLayoutId !== null && $fieldLayoutId !== $this->fieldLayout->id) {
             $this->fieldLayout = null;
             return $this->getFieldLayout();
         }
 
-        return $this->setTypeOnFieldLayout($this->fieldLayout);
+        $this->setTypeOnFieldLayout($this->fieldLayout);
+        return $this->fieldLayout;
     }
 
     /**
      * @param FieldLayout $fieldLayout
-     * @return FieldLayout
      */
-    protected function setTypeOnFieldLayout(FieldLayout $fieldLayout): FieldLayout
+    protected function setTypeOnFieldLayout(FieldLayout $fieldLayout)
     {
         if ($fieldLayout->type === null) {
             $fieldLayout->type = static::fieldLayoutType();
         }
-
-        return $fieldLayout;
     }
 
     /**
@@ -115,8 +149,8 @@ trait FieldLayoutMutatorTrait
      */
     protected function resolveFieldLayout()
     {
-        if ($fieldLayoutModel = $this->resolveFieldLayoutFromId()) {
-            return $fieldLayoutModel;
+        if ($fieldLayout = $this->resolveFieldLayoutFromId()) {
+            return $fieldLayout;
         }
 
         return $this->resolveFieldLayoutFromType();
@@ -127,11 +161,11 @@ trait FieldLayoutMutatorTrait
      */
     private function resolveFieldLayoutFromId()
     {
-        if (null === $this->fieldLayoutId) {
+        if (null === ($fieldLayoutId = $this->internalGetFieldLayoutId())) {
             return null;
         }
 
-        return Craft::$app->getFields()->getLayoutById($this->fieldLayoutId);
+        return Craft::$app->getFields()->getLayoutById($fieldLayoutId);
     }
 
     /**
@@ -160,8 +194,12 @@ trait FieldLayoutMutatorTrait
      * @param $fieldLayout
      * @return FieldLayout|null
      */
-    protected function internalResolveFieldLayout($fieldLayout = null): FieldLayout
+    protected function verifyFieldLayout($fieldLayout = null): FieldLayout
     {
+        if (null === $fieldLayout) {
+            return null;
+        }
+
         if ($fieldLayout instanceof FieldLayout) {
             return $fieldLayout;
         }
@@ -174,17 +212,6 @@ trait FieldLayoutMutatorTrait
             return Craft::$app->getFields()->getLayoutByType($fieldLayout);
         }
 
-        try {
-            $object = Craft::createObject(FieldLayout::class, [$fieldLayout]);
-        } catch (\Exception $e) {
-            $object = new FieldLayout();
-            ObjectHelper::populate(
-                $object,
-                $fieldLayout
-            );
-        }
-
-        /** @var FieldLayout $object */
-        return $object;
+        return null;
     }
 }

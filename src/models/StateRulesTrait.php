@@ -8,7 +8,7 @@
 
 namespace flipbox\craft\ember\models;
 
-use flipbox\craft\ember\helpers\ModelHelper;
+use yii\base\Model;
 
 /**
  * @property bool $enabled
@@ -30,7 +30,7 @@ trait StateRulesTrait
                 ],
                 'safe',
                 'on' => [
-                    ModelHelper::SCENARIO_DEFAULT
+                    Model::SCENARIO_DEFAULT
                 ]
             ]
         ];

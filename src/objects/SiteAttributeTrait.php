@@ -9,6 +9,8 @@
 namespace flipbox\craft\ember\objects;
 
 /**
+ * @property int|null $siteId
+ * 
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
  */
@@ -20,4 +22,21 @@ trait SiteAttributeTrait
      * @var int|null
      */
     private $siteId;
+
+    /**
+     * @inheritDoc
+     */
+    protected function internalSetSiteId(int $id = null)
+    {
+        $this->siteId = $id;
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function internalGetSiteId()
+    {
+        return $this->siteId === null ? null : (int) $this->siteId;
+    }
 }

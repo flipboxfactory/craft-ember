@@ -9,17 +9,21 @@
 namespace flipbox\craft\ember\records;
 
 use Craft;
-use craft\elements\User as UserElement;
+use craft\elements\User;
 use craft\records\User as UserRecord;
 use flipbox\craft\ember\models\UserRulesTrait;
 use flipbox\craft\ember\objects\UserMutatorTrait;
 use yii\db\ActiveQueryInterface;
 
 /**
+ * Intended to be used on an ActiveRecord, this class provides `$this->userId` attribute along with 'getters'
+ * and 'setters' to ensure continuity between the Id and Object.  An user object is lazy loaded when called.
+ * In addition, ActiveRecord rules are available.
+ *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
  *
- * @property UserRecord[] $userRecord
+ * @property UserRecord $userRecord
  */
 trait UserAttributeTrait
 {
@@ -48,22 +52,27 @@ trait UserAttributeTrait
     }
 
     /**
-     * Get associated userId
-     *
-     * @return int|null
+     * @inheritDoc
      */
-    public function getUserId()
+    protected function internalSetUserId(int $id = null)
     {
-        $id = $this->getAttribute('userId');
-        if (null === $id && null !== $this->user) {
-            $id = $this->userId = $this->user->id;
-        }
-
-        return $id;
+        $this->setAttribute('userId', $id);
+        return $this;
     }
 
     /**
-     * @return UserElement|null
+     * @inheritDoc
+     */
+    protected function internalGetUserId()
+    {
+        if (null === ($id = $this->getAttribute('userId'))) {
+            return null;
+        }
+        return (int) $id;
+    }
+
+    /**
+     * @return User|null
      */
     protected function resolveUser()
     {
@@ -75,7 +84,7 @@ trait UserAttributeTrait
     }
 
     /**
-     * @return UserElement|null
+     * @return User|null
      */
     private function resolveUserFromRelation()
     {
@@ -83,11 +92,11 @@ trait UserAttributeTrait
             return null;
         }
 
-        /** @var UserRecord $record */
-        $record = $this->getRelation('userRecord');
-        if (null === $record) {
+        if (null === ($record = $this->getRelation('userRecord'))) {
             return null;
         }
+
+        /** @var UserRecord $record */
 
         return Craft::$app->getUsers()->getUserById($record->id);
     }
@@ -101,7 +110,7 @@ trait UserAttributeTrait
     {
         return $this->hasOne(
             UserRecord::class,
-            ['userId' => 'id']
+            ['id' => 'userId']
         );
     }
 }

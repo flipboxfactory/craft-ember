@@ -18,11 +18,13 @@ class ModelHelper
 {
     /**
      * The default scenario
+     * @deprecated Use `yii\base\Model::SCENARIO_DEFAULT`
      */
-    const DEFAULT_SCENARIO = self::SCENARIO_DEFAULT;
+    const DEFAULT_SCENARIO = Model::SCENARIO_DEFAULT;
 
     /**
      * The scenario used by default
+     * @deprecated Use `yii\base\Model::SCENARIO_DEFAULT`
      */
     const SCENARIO_DEFAULT = Model::SCENARIO_DEFAULT;
 }

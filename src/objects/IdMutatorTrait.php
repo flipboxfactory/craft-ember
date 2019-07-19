@@ -21,16 +21,20 @@ trait IdMutatorTrait
      */
     public function getId()
     {
-        return $this->id;
+        if (null === $this->id) {
+            return null;
+        }
+
+        return (int) $this->id;
     }
 
     /**
      * @param $id
      * @return $this
      */
-    public function setId($id)
+    public function setId(int $id = null)
     {
-        $this->id = $id === null ? null : (int)$id;
+        $this->id = $id;
         return $this;
     }
 }

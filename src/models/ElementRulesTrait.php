@@ -9,7 +9,7 @@
 namespace flipbox\craft\ember\models;
 
 use craft\base\Element;
-use flipbox\craft\ember\helpers\ModelHelper;
+use yii\base\Model;
 
 /**
  * @property int|null $elementId
@@ -40,7 +40,7 @@ trait ElementRulesTrait
                 ],
                 'safe',
                 'on' => [
-                    ModelHelper::SCENARIO_DEFAULT
+                    Model::SCENARIO_DEFAULT
                 ]
             ]
         ];

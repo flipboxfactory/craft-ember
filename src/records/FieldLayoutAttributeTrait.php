@@ -18,12 +18,16 @@ use yii\db\ActiveQueryInterface;
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
+ *
+ * @property FieldLayoutRecord $fieldLayoutRecord
  */
 trait FieldLayoutAttributeTrait
 {
     use ActiveRecordTrait,
         FieldLayoutRulesTrait,
-        FieldLayoutMutatorTrait;
+        FieldLayoutMutatorTrait  {
+            resolveFieldLayout as parentResolveFieldLayout;
+    }
 
     /**
      * @inheritdoc
@@ -46,18 +50,23 @@ trait FieldLayoutAttributeTrait
     }
 
     /**
-     * Get associated fieldLayoutId
-     *
-     * @return int|null
+     * @inheritDoc
      */
-    public function getFieldLayoutId()
+    protected function internalSetFieldLayoutId(int $id = null)
     {
-        $fieldLayoutId = $this->getAttribute('fieldLayoutId');
-        if (null === $fieldLayoutId && null !== $this->fieldLayout) {
-            $fieldLayoutId = $this->fieldLayoutId = $this->fieldLayout->id;
-        }
+        $this->setAttribute('fieldLayoutId', $id);
+        return $this;
+    }
 
-        return $fieldLayoutId;
+    /**
+     * @inheritDoc
+     */
+    protected function internalGetFieldLayoutId()
+    {
+        if (null === ($id = $this->getAttribute('fieldLayoutId'))) {
+            return null;
+        }
+        return (int) $id;
     }
 
     /**
@@ -69,7 +78,7 @@ trait FieldLayoutAttributeTrait
             return $fieldLayout;
         }
 
-        return $this->resolveFieldLayoutFromId();
+        return $this->parentResolveFieldLayout();
     }
 
     /**
@@ -95,11 +104,11 @@ trait FieldLayoutAttributeTrait
      *
      * @return ActiveQueryInterface
      */
-    public function getFieldLayoutRecord()
+    public function getFieldLayoutRecord(): ActiveQueryInterface
     {
         return $this->hasOne(
             FieldLayoutRecord::class,
-            ['fieldLayoutId' => 'id']
+            ['id' => 'fieldLayoutId']
         );
     }
 }

@@ -10,10 +10,16 @@ namespace flipbox\craft\ember\objects;
 
 use Craft;
 use craft\elements\User;
-use flipbox\craft\ember\helpers\ObjectHelper;
 
 /**
- * @property int|null $userId
+ * This trait accepts both an User or and User Id and ensures that the both
+ * the User and the Id are in sync. If one changes (and does not match the other) it
+ * resolves (removes / updates) the other.
+ *
+ * In addition, this trait is primarily useful when a new User is set and saved; the User
+ * Id can be retrieved without needing to explicitly set the newly created Id.
+ *
+ * @property User|null $user
  *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
@@ -25,6 +31,23 @@ trait UserMutatorTrait
      */
     private $user;
 
+    /**
+     * Internally set the User Id.  This can be overridden. A record for example
+     * should use `setAttribute`.
+     *
+     * @param int|null $id
+     * @return $this
+     */
+    abstract protected function internalSetUserId(int $id = null);
+
+    /**
+     * Internally get the User Id.  This can be overridden.  A record for example
+     * should use `getAttribute`.
+     *
+     * @return int|null
+     */
+    abstract protected function internalGetUserId();
+    
     /**
      * @return bool
      */
@@ -41,7 +64,12 @@ trait UserMutatorTrait
      */
     public function setUserId(int $id)
     {
-        $this->userId = $id;
+        $this->internalSetUserId($id);
+
+        if (null !== $this->user && $id !== $this->user->id) {
+            $this->user = null;
+        }
+
         return $this;
     }
 
@@ -52,11 +80,11 @@ trait UserMutatorTrait
      */
     public function getUserId()
     {
-        if (null === $this->userId && null !== $this->user) {
-            $this->userId = $this->user->id;
+        if (null === $this->internalGetUserId() && null !== $this->user) {
+            $this->setUserId($this->user->id);
         }
 
-        return $this->userId;
+        return $this->internalGetUserId();
     }
 
     /**
@@ -68,12 +96,11 @@ trait UserMutatorTrait
     public function setUser($user = null)
     {
         $this->user = null;
+        $this->internalSetUserId(null);
 
-        if (!$user = $this->internalResolveUser($user)) {
-            $this->user = $this->userId = null;
-        } else {
-            $this->userId = $user->id;
+        if (null !== ($user = $this->verifyUser($user))) {
             $this->user = $user;
+            $this->internalSetUserId($user->id);
         }
 
         return $this;
@@ -90,10 +117,8 @@ trait UserMutatorTrait
             return $user;
         }
 
-        $userId = $this->userId;
-        if ($userId !== null &&
-            $userId !== $this->user->id
-        ) {
+        $userId = $this->internalGetUserId();
+        if ($userId !== null && $userId !== $this->user->id) {
             $this->user = null;
             return $this->getUser();
         }
@@ -106,8 +131,8 @@ trait UserMutatorTrait
      */
     protected function resolveUser()
     {
-        if ($model = $this->resolveUserFromId()) {
-            return $model;
+        if ($user = $this->resolveUserFromId()) {
+            return $user;
         }
 
         return null;
@@ -118,18 +143,18 @@ trait UserMutatorTrait
      */
     private function resolveUserFromId()
     {
-        if (null === $this->userId) {
+        if (null === ($userId = $this->internalGetUserId())) {
             return null;
         }
 
-        return Craft::$app->getUsers()->getUserById($this->userId);
+        return Craft::$app->getUsers()->getUserById($userId);
     }
 
     /**
      * @param $user
      * @return User|null
      */
-    protected function internalResolveUser($user = null)
+    protected function verifyUser($user = null)
     {
         if ($user === null) {
             return null;
@@ -147,17 +172,6 @@ trait UserMutatorTrait
             return Craft::$app->getUsers()->getUserByUsernameOrEmail($user);
         }
 
-        try {
-            $object = Craft::createObject(User::class, [$user]);
-        } catch (\Exception $e) {
-            $object = new User();
-            ObjectHelper::populate(
-                $object,
-                $user
-            );
-        }
-
-        /** @var User $object */
-        return $object;
+        return null;
     }
 }

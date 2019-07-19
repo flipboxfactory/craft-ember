@@ -16,18 +16,20 @@ use flipbox\craft\ember\objects\SiteMutatorTrait;
 use yii\db\ActiveQueryInterface;
 
 /**
+ * Intended to be used on an ActiveRecord, this class provides `$this->siteId` attribute along with 'getters'
+ * and 'setters' to ensure continuity between the Id and Object.  A site object is lazy loaded when called.
+ * In addition, ActiveRecord rules are available.
+ * 
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
  *
- * @method SiteModel parentResolveSite()
+ * @property SiteRecord $siteRecord
  */
 trait SiteAttributeTrait
 {
     use ActiveRecordTrait,
         SiteRulesTrait,
-        SiteMutatorTrait {
-        resolveSite as parentResolveSite;
-    }
+        SiteMutatorTrait;
 
     /**
      * @inheritdoc
@@ -50,18 +52,23 @@ trait SiteAttributeTrait
     }
 
     /**
-     * Get associated siteId
-     *
-     * @return int|null
+     * @inheritDoc
      */
-    public function getSiteId()
+    protected function internalSetSiteId(int $id = null)
     {
-        $siteId = $this->getAttribute('siteId');
-        if (null === $siteId && null !== $this->site) {
-            $siteId = $this->siteId = $this->site->id;
-        }
+        $this->setAttribute('siteId', $id);
+        return $this;
+    }
 
-        return $siteId;
+    /**
+     * @inheritDoc
+     */
+    protected function internalGetSiteId()
+    {
+        if (null === ($id = $this->getAttribute('siteId'))) {
+            return null;
+        }
+        return (int) $id;
     }
 
     /**
@@ -74,12 +81,11 @@ trait SiteAttributeTrait
             return $site;
         }
 
-        return $this->parentResolveSite();
+        return $this->resolveSiteFromId();
     }
 
     /**
      * @return SiteModel|null
-     * @throws \yii\base\InvalidArgumentException
      */
     private function resolveSiteFromRelation()
     {
@@ -105,7 +111,7 @@ trait SiteAttributeTrait
     {
         return $this->hasOne(
             SiteRecord::class,
-            ['siteId' => 'id']
+            ['id' => 'siteId']
         );
     }
 }
