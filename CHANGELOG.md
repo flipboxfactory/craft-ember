@@ -1,6 +1,14 @@
 Changelog
 =========
 
+## 2.5.0 - 2019-07-19
+### Changed
+- Various object mutation traits have abstract methods to make them more compatible with models and records.  Using
+the mutation traits directly will require implementing the abstract methods.
+
+### Removed
+- Deprecated QueryHelper methods that would result in poorly created conditions.
+
 ## 2.4.1 - 2019-06-20
 ### Added
 - Object checks to see if an object has been set for a relation
