@@ -68,7 +68,7 @@ trait UserAttributeTrait
         if (null === ($id = $this->getAttribute('userId'))) {
             return null;
         }
-        return (int) $id;
+        return (int)$id;
     }
 
     /**

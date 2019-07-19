@@ -11,8 +11,8 @@ namespace flipbox\craft\ember\filters;
 use Craft;
 use yii\base\Action;
 use yii\base\ActionFilter;
+use yii\helpers\Json;
 use yii\web\Controller;
-use yii\web\Response;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -60,9 +60,9 @@ class FlashMessageFilter extends ActionFilter
     public $message;
 
     /**
-     * @param \yii\base\Action $action
+     * @param Action $action
      * @param mixed $result
-     * @return mixed|Response
+     * @return mixed
      */
     public function afterAction($action, $result)
     {
@@ -88,16 +88,34 @@ class FlashMessageFilter extends ActionFilter
      */
     protected function setMessage(Action $action)
     {
-        if (!$message = $this->findMessage($action->id)) {
-            return;
+        try {
+            if (!$message = $this->findMessage($action->id)) {
+                return;
+            }
+
+            if (Craft::$app->getResponse()->getIsSuccessful()) {
+                Craft::$app->getSession()->setNotice($message);
+                return;
+            }
+
+            Craft::$app->getSession()->setError($message);
+        } catch (\Exception $e) {
+
+            Craft::warning(
+                sprintf(
+                    "Exception caught while trying to set flash message. Exception: [%s].",
+                    (string)Json::encode([
+                        'Trace' => $e->getTraceAsString(),
+                        'File' => $e->getFile(),
+                        'Line' => $e->getLine(),
+                        'Code' => $e->getCode(),
+                        'Message' => $e->getMessage()
+                    ])
+                ),
+                __METHOD__
+            );
         }
 
-        if (Craft::$app->getResponse()->getIsSuccessful()) {
-            Craft::$app->getSession()->setNotice($message);
-            return;
-        }
-
-        Craft::$app->getSession()->setError($message);
         return;
     }
 

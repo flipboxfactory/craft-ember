@@ -37,6 +37,6 @@ trait UserAttributeTrait
      */
     protected function internalGetUserId()
     {
-        return $this->userId === null ? null : (int) $this->userId;
+        return $this->userId === null ? null : (int)$this->userId;
     }
 }

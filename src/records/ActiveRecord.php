@@ -158,7 +158,7 @@ abstract class ActiveRecord extends \craft\db\ActiveRecord
 
     /**
      * @param $condition
-     * @return static|null
+     * @return static
      * @throws RecordNotFoundException
      */
     public static function getOne($condition)
@@ -171,6 +171,8 @@ abstract class ActiveRecord extends \craft\db\ActiveRecord
                 )
             );
         }
+
+        /** @var static $record */
 
         return $record;
     }

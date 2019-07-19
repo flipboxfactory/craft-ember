@@ -10,7 +10,7 @@ namespace flipbox\craft\ember\objects;
 
 /**
  * @property int|null $siteId
- * 
+ *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
  */
@@ -37,6 +37,6 @@ trait SiteAttributeTrait
      */
     protected function internalGetSiteId()
     {
-        return $this->siteId === null ? null : (int) $this->siteId;
+        return $this->siteId === null ? null : (int)$this->siteId;
     }
 }

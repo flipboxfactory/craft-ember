@@ -22,6 +22,7 @@ trait DateUpdatedMutatorTrait
     /**
      * @param $value
      * @return $this
+     * @throws \Exception
      */
     public function setDateUpdated($value)
     {
@@ -35,7 +36,8 @@ trait DateUpdatedMutatorTrait
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|false|null
+     * @throws \Exception
      */
     public function getDateUpdated()
     {
@@ -49,7 +51,8 @@ trait DateUpdatedMutatorTrait
     }
 
     /**
-     * @return string|null
+     * @return false|string|null
+     * @throws \Exception
      */
     public function getDateUpdatedIso8601()
     {

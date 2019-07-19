@@ -67,7 +67,7 @@ class RawFilter extends ActionFilter
     /**
      * @param Action $action
      * @param $result
-     * @return \Twig_Markup
+     * @return \Twig\Markup
      * @throws Exception
      */
     protected function renderTemplate(Action $action, $result)

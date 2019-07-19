@@ -68,7 +68,7 @@ trait ElementAttributeTrait
         if (null === ($id = $this->getAttribute('elementId'))) {
             return null;
         }
-        return (int) $id;
+        return (int)$id;
     }
 
     /**

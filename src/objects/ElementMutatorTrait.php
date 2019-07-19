@@ -48,7 +48,7 @@ trait ElementMutatorTrait
      * @return int|null
      */
     abstract protected function internalGetElementId();
-    
+
     /**
      * @return bool
      */

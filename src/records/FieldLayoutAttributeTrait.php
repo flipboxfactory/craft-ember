@@ -25,8 +25,8 @@ trait FieldLayoutAttributeTrait
 {
     use ActiveRecordTrait,
         FieldLayoutRulesTrait,
-        FieldLayoutMutatorTrait  {
-            resolveFieldLayout as parentResolveFieldLayout;
+        FieldLayoutMutatorTrait {
+        resolveFieldLayout as parentResolveFieldLayout;
     }
 
     /**
@@ -66,7 +66,7 @@ trait FieldLayoutAttributeTrait
         if (null === ($id = $this->getAttribute('fieldLayoutId'))) {
             return null;
         }
-        return (int) $id;
+        return (int)$id;
     }
 
     /**

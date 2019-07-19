@@ -19,7 +19,7 @@ use yii\db\ActiveQueryInterface;
  * Intended to be used on an ActiveRecord, this class provides `$this->siteId` attribute along with 'getters'
  * and 'setters' to ensure continuity between the Id and Object.  A site object is lazy loaded when called.
  * In addition, ActiveRecord rules are available.
- * 
+ *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
  *
@@ -68,7 +68,7 @@ trait SiteAttributeTrait
         if (null === ($id = $this->getAttribute('siteId'))) {
             return null;
         }
-        return (int) $id;
+        return (int)$id;
     }
 
     /**

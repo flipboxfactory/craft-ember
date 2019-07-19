@@ -37,6 +37,6 @@ trait ElementAttributeTrait
      */
     protected function internalGetElementId()
     {
-        return $this->elementId === null ? null : (int) $this->elementId;
+        return $this->elementId === null ? null : (int)$this->elementId;
     }
 }

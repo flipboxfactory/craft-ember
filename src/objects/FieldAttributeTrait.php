@@ -10,7 +10,7 @@ namespace flipbox\craft\ember\objects;
 
 /**
  * @property int|null $fieldId
- * 
+ *
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
  */
@@ -37,6 +37,6 @@ trait FieldAttributeTrait
      */
     protected function internalGetFieldId()
     {
-        return $this->fieldId === null ? null : (int) $this->fieldId;
+        return $this->fieldId === null ? null : (int)$this->fieldId;
     }
 }

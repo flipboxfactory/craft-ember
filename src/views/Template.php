@@ -31,7 +31,10 @@ class Template extends BaseObject implements ViewInterface
     /**
      * @param array $params
      * @return string
-     * @throws \Twig_Error_Loader
+     *
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      * @throws \yii\base\Exception
      */
     public function render(array $params = []): string
@@ -51,8 +54,10 @@ class Template extends BaseObject implements ViewInterface
     /**
      * @param array $params
      * @return string
-     * @throws \Twig_Error_Loader
-     * @throws \yii\base\Exception
+     *
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     protected function renderTemplate(array $params = []): string
     {

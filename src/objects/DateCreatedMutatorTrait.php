@@ -22,6 +22,7 @@ trait DateCreatedMutatorTrait
     /**
      * @param $value
      * @return $this
+     * @throws \Exception
      */
     public function setDateCreated($value)
     {
@@ -35,7 +36,8 @@ trait DateCreatedMutatorTrait
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|false|null
+     * @throws \Exception
      */
     public function getDateCreated()
     {

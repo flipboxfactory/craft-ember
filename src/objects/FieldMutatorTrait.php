@@ -19,7 +19,7 @@ use craft\base\FieldInterface;
  *
  * In addition, this trait is primarily useful when a new Field is set and saved; the Field
  * Id can be retrieved without needing to explicitly set the newly created Id.
- * 
+ *
  * @property Field|FieldInterface|null $field
  *
  * @author Flipbox Factory <hello@flipboxfactory.com>

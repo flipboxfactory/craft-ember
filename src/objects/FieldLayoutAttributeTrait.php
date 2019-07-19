@@ -37,6 +37,6 @@ trait FieldLayoutAttributeTrait
      */
     protected function internalGetFieldLayoutId()
     {
-        return $this->fieldLayoutId === null ? null : (int) $this->fieldLayoutId;
+        return $this->fieldLayoutId === null ? null : (int)$this->fieldLayoutId;
     }
 }

@@ -10,7 +10,6 @@ namespace flipbox\craft\ember\objects;
 
 use Craft;
 use craft\models\FieldLayout;
-use flipbox\craft\ember\helpers\ObjectHelper;
 
 /**
  * This trait accepts both an FieldLayout or and FieldLayout Id and ensures that the both

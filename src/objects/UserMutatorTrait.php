@@ -47,7 +47,7 @@ trait UserMutatorTrait
      * @return int|null
      */
     abstract protected function internalGetUserId();
-    
+
     /**
      * @return bool
      */

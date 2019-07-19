@@ -69,7 +69,7 @@ trait FieldAttributeTrait
         if (null === ($id = $this->getAttribute('fieldId'))) {
             return null;
         }
-        return (int) $id;
+        return (int)$id;
     }
 
     /**

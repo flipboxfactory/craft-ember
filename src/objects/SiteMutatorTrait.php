@@ -47,7 +47,7 @@ trait SiteMutatorTrait
      * @return int|null
      */
     abstract protected function internalGetSiteId();
-    
+
     /**
      * @return bool
      */

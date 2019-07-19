@@ -17,7 +17,11 @@ use Craft;
 class PageTemplate extends Template
 {
     /**
-     * @inheritdoc
+     * @inheritDoc
+     *
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     protected function renderTemplate(array $params = []): string
     {

@@ -25,7 +25,7 @@ trait IdMutatorTrait
             return null;
         }
 
-        return (int) $this->id;
+        return (int)$this->id;
     }
 
     /**
