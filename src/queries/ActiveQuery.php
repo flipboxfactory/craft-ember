@@ -26,26 +26,6 @@ class ActiveQuery extends \yii\db\ActiveQuery
     use ClonefixTrait;
 
     /**
-     * Attempt to set query properties/methods first, otherwise
-     * perform standard andWhere logic as expected.
-     *
-     * @inheritdoc
-     */
-    public function andWhere($condition, $params = [])
-    {
-        if (is_array($condition)) {
-            foreach ($condition as $key => $value) {
-                if ($this->canSetProperty($key)) {
-                    $this->{$key} = $value;
-                    unset($condition[$key]);
-                }
-            }
-        }
-
-        return parent::andWhere($condition);
-    }
-
-    /**
      * Executes query and returns all results as an array.  If results are not found, an exception is
      * thrown as we explicitly expect results.
      *

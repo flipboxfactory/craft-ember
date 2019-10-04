@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 2.5.1 - 2019-10-03
+### Fixed
+- `ActiveQuery::andWhere()` would attempt to set query attribute values, however this resulted in some conditions never being set.
+
 ## 2.5.0 - 2019-07-19
 ### Changed
 - Various object mutation traits have abstract methods to make them more compatible with models and records.  Using
