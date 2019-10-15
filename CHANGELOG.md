@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 2.5.2 - 2019-10-15
+### Fixed
+- `CheckAccessTrait::handleUnauthorizedResponse()` was passing the message and code incorrectly.
+
 ## 2.5.1 - 2019-10-03
 ### Fixed
 - `ActiveQuery::andWhere()` would attempt to set query attribute values, however this resulted in some conditions never being set.

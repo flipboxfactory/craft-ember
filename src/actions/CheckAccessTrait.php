@@ -65,8 +65,8 @@ trait CheckAccessTrait
     protected function handleUnauthorizedResponse()
     {
         throw new UnauthorizedHttpException(
-            $this->statusCodeUnauthorized(),
-            $this->messageUnauthorized()
+            $this->messageUnauthorized(),
+            $this->statusCodeUnauthorized()
         );
     }
 }
