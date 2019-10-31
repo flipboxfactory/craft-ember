@@ -1,5 +1,8 @@
 Changelog
 =========
+## Unreleased
+### Fixed
+- When passing an empty array to `Record::findAll([])` an improper condition would be built.
 
 ## 2.5.2 - 2019-10-15
 ### Fixed

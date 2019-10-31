@@ -105,7 +105,7 @@ abstract class ActiveRecord extends \craft\db\ActiveRecord
     {
         $query = static::find();
 
-        if (!ArrayHelper::isAssociative($condition)) {
+        if (!empty($condition) && !ArrayHelper::isAssociative($condition)) {
             // query by primary key
             $primaryKey = static::primaryKey();
             if (isset($primaryKey[0])) {
