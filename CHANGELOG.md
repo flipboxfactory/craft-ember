@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 2.6.0 - 2019-11-25
 ### Fixed
 - Action::checkAccess now throws a ForbiddenHttpException instead of a UnauthorizedHttpException.
 
