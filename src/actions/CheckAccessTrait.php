@@ -84,7 +84,7 @@ trait CheckAccessTrait
      */
     protected function errorCodeForbidden()
     {
-        return $this->errorCodeForbidden;
+        return $this->errorCodeForbidden ?? null;
     }
 
     /**
