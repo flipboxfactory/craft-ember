@@ -1,7 +1,7 @@
 Changelog
 =========
 
-### Unreleased
+## 2.6.1 - 2019-12-04
 ### Changed
 - Relaxing object trait id comparisons from `!==` to `==`
 
