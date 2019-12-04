@@ -67,7 +67,7 @@ trait FieldMutatorTrait
     {
         $this->internalSetFieldId($id);
 
-        if (null !== $this->field && $id !== $this->field->id) {
+        if (null !== $this->field && $id != $this->field->id) {
             $this->field = null;
         }
 
@@ -119,7 +119,7 @@ trait FieldMutatorTrait
         }
 
         $fieldId = $this->internalGetFieldId();
-        if ($fieldId !== null && $fieldId !== $this->field->id) {
+        if ($fieldId !== null && $fieldId != $this->field->id) {
             $this->field = null;
             return $this->getField();
         }

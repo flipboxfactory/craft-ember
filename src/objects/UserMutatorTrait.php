@@ -66,7 +66,7 @@ trait UserMutatorTrait
     {
         $this->internalSetUserId($id);
 
-        if (null !== $this->user && $id !== $this->user->id) {
+        if (null !== $this->user && $id != $this->user->id) {
             $this->user = null;
         }
 
@@ -118,7 +118,7 @@ trait UserMutatorTrait
         }
 
         $userId = $this->internalGetUserId();
-        if ($userId !== null && $userId !== $this->user->id) {
+        if ($userId !== null && $userId != $this->user->id) {
             $this->user = null;
             return $this->getUser();
         }

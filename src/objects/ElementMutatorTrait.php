@@ -67,7 +67,7 @@ trait ElementMutatorTrait
     {
         $this->internalSetElementId($id);
 
-        if (null !== $this->element && $id !== $this->element->id) {
+        if (null !== $this->element && $id != $this->element->id) {
             $this->element = null;
         }
 
@@ -120,7 +120,7 @@ trait ElementMutatorTrait
         }
 
         $elementId = $this->internalGetElementId();
-        if ($elementId !== null && $elementId !== $this->element->id) {
+        if ($elementId !== null && $elementId != $this->element->id) {
             $this->element = null;
             return $this->getElement();
         }

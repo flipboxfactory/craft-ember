@@ -66,7 +66,7 @@ trait SiteMutatorTrait
     {
         $this->internalSetSiteId($id);
 
-        if (null !== $this->site && $id !== $this->site->id) {
+        if (null !== $this->site && $id != $this->site->id) {
             $this->site = null;
         }
 
@@ -118,7 +118,7 @@ trait SiteMutatorTrait
         }
 
         $siteId = $this->internalGetSiteId();
-        if ($siteId !== null && $siteId !== $this->site->id) {
+        if ($siteId !== null && $siteId != $this->site->id) {
             $this->site = null;
             return $this->getSite();
         }

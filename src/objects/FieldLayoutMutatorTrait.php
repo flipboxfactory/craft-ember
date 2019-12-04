@@ -69,7 +69,7 @@ trait FieldLayoutMutatorTrait
     {
         $this->internalSetFieldLayoutId($id);
 
-        if (null !== $this->fieldLayout && $id !== $this->fieldLayout->id) {
+        if (null !== $this->fieldLayout && $id != $this->fieldLayout->id) {
             $this->fieldLayout = null;
         }
 
@@ -124,7 +124,7 @@ trait FieldLayoutMutatorTrait
         }
 
         $fieldLayoutId = $this->internalGetFieldLayoutId();
-        if ($fieldLayoutId !== null && $fieldLayoutId !== $this->fieldLayout->id) {
+        if ($fieldLayoutId !== null && $fieldLayoutId != $this->fieldLayout->id) {
             $this->fieldLayout = null;
             return $this->getFieldLayout();
         }
