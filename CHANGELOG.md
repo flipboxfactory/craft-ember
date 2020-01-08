@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 2.6.2 - 2020-01-08
+### Added
+- `LoggerHelper::$requireSession` which can be turned off for stateless logging
+
 ## 2.6.1 - 2019-12-04
 ### Changed
 - Relaxing object trait id comparisons from `!==` to `==`
