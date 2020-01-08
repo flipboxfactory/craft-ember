@@ -11,6 +11,7 @@ namespace flipbox\craft\ember\helpers;
 use Craft;
 use craft\log\FileTarget;
 use yii\log\Logger;
+use yii\web\Request;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -18,6 +19,8 @@ use yii\log\Logger;
  */
 class LoggerHelper
 {
+    public static $requireSession = true;
+
     /**
      * Takes an array of log categories and creates log target configs
      *
@@ -50,11 +53,7 @@ class LoggerHelper
             return static::fileTargetConfig($category, $targetConfig);
         }
 
-        return call_user_func(
-            self::config(),
-            $category,
-            $targetConfig
-        );
+        return static::bootstrapConfig($category, $targetConfig);
     }
 
     /**
@@ -84,33 +83,47 @@ class LoggerHelper
     }
 
     /**
+     * @param string $category
+     * @param array $config
+     * @return array
+     * @since 2.6.2
+     */
+    public static function bootstrapConfig(string $category, array $config = []): array
+    {
+        $request = Craft::$app->getRequest();
+        // Only log console requests and web requests that aren't getAuthTimeout requests
+        $isConsoleRequest = $request instanceof Request && $request->getIsConsoleRequest();
+        if (!$isConsoleRequest && (static::$requireSession && !Craft::$app->getUser()->enableSession)) {
+            return [];
+        }
+
+        $target = [
+            'logVars' => [],
+            'categories' => [$category, $category . ':*']
+        ];
+
+        if (!$isConsoleRequest) {
+            // Only log errors and warnings, unless Craft is running in Dev Mode or it's being installed/updated
+            if (!YII_DEBUG
+                && Craft::$app->getIsInstalled()
+                && !Craft::$app->getUpdates()->getIsCraftDbMigrationNeeded()
+            ) {
+                $target['levels'] = Logger::LEVEL_ERROR | Logger::LEVEL_WARNING;
+            }
+        }
+
+        return array_merge($target, $config);
+    }
+
+    /**
      * @return callable
+     *
+     * @deprecated
      */
     public static function config(): callable
     {
         return function (string $category, array $config = []) {
-            // Only log console requests and web requests that aren't getAuthTimeout requests
-            $isConsoleRequest = Craft::$app->getRequest()->getIsConsoleRequest();
-            if (!$isConsoleRequest && !Craft::$app->getUser()->enableSession) {
-                return [];
-            }
-
-            $target = [
-                'logVars' => [],
-                'categories' => [$category, $category . ':*']
-            ];
-
-            if (!$isConsoleRequest) {
-                // Only log errors and warnings, unless Craft is running in Dev Mode or it's being installed/updated
-                if (!YII_DEBUG
-                    && Craft::$app->getIsInstalled()
-                    && !Craft::$app->getUpdates()->getIsCraftDbMigrationNeeded()
-                ) {
-                    $target['levels'] = Logger::LEVEL_ERROR | Logger::LEVEL_WARNING;
-                }
-            }
-
-            return array_merge($target, $config);
+            return static::bootstrapConfig($category, $config);
         };
     }
 }
