@@ -12,6 +12,7 @@ use Craft;
 use craft\log\FileTarget;
 use yii\log\Logger;
 use yii\web\Request;
+use yii\web\User;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -91,9 +92,13 @@ class LoggerHelper
     public static function bootstrapConfig(string $category, array $config = []): array
     {
         $request = Craft::$app->getRequest();
+        $user = Craft::$app->getUser();
+
         // Only log console requests and web requests that aren't getAuthTimeout requests
         $isConsoleRequest = $request instanceof Request && $request->getIsConsoleRequest();
-        if (!$isConsoleRequest && (static::$requireSession && !Craft::$app->getUser()->enableSession)) {
+        if (!$isConsoleRequest &&
+            (static::$requireSession && ($user instanceof User && !Craft::$app->getUser()->enableSession))
+        ) {
             return [];
         }
 

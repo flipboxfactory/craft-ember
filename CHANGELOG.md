@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 2.6.3 - 2020-01-10
+### Fixed
+- Issue with logging via console.
+
 ## 2.6.2 - 2020-01-08
 ### Added
 - `LoggerHelper::$requireSession` which can be turned off for stateless logging
