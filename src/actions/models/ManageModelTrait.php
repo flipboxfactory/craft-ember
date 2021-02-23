@@ -8,7 +8,8 @@
 
 namespace flipbox\craft\ember\actions\models;
 
-use flipbox\craft\ember\actions\ManageTrait;
+use Craft;
+use flipbox\craft\ember\actions\CheckAccessTrait;
 use yii\base\Model;
 
 /**
@@ -19,9 +20,7 @@ use yii\base\Model;
  */
 trait ManageModelTrait
 {
-    use ManageTrait {
-        runInternal as traitRunInternal;
-    }
+    use CheckAccessTrait;
 
     /**
      * @param Model $model
@@ -30,12 +29,64 @@ trait ManageModelTrait
     abstract protected function performAction(Model $model): bool;
 
     /**
-     * @inheritdoc
-     * @param Model $model
-     * @return Model
+     * @param Model $data
+     * @return mixed
+     * @throws \yii\web\HttpException
      */
-    protected function runInternal(Model $model)
+    protected function runInternal(Model $data)
     {
-        return $this->traitRunInternal($model);
+        // Check access
+        if (($access = $this->checkAccess($data)) !== true) {
+            return $access;
+        }
+
+        if (!$this->performAction($data)) {
+            return $this->handleFailResponse($data);
+        }
+
+        return $this->handleSuccessResponse($data);
     }
+
+    /**
+     * HTTP success response code
+     *
+     * @return int
+     */
+    protected function statusCodeSuccess(): int
+    {
+        return $this->statusCodeSuccess ?? 200;
+    }
+
+    /**
+     * HTTP fail response code
+     *
+     * @return int
+     */
+    protected function statusCodeFail(): int
+    {
+        return $this->statusCodeFail ?? 400;
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    protected function handleSuccessResponse($data)
+    {
+        // Success status code
+        Craft::$app->getResponse()->setStatusCode($this->statusCodeSuccess());
+        return $data;
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    protected function handleFailResponse($data)
+    {
+        Craft::$app->getResponse()->setStatusCode($this->statusCodeFail());
+        return $data;
+    }
+
+
 }

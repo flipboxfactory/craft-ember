@@ -1,5 +1,8 @@
 Changelog
 =========
+## Unreleased
+### Fixed
+- Compatibility issues w/ PHP 8
 
 ## 2.6.3 - 2020-01-10
 ### Fixed

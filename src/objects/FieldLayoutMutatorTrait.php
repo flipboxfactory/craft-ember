@@ -193,7 +193,7 @@ trait FieldLayoutMutatorTrait
      * @param $fieldLayout
      * @return FieldLayout|null
      */
-    protected function verifyFieldLayout($fieldLayout = null): FieldLayout
+    protected function verifyFieldLayout($fieldLayout = null)
     {
         if (null === $fieldLayout) {
             return null;

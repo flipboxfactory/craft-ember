@@ -8,7 +8,8 @@
 
 namespace flipbox\craft\ember\actions\records;
 
-use flipbox\craft\ember\actions\ManageTrait;
+use Craft;
+use flipbox\craft\ember\actions\CheckAccessTrait;
 use yii\db\ActiveRecord;
 
 /**
@@ -19,9 +20,7 @@ use yii\db\ActiveRecord;
  */
 trait ManageRecordTrait
 {
-    use ManageTrait {
-        runInternal as traitRunInternal;
-    }
+    use CheckAccessTrait;
 
     /**
      * @param ActiveRecord $record
@@ -30,12 +29,62 @@ trait ManageRecordTrait
     abstract protected function performAction(ActiveRecord $record): bool;
 
     /**
-     * @inheritdoc
-     * @param ActiveRecord $record
-     * @return ActiveRecord
+     * @param ActiveRecord $data
+     * @return mixed
+     * @throws \yii\web\HttpException
      */
-    protected function runInternal(ActiveRecord $record)
+    protected function runInternal(ActiveRecord $data)
     {
-        return $this->traitRunInternal($record);
+        // Check access
+        if (($access = $this->checkAccess($data)) !== true) {
+            return $access;
+        }
+
+        if (!$this->performAction($data)) {
+            return $this->handleFailResponse($data);
+        }
+
+        return $this->handleSuccessResponse($data);
+    }
+
+    /**
+     * HTTP success response code
+     *
+     * @return int
+     */
+    protected function statusCodeSuccess(): int
+    {
+        return $this->statusCodeSuccess ?? 200;
+    }
+
+    /**
+     * HTTP fail response code
+     *
+     * @return int
+     */
+    protected function statusCodeFail(): int
+    {
+        return $this->statusCodeFail ?? 400;
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    protected function handleSuccessResponse($data)
+    {
+        // Success status code
+        Craft::$app->getResponse()->setStatusCode($this->statusCodeSuccess());
+        return $data;
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    protected function handleFailResponse($data)
+    {
+        Craft::$app->getResponse()->setStatusCode($this->statusCodeFail());
+        return $data;
     }
 }

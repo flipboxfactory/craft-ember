@@ -8,8 +8,9 @@
 
 namespace flipbox\craft\ember\actions\elements;
 
+use Craft;
 use craft\base\ElementInterface;
-use flipbox\craft\ember\actions\ManageTrait;
+use flipbox\craft\ember\actions\CheckAccessTrait;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -19,9 +20,7 @@ use flipbox\craft\ember\actions\ManageTrait;
  */
 trait ManageElementTrait
 {
-    use ManageTrait {
-        runInternal as traitRunInternal;
-    }
+    use CheckAccessTrait;
 
     /**
      * @inheritdoc
@@ -30,12 +29,62 @@ trait ManageElementTrait
     abstract protected function performAction(ElementInterface $element): bool;
 
     /**
-     * @inheritdoc
-     * @param ElementInterface $element
-     * @return ElementInterface
+     * @param ElementInterface $data
+     * @return mixed
+     * @throws \yii\web\HttpException
      */
-    protected function runInternal(ElementInterface $element)
+    protected function runInternal(ElementInterface $data)
     {
-        return $this->traitRunInternal($element);
+        // Check access
+        if (($access = $this->checkAccess($data)) !== true) {
+            return $access;
+        }
+
+        if (!$this->performAction($data)) {
+            return $this->handleFailResponse($data);
+        }
+
+        return $this->handleSuccessResponse($data);
+    }
+
+    /**
+     * HTTP success response code
+     *
+     * @return int
+     */
+    protected function statusCodeSuccess(): int
+    {
+        return $this->statusCodeSuccess ?? 200;
+    }
+
+    /**
+     * HTTP fail response code
+     *
+     * @return int
+     */
+    protected function statusCodeFail(): int
+    {
+        return $this->statusCodeFail ?? 400;
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    protected function handleSuccessResponse($data)
+    {
+        // Success status code
+        Craft::$app->getResponse()->setStatusCode($this->statusCodeSuccess());
+        return $data;
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    protected function handleFailResponse($data)
+    {
+        Craft::$app->getResponse()->setStatusCode($this->statusCodeFail());
+        return $data;
     }
 }
