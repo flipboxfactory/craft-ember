@@ -23,7 +23,7 @@ trait PopulateObjectTrait
      *
      * @return BaseObject
      */
-    abstract protected function createObject($row): BaseObject;
+    abstract protected function createObject($row);
 
     /**
      * @inheritdoc
