@@ -11,6 +11,7 @@ namespace flipbox\craft\ember\actions\elements;
 use Craft;
 use craft\base\ElementInterface;
 use flipbox\craft\ember\actions\CheckAccessTrait;
+use flipbox\craft\ember\actions\ResponseTrait;
 
 /**
  * @author Flipbox Factory <hello@flipboxfactory.com>
@@ -20,7 +21,7 @@ use flipbox\craft\ember\actions\CheckAccessTrait;
  */
 trait ManageElementTrait
 {
-    use CheckAccessTrait;
+    use CheckAccessTrait, ResponseTrait;
 
     /**
      * @inheritdoc
@@ -45,46 +46,5 @@ trait ManageElementTrait
         }
 
         return $this->handleSuccessResponse($data);
-    }
-
-    /**
-     * HTTP success response code
-     *
-     * @return int
-     */
-    protected function statusCodeSuccess(): int
-    {
-        return $this->statusCodeSuccess ?? 200;
-    }
-
-    /**
-     * HTTP fail response code
-     *
-     * @return int
-     */
-    protected function statusCodeFail(): int
-    {
-        return $this->statusCodeFail ?? 400;
-    }
-
-    /**
-     * @param $data
-     * @return mixed
-     */
-    protected function handleSuccessResponse($data)
-    {
-        // Success status code
-        Craft::$app->getResponse()->setStatusCode($this->statusCodeSuccess());
-        return $data;
-    }
-
-    /**
-     * @param $data
-     * @return mixed
-     */
-    protected function handleFailResponse($data)
-    {
-        Craft::$app->getResponse()->setStatusCode($this->statusCodeFail());
-        return $data;
     }
 }

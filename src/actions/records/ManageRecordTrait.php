@@ -8,8 +8,8 @@
 
 namespace flipbox\craft\ember\actions\records;
 
-use Craft;
 use flipbox\craft\ember\actions\CheckAccessTrait;
+use flipbox\craft\ember\actions\ResponseTrait;
 use yii\db\ActiveRecord;
 
 /**
@@ -20,7 +20,7 @@ use yii\db\ActiveRecord;
  */
 trait ManageRecordTrait
 {
-    use CheckAccessTrait;
+    use CheckAccessTrait, ResponseTrait;
 
     /**
      * @param ActiveRecord $record
@@ -45,46 +45,5 @@ trait ManageRecordTrait
         }
 
         return $this->handleSuccessResponse($data);
-    }
-
-    /**
-     * HTTP success response code
-     *
-     * @return int
-     */
-    protected function statusCodeSuccess(): int
-    {
-        return $this->statusCodeSuccess ?? 200;
-    }
-
-    /**
-     * HTTP fail response code
-     *
-     * @return int
-     */
-    protected function statusCodeFail(): int
-    {
-        return $this->statusCodeFail ?? 400;
-    }
-
-    /**
-     * @param $data
-     * @return mixed
-     */
-    protected function handleSuccessResponse($data)
-    {
-        // Success status code
-        Craft::$app->getResponse()->setStatusCode($this->statusCodeSuccess());
-        return $data;
-    }
-
-    /**
-     * @param $data
-     * @return mixed
-     */
-    protected function handleFailResponse($data)
-    {
-        Craft::$app->getResponse()->setStatusCode($this->statusCodeFail());
-        return $data;
     }
 }

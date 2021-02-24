@@ -10,12 +10,13 @@ namespace flipbox\craft\ember\actions\elements;
 
 use Craft;
 use craft\base\ElementInterface;
-use flipbox\craft\ember\actions\LookupTrait;
+use flipbox\craft\ember\actions\NotFoundTrait;
+use yii\web\HttpException;
 use yii\web\Response;
 
 trait LookupElementTrait
 {
-    use LookupTrait;
+    use NotFoundTrait;
 
     /**
      * @inheritdoc
@@ -23,6 +24,26 @@ trait LookupElementTrait
      * @return ElementInterface|Response
      */
     abstract protected function runInternal(ElementInterface $element);
+
+    /**
+     * @param string|int $identifier
+     * @return ElementInterface|null
+     */
+    abstract protected function find($identifier);
+
+    /**
+     * @param $identifier
+     * @return mixed|null|Response
+     * @throws HttpException
+     */
+    public function run($identifier)
+    {
+        if (!$object = $this->find($identifier)) {
+            return $this->handleNotFoundResponse();
+        }
+
+        return $this->runInternal($object);
+    }
 
     /**
      * @param int $id
