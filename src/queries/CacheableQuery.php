@@ -44,7 +44,7 @@ class CacheableQuery extends Query
     /**
      * @inheritdoc
      */
-    public function all($db = null)
+    public function all($db = null): array
     {
         // Cached?
         if (($cachedResult = $this->getCachedResult()) !== null) {
@@ -57,7 +57,7 @@ class CacheableQuery extends Query
     /**
      * @inheritdoc
      */
-    public function one($db = null)
+    public function one($db = null): mixed
     {
         // Cached?
         if (($cachedResult = $this->getCachedResult()) !== null) {
@@ -78,7 +78,7 @@ class CacheableQuery extends Query
      * @return array|bool The object or row of the query result. False is returned if the query
      * results in nothing.
      */
-    public function nth(int $n, Connection $db = null)
+    public function nth(int $n, Connection $db = null): mixed
     {
         // Cached?
         if (($cachedResult = $this->getCachedResult()) !== null) {

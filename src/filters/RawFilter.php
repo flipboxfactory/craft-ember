@@ -51,7 +51,7 @@ class RawFilter extends ActionFilter
     /**
      * @param Action $action
      * @param mixed $result
-     * @return mixed|\Twig_Markup
+     * @return mixed|\Twig\Markup
      * @throws Exception
      */
     public function afterAction($action, $result)

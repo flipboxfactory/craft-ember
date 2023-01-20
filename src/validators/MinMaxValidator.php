@@ -34,7 +34,7 @@ class MinMaxValidator extends ArrayValidator
     /**
      * @inheritdoc
      */
-    protected function validateValue($value)
+    protected function validateValue($value): ?array
     {
         if ($value instanceof QueryInterface) {
             return $this->validateQueryValue($value);

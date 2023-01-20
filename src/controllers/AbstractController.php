@@ -25,7 +25,7 @@ abstract class AbstractController extends Controller
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 

@@ -47,7 +47,7 @@ abstract class AbstractEmailByKey extends BaseJob
      *
      * @return string|null
      */
-    protected function defaultDescription()
+    protected function defaultDescription(): ?string
     {
         return 'Sending an email by key.';
     }
@@ -56,7 +56,7 @@ abstract class AbstractEmailByKey extends BaseJob
      * @param \craft\queue\QueueInterface|\yii\queue\Queue $queue
      * @throws \Exception
      */
-    public function execute($queue)
+    public function execute($queue): void
     {
         // A random tracking string
         $id = StringHelper::randomString();
