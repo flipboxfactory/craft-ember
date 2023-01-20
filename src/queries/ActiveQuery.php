@@ -21,7 +21,7 @@ use yii\db\Connection;
  * @author Flipbox Factory <hello@flipboxfactory.com>
  * @since 2.0.0
  */
-class ActiveQuery extends \yii\db\ActiveQuery
+class ActiveQuery extends \craft\db\ActiveQuery
 {
     use ClonefixTrait;
 
