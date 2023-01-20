@@ -1,8 +1,12 @@
 Changelog
 =========
+## 3.0.0 - 2023-01-20
+### Fixed
+- Craft 4 compatibility
+
 ## 2.6.5 - 2020-02-24
 ### Fixed
-- Lingering PHP 8 (level 0) warnings and erros
+- Lingering PHP 8 (level 0) warnings and errors
 
 ## 2.6.4 - 2020-02-23
 ### Fixed

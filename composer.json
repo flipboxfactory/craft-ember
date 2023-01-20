@@ -1,7 +1,7 @@
 {
   "name": "flipboxfactory/craft-ember",
   "description": "A Craft CMS plugin scaffolding",
-  "version": "2.6.6",
+  "version": "3.0.0",
   "keywords": [
     "flipbox",
     "ember",
