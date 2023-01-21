@@ -35,7 +35,7 @@ class Actions extends AssetBundle
     public function init()
     {
         $this->js = [
-            'Actions' . $this->dotJs()
+            'Actions.min.js'
         ];
 
         parent::init();
