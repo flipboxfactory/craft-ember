@@ -1,5 +1,10 @@
 Changelog
 =========
+
+## 3.0.1 - 2023-07-27
+### Changed
+- Promoting the `loggerCategory` method to public so it can be used elsewhere
+
 ## 3.0.0 - 2023-01-20
 ### Fixed
 - Craft 4 compatibility

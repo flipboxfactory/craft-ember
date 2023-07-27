@@ -64,7 +64,7 @@ trait LoggerTrait
      * @param bool $audit flag as an audit message.
      * @return string
      */
-    protected static function loggerCategory(string $category = null, bool $audit = false): string
+    public static function loggerCategory(string $category = null, bool $audit = false): string
     {
         /** @noinspection PhpUndefinedFieldInspection */
         $prefix = static::$category ? (static::$category . ($audit ? ':audit' : '')) : '';
