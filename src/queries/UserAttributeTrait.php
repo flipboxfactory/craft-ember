@@ -21,7 +21,7 @@ use flipbox\craft\ember\helpers\QueryHelper;
 trait UserAttributeTrait
 {
     /**
-     * The user(s) that the resulting organizations’ users must have.
+     * The user(s) that the resulting query must have.
      *
      * @var string|string[]|int|int[]|UserElement|UserElement[]|null
      */

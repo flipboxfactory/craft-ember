@@ -41,11 +41,11 @@ trait NotFoundTrait
      * @return null
      * @throws HttpException
      */
-    protected function handleNotFoundResponse()
+    protected function handleNotFoundResponse(string|null $message = null)
     {
         throw new HttpException(
             $this->statusCodeNotFound(),
-            $this->messageNotFound()
+            $message || $this->messageNotFound()
         );
     }
 }

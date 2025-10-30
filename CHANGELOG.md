@@ -1,6 +1,13 @@
 Changelog
 =========
 
+## 5.0.0 - 2025-10-30
+### Added
+- Support for Craft v5
+
+### Removed
+- Various classes that are no longer useful
+
 ## 3.0.1 - 2023-07-27
 ### Changed
 - Promoting the `loggerCategory` method to public so it can be used elsewhere

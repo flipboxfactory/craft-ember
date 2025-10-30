@@ -48,7 +48,7 @@ class MinMaxValidator extends ArrayValidator
      * @return array|null the error message and the parameters to be inserted into the error message.
      * Null should be returned if the data is valid.
      */
-    protected function validateQueryValue(QueryInterface $query)
+    protected function validateQueryValue(QueryInterface $query): ?array
     {
         /** @var QueryInterface $value */
         $count = $query->count();
@@ -71,7 +71,7 @@ class MinMaxValidator extends ArrayValidator
      * @param $attribute
      * @param QueryInterface $query
      */
-    protected function validateQueryAttribute($model, $attribute, QueryInterface $query)
+    protected function validateQueryAttribute($model, $attribute, QueryInterface $query): void
     {
         $count = $query->count();
 

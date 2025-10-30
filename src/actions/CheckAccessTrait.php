@@ -30,11 +30,10 @@ trait CheckAccessTrait
      * @return mixed
      * @throws ForbiddenHttpException
      */
-    public function checkAccess(...$params)
+    public function checkAccess(...$params): mixed
     {
         if ($this->checkAccess) {
             if (call_user_func_array($this->checkAccess, $params) === false) {
-                /** @noinspection PhpVoidFunctionResultUsedInspection */
                 return $this->handleForbiddenResponse();
             };
         }
@@ -45,44 +44,9 @@ trait CheckAccessTrait
     /**
      * HTTP forbidden response code
      *
-     * @return int
-     *
-     * @deprecated
-     */
-    protected function statusCodeUnauthorized(): int
-    {
-        return $this->statusCodeUnauthorized ?? 403;
-    }
-
-    /**
-     * @return string
-     *
-     * @deprecated
-     */
-    protected function messageUnauthorized(): string
-    {
-        return $this->messageUnauthorized ?? 'Unable to perform action.';
-    }
-
-    /**
-     * @throws UnauthorizedHttpException
-     *
-     * @deprecated
-     */
-    protected function handleUnauthorizedResponse()
-    {
-        throw new UnauthorizedHttpException(
-            $this->messageUnauthorized(),
-            $this->statusCodeUnauthorized()
-        );
-    }
-
-    /**
-     * HTTP forbidden response code
-     *
      * @return int|null
      */
-    protected function errorCodeForbidden()
+    protected function errorCodeForbidden(): ?int
     {
         return $this->errorCodeForbidden ?? null;
     }

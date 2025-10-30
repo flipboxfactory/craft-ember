@@ -17,7 +17,7 @@ use craft\helpers\ArrayHelper;
 trait ActionTrait
 {
     /**
-     * @var array this property defines the a mapping for each action.
+     * @var array this property defines the mapping for each action.
      * For each action that should only support limited set of values
      * you add a value with the action id as array key and an array value of
      * allowed status codes (e.g. 'create' => 'value1', 'delete' => 'value2').

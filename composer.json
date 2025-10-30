@@ -1,7 +1,7 @@
 {
   "name": "flipboxfactory/craft-ember",
   "description": "A Craft CMS plugin scaffolding",
-  "version": "3.0.1",
+  "version": "5.0.0",
   "keywords": [
     "flipbox",
     "ember",
@@ -14,7 +14,7 @@
   }],
   "require": {
     "php": ">=8.0",
-    "craftcms/cms": "^3.0.14|~4.0"
+    "craftcms/cms": "^5.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.0",
@@ -28,12 +28,6 @@
   "autoload-dev": {
     "psr-4": {
       "flipbox\\craft\\ember\\tests\\": "tests/src/"
-    }
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-develop": "2.3.x-dev",
-      "dev-master": "2.2.x-dev"
     }
   }
 }

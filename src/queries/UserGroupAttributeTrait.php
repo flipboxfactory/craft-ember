@@ -21,7 +21,7 @@ use flipbox\craft\ember\helpers\QueryHelper;
 trait UserGroupAttributeTrait
 {
     /**
-     * The user group(s) that the resulting organizations’ users must be in.
+     * The user group(s) that the resulting query must be in.
      *
      * @var string|string[]|int|int[]|UserGroup|UserGroup[]|null
      */

@@ -20,7 +20,7 @@ use flipbox\craft\ember\helpers\QueryHelper;
 trait ElementAttributeTrait
 {
     /**
-     * The element(s) that the resulting organizations’ elements must have.
+     * The element(s) that the resulting query must have.
      *
      * @var string|string[]|int|int[]|ElementInterface|ElementInterface[]|null
      */

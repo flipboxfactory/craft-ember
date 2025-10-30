@@ -114,11 +114,21 @@ class EmailByKey extends AbstractEmailByKey implements \Serializable
     /**
      * @inheritdoc
      */
-    public function unserialize($serialized)
+    public function unserialize($data): void
     {
         Craft::configure(
             $this,
-            unserialize($serialized)
+            unserialize($data)
         );
+    }
+
+    public function __serialize()
+    {
+        return $this->serialize();
+    }
+
+    public function __unserialize($data)
+    {
+        $this->unserialize($data);
     }
 }

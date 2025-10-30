@@ -21,7 +21,7 @@ use flipbox\craft\ember\helpers\QueryHelper;
 trait FieldAttributeTrait
 {
     /**
-     * The field(s) that the resulting organizations’ fields must have.
+     * The field(s) that the resulting query must have.
      *
      * @var string|string[]|int|int[]|FieldInterface|FieldInterface[]|null
      */

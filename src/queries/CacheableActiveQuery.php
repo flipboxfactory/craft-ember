@@ -125,8 +125,6 @@ class CacheableActiveQuery extends ActiveQuery
     }
 
     /**
-     * @noinspection PhpDocMissingThrowsInspection
-     *
      * Returns the query's criteria attributes.
      *
      * @return string[]
