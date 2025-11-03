@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 5.0.0 - 2025-11-03
+### Changed
+- Supporting Craft v5 (and updated typings)
+
 ## 3.0.1 - 2023-07-27
 ### Changed
 - Promoting the `loggerCategory` method to public so it can be used elsewhere
@@ -81,7 +85,7 @@ the mutation traits directly will require implementing the abstract methods.
 ### Added
 - CLI traits to assist with debug, query, and queueable actions
 
-### Changed 
+### Changed
 - The module LoggerTrait has been simplified and now requires a static $category attribute set
 
 ## 2.2.1 - 2019-02-02
@@ -139,7 +143,7 @@ Deprecated `QueryHelper::parseBaseParam` and all supporting methods
 
 ## 1.0.2.1 - 2018-05-03
 ### Added
-- trace and info level logging also evaluates `YII_DEBUG` 
+- trace and info level logging also evaluates `YII_DEBUG`
 
 ## 1.0.2 - 2018-05-03
 ### Added
