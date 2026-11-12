@@ -45,7 +45,7 @@ trait NotFoundTrait
     {
         throw new HttpException(
             $this->statusCodeNotFound(),
-            $message || $this->messageNotFound()
+            $message ?? $this->messageNotFound()
         );
     }
 }

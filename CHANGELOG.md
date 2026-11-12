@@ -1,6 +1,13 @@
 Changelog
 =========
 
+## 5.0.1 - 2026-11-12
+### Fixed
+- `NotFoundTrait::handleNotFoundResponse()` now uses the provided `$message`; previously it always produced a message of `1`
+
+### Changed
+- Re-aligns the 5.x release with the Craft v5 changes below. The `5.0.0` tag was published against a commit that did not include them, so installs of `5.0.0` may have resolved to the 3.0.1-based code
+
 ## 5.0.0 - 2025-10-30
 ### Added
 - Support for Craft v5
